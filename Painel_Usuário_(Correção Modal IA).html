@@ -1182,20 +1182,7 @@ loadHtml2Canvas(() => {
     document.getElementById('zoomIn').addEventListener('click', (e) => { if (!zoomInterval) zoomChange(1); });
     document.getElementById('zoomOut').addEventListener('click', (e) => { if (!zoomInterval) zoomChange(-1); });
 
-    (function(){
-      setTimeout(() => {
-        document.getElementById('custom-bar-load').style.width = "100%";
-      }, 350);
-
-      setTimeout(() => {
-        const overlay = document.getElementById('custom-loading-overlay');
-        if(overlay){
-          overlay.style.opacity = 0;
-          overlay.style.pointerEvents = "none";
-          setTimeout(()=>{ overlay.style.display="none"; }, 800);
-        }
-      }, 7000);
-    })();
+    
 
     // --------- MODAL FLUIDO: abrir/fechar ---------
     showConfigBtn.addEventListener('click', () => {
@@ -1789,6 +1776,30 @@ document.addEventListener('DOMContentLoaded', function () {
     closeCreditosModal.onclick = () => { creditosModal.style.display = 'none'; };
     creditosModal.addEventListener('mousedown', function(e){ if (e.target === creditosModal) creditosModal.style.display = 'none'; });
   }
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Anima a barra de progresso
+    setTimeout(() => {
+        const bar = document.getElementById('custom-bar-load');
+        if (bar) {
+            bar.style.width = "100%";
+        }
+    }, 350);
+
+    // Esconde a tela de loading após 7 segundos
+    setTimeout(() => {
+        const overlay = document.getElementById('custom-loading-overlay');
+        if (overlay) {
+            overlay.style.opacity = 0;
+            overlay.style.pointerEvents = "none";
+            // Define o display como 'none' após a animação de fade-out terminar
+            setTimeout(() => { 
+                overlay.style.display = "none"; 
+            }, 800); 
+        }
+    }, 7000);
 });
 </script>
 </html>
