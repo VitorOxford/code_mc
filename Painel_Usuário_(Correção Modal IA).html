@@ -56,6 +56,11 @@ Data de última atualização do código: 28/05/2025 -->
       <button id="abrirIaBtn" class="btn-primary ia" type="button">
         🤖 Dúvidas
       </button>
+      <div id="iaBalloonTip" style="display:none;position:absolute;z-index:10001;left:calc(100% + 18px);top:0;max-width:220px;background:#fffbe9;color:#783D19;border:2px solid #b99470;border-radius:14px;padding:13px 18px;font-size:1.04rem;box-shadow:0 4px 24px #783d1912;animation:ia-balloon-in 0.7s cubic-bezier(.39,1.52,.37,.98);">
+  <span style="font-weight:bold;display:block;margin-bottom:3px;">Alguma dúvida?</span>
+  Eu posso te ajudar!
+  <span style="position:absolute;left:-18px;top:22px;width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-right:18px solid #fffbe9;filter:drop-shadow(-2px 0 #b99470);"></span>
+</div>
       <button id="showConfig" class="btn-primary info-btn" type="button">
         ⚙️ Copiar Config.
       </button>
@@ -390,6 +395,132 @@ body, html {
     max-width: 350px;
     height: 60vw;
     max-height: 350px;
+  }
+}
+@media (max-width: 900px) {
+  .interface-wrapper {
+    width: 100vw !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 100vw !important;
+    max-height: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+  .produto-pagina-remasterizada {
+    flex-direction: column !important;
+    width: 100vw !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 100vw !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    overflow-x: hidden !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+  }
+  .painel-lateral-remaster, .painel-lateral-categorias {
+    width: 100vw !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    border-radius: 0 !important;
+    padding: 14px 0 14px 0 !important;
+    box-shadow: none !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+  .center-mockup {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 12px 2vw !important;
+  }
+  .center-mockup .mockup-content {
+    width: 96vw !important;
+    min-width: 0 !important;
+    max-width: 380px !important;
+    height: auto !important;
+    max-height: 380px !important;
+    aspect-ratio: 7/8 !important;
+  }
+  .modal-content-remaster, .info-modal-large {
+    min-width: 0 !important;
+    max-width: 98vw !important;
+    width: 98vw !important;
+    padding: 18px 4vw 18px 4vw !important;
+    border-radius: 12px !important;
+  }
+  .info-modal-large {
+    min-width: 0 !important;
+    max-width: 99vw !important;
+    width: 99vw !important;
+    padding: 10px 2vw 10px 2vw !important;
+  }
+  .info-flex-row {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+  }
+  .miniaturas-info {
+    flex-direction: row !important;
+    gap: 10px !important;
+    margin-bottom: 10px !important;
+    min-width: 0 !important;
+  }
+  .config-table-remaster {
+    font-size: 0.97rem !important;
+    padding: 8px 4px 8px 4px !important;
+  }
+}
+@media (max-width: 600px) {
+  .painel-lateral-remaster, .painel-lateral-categorias {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 8px 0 8px 0 !important;
+    gap: 8px !important;
+  }
+  .center-mockup .mockup-content {
+    width: 99vw !important;
+    max-width: 99vw !important;
+    min-width: 0 !important;
+    height: auto !important;
+    max-height: 320px !important;
+    aspect-ratio: 1/1 !important;
+    border-radius: 10px !important;
+    padding: 0 !important;
+  }
+  .modal-content-remaster, .info-modal-large {
+    min-width: 0 !important;
+    max-width: 99vw !important;
+    width: 99vw !important;
+    padding: 8px 2vw 8px 2vw !important;
+    border-radius: 8px !important;
+  }
+  .tabs-categorias {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px 0 !important;
+  }
+  .tab-btn-remaster {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 10px !important;
+    font-size: 0.98rem !important;
+    padding: 8px 0 !important;
+  }
+  .categoria-box-remaster {
+    padding: 8px 6px 8px 8px !important;
+    border-radius: 10px !important;
+  }
+  .miniatura-thumb {
+    width: 60px !important;
+    height: 60px !important;
   }
 }
 
@@ -1155,8 +1286,6 @@ body, html {
   overflow: hidden;
   z-index: 1;
   border: 3px solid;
-  border-image: linear-gradient(90deg, #783D19, #B99470, #F9EBC7, #5F6F52, #783D19) 1;
-  border-radius: 30%;
   background: linear-gradient(90deg, #783D19 0%, #B99470 50%, #F9EBC7 100%);
   transition: background 0.5s, border 0.5s;
 }
@@ -1179,6 +1308,11 @@ body, html {
   0% { left: -60%; }
   60% { left: 120%; }
   100% { left: 120%; }
+}
+
+@keyframes ia-balloon-in {
+  0% { opacity:0; transform:translateY(18px) scale(0.92);}
+  100% { opacity:1; transform:translateY(0) scale(1);}
 }
 /* --- FIM NOVO CSS --- */
 </style>
@@ -2087,8 +2221,8 @@ if (!document.getElementById('iaDrawer')) {
       <div class="ia-drawer-header">
         <div class="ia-avatar ia-avatar-lg">🤖</div>
         <div class="ia-drawer-title">
-          <h3>Nick</h3>
-          <span>Assistente virtual</span>
+          <h3>Mockup Creator - Nick</h3>
+          <span>Powered by ArtenzaStudio</span>
         </div>
         <button id="closeIaDrawer" title="Fechar">×</button>
       </div>
@@ -2162,6 +2296,28 @@ if (!document.getElementById('iaDrawerStyle')) {
 
 // Lógica de abrir/fechar drawer IA
 const abrirIaBtn = document.getElementById('abrirIaBtn');
+const iaBalloonTip = document.getElementById('iaBalloonTip');
+if (abrirIaBtn && iaBalloonTip) {
+  // Aguarda 8 segundos para mostrar o balão
+  setTimeout(() => {
+    // Calcula a posição absoluta do botão em relação ao wrapper
+    const btnRect = abrirIaBtn.getBoundingClientRect();
+    const wrapperRect = abrirIaBtn.offsetParent?.getBoundingClientRect() || { left: 0, top: 0 };
+    iaBalloonTip.style.top = (btnRect.top - wrapperRect.top - 8) + "px";
+    iaBalloonTip.style.left = (btnRect.right - wrapperRect.left + 12) + "px";
+    iaBalloonTip.style.display = "block";
+    // Some após 8 segundos ou ao clicar no botão
+    let balloonTimeout = setTimeout(() => iaBalloonTip.style.display = "none", 8000);
+    abrirIaBtn.addEventListener('click', () => {
+      iaBalloonTip.style.display = "none";
+      clearTimeout(balloonTimeout);
+    });
+    iaBalloonTip.addEventListener('click', () => {
+      iaBalloonTip.style.display = "none";
+      clearTimeout(balloonTimeout);
+    });
+  }, 8000); // Espera 8 segundos para aparecer
+}
 const iaDrawer = document.getElementById('iaDrawer');
 const closeIaDrawer = document.getElementById('closeIaDrawer');
 if (abrirIaBtn && iaDrawer) {
@@ -2343,4 +2499,25 @@ if (iaDrawerImageInput && iaDrawerAddImageBtn) {
   };
 }
 // --- FIM DO BLOCO ÚNICO DO CHAT IA ---
+
+// Mostrar/ocultar modal de créditos
+document.addEventListener('DOMContentLoaded', function () {
+  const creditosBtn = document.getElementById('creditosBtn');
+  const creditosModal = document.getElementById('creditosModal');
+  const closeCreditosModal = document.getElementById('closeCreditosModal');
+  if (creditosBtn && creditosModal) {
+    creditosBtn.onclick = () => {
+      creditosModal.style.display = 'flex';
+    };
+  }
+  if (closeCreditosModal && creditosModal) {
+    closeCreditosModal.onclick = () => {
+      creditosModal.style.display = 'none';
+    };
+    // Fechar ao clicar fora do modal
+    creditosModal.addEventListener('mousedown', function(e){
+      if (e.target === creditosModal) creditosModal.style.display = 'none';
+    });
+  }
+});
 </script>
