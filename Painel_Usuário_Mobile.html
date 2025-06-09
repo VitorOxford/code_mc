@@ -1,4 +1,5 @@
 <html>
+<head>
 <style>
 /* =================================================================== */
 /* 1. GERAL & RESET (Mobile-First)
@@ -96,7 +97,7 @@ html {
   justify-content: center;
   padding: 16px;
   /* Garante que o padding não cause overflow */
-  padding-bottom: calc(var(--bottom-nav-height) + 16px); 
+  padding-bottom: calc(var(--bottom-nav-height) + 16px);
   overflow: hidden;
   position: relative;
 }
@@ -104,11 +105,11 @@ html {
 .mockup-content {
   width: 100%;
   /* Use max-width para não ficar excessivamente grande em telas largas */
-  max-width: 450px; 
+  max-width: 450px;
   /* Use aspect-ratio para manter a proporção (ex: 7/8) */
   aspect-ratio: 7 / 8;
   /* Garante que a altura não ultrapasse o espaço visível */
-  max-height: 75vh; 
+  max-height: 75vh;
   position: relative;
   border-radius: 24px;
   border: 3px solid var(--cor-borda);
@@ -666,7 +667,7 @@ html {
   .mobile-header, .bottom-nav, .bottom-sheet, .backdrop {
     display: none !important;
   }
-  
+
   /* Restaura painéis laterais (usando as classes e IDs originais) */
   .painel-lateral-remaster, .painel-lateral-categorias {
     display: flex !important; /* Força a exibição */
@@ -684,7 +685,7 @@ html {
     height: 100%;
     overflow: hidden;
   }
-  
+
   .painel-lateral-remaster {
       width: 220px;
       min-width: 200px;
@@ -695,14 +696,14 @@ html {
       border-radius: 0;
       order: 1; /* Esquerda */
   }
-  
+
   .center-mockup {
     order: 2; /* Centro */
     flex: 1 1 0;
     min-width: 0;
     padding: 50px 12px 40px 12px;
   }
-  
+
   .painel-lateral-categorias {
       width: 345px;
       min-width: 270px;
@@ -731,7 +732,7 @@ html {
   .zoom-slider-vertical { transform: translate(-50%, -50%) rotate(-90deg); width: 120px; height: 12px; }
   .tabs-categorias { flex-direction: row; }
   .categoria-thumbnails-remaster { flex-wrap: wrap; } /* Permite quebrar linha no desktop */
-  
+
   /* Mantém o chat como drawer lateral no desktop */
   #iaDrawer {
     width: 540px;
@@ -748,8 +749,9 @@ html {
       padding-right: 28px;
   }
 }
-
 </style>
+</head>
+<body>
 <div class="interface-wrapper">
 
   <div class="mobile-header">
@@ -781,7 +783,7 @@ html {
       <span>IA</span>
     </button>
     </nav>
-  
+
   <div id="iaBalloonTip" style="display:none;">
     <span style="font-weight:bold;display:block;margin-bottom:3px;">Alguma dúvida?</span>
     Eu posso te ajudar!
@@ -907,7 +909,7 @@ html {
       <div style="text-align:center; margin-top: 16px;"><a href="https://www.linkedin.com/in/joão-vitor-correia-37b9a4176/" target="_blank" rel="noopener"><button type="button" style="background:#0a66c2;color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:1rem;cursor:pointer;">LinkedIn</button></a></div>
     </div>
   </div>
-  
+
   <aside id="iaDrawer"></aside>
 
 </div>
@@ -921,23 +923,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const backdrop = document.getElementById('sheet-backdrop');
     const editorPanel = document.getElementById('editor-panel');
     const itensPanel = document.getElementById('itens-panel');
-    
+
     const navBtnEdit = document.getElementById('nav-btn-edit');
     const navBtnItems = document.getElementById('nav-btn-items');
-let estampasCarregadas = false; // Flag para controlar o carregamento
+    let estampasCarregadas = false; // Flag para controlar o carregamento
 
-navBtnItems.addEventListener('click', () => {
-    openSheet(itensPanel, navBtnItems);
-    
-    // Apenas carrega as estampas se ainda não tiverem sido carregadas
-    if (!estampasCarregadas) {
-        if (typeof carregarEstampasPrincipais === 'function') {
-            carregarEstampasPrincipais();
-            estampasCarregadas = true;
-        }
-    }
-});
-    
     const closeButtons = document.querySelectorAll('.sheet-close-btn');
 
     // Função para fechar todos os painéis abertos
@@ -965,7 +955,16 @@ navBtnItems.addEventListener('click', () => {
 
     // Eventos dos botões da navegação
     navBtnEdit.addEventListener('click', () => openSheet(editorPanel, navBtnEdit));
-    navBtnItems.addEventListener('click', () => openSheet(itensPanel, navBtnItems));
+    navBtnItems.addEventListener('click', () => {
+        openSheet(itensPanel, navBtnItems);
+        // Apenas carrega as estampas se ainda não tiverem sido carregadas
+        if (!estampasCarregadas) {
+            if (typeof carregarEstampasPrincipais === 'function') {
+                carregarEstampasPrincipais();
+                estampasCarregadas = true;
+            }
+        }
+    });
 
     // Eventos para fechar
     backdrop.addEventListener('click', closeAllSheets);
@@ -980,7 +979,6 @@ navBtnItems.addEventListener('click', () => {
             // Remove 'active' de todos os botões e compartimentos
             tabButtons.forEach(btn => btn.classList.remove('active'));
             compartments.forEach(comp => {
-                comp.style.display = 'none';
                 comp.classList.remove('active');
             });
 
@@ -992,17 +990,13 @@ navBtnItems.addEventListener('click', () => {
             if (this.id === 'tabMockupsBtn') targetId = 'compartimentosMockup';
             if (this.id === 'tabEstampasBtn') targetId = 'compartimentosEstampa';
             if (this.id === 'tabTecidosBtn') targetId = 'compartimentosTecidos';
-            
+
             const targetCompartment = document.getElementById(targetId);
             if (targetCompartment) {
-                targetCompartment.style.display = 'flex'; // Altera para flex para o layout funcionar
                 targetCompartment.classList.add('active');
             }
         });
     });
-
-    // Garante que o JS original que usa display:'' ou display:block ainda funcione
-    // ao sobrescrever com display:'flex' no mobile e display: 'none' ao fechar.
 });
 </script>
 
@@ -1176,7 +1170,7 @@ loadHtml2Canvas(() => {
     document.getElementById('zoomIn').addEventListener('click', (e) => { if (!zoomInterval) zoomChange(1); });
     document.getElementById('zoomOut').addEventListener('click', (e) => { if (!zoomInterval) zoomChange(-1); });
 
-    
+
 
     // --------- MODAL FLUIDO: abrir/fechar ---------
     showConfigBtn.addEventListener('click', () => {
@@ -1368,7 +1362,7 @@ loadHtml2Canvas(() => {
     const compartimentosMockup = document.getElementById('compartimentosMockup');
     const compartimentosEstampa = document.getElementById('compartimentosEstampa');
     const compartimentosTecidos = document.getElementById('compartimentosTecidos');
-    
+
     // JS ORIGINAL para o desktop
     tabMockupsBtn.addEventListener('click', () => {
       if(window.innerWidth <= 900) return; // Ignora no mobile, pois é controlado pelo novo script
@@ -1506,28 +1500,28 @@ loadHtml2Canvas(() => {
     function onDrag(e) {
       if (!isDragging) return;
       e.preventDefault();
-      
+
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      
+
       const rect = joystickBase.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       const deltaX = clientX - centerX;
       const deltaY = clientY - centerY;
-      
+
       const distance = Math.min(rect.width / 2, Math.sqrt(deltaX*deltaX + deltaY*deltaY));
       const angle = Math.atan2(deltaY, deltaX);
-      
+
       const handleX = distance * Math.cos(angle);
       const handleY = distance * Math.sin(angle);
-      
+
       posX += (handleX / (rect.width / 2)) * 2;
       posY += (handleY / (rect.height / 2)) * 2;
       posX = Math.max(0, Math.min(100, posX));
       posY = Math.max(0, Math.min(100, posY));
       estampaBg.style.backgroundPosition = `${posX}% ${posY}%`;
-      
+
       joystickHandle.style.left = `calc(50% - ${joystickHandle.offsetWidth / 2}px + ${handleX}px)`;
       joystickHandle.style.top = `calc(50% - ${joystickHandle.offsetHeight / 2}px + ${handleY}px)`;
     }
@@ -1628,9 +1622,9 @@ function carregarEstampasPrincipais() {
 
   fetchEstampasBackend(function(json) {
     window.estampasJson = json;
-    
+
     // Limpa o feedback de carregamento
-    compartimentosEstampa.innerHTML = ''; 
+    compartimentosEstampa.innerHTML = '';
 
     estampasJson.categorias.forEach(cat => {
       const catDiv = document.createElement('div');
@@ -1790,4 +1784,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
+</body>
 </html>
