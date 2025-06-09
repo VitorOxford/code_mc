@@ -1,0 +1,1741 @@
+<!-- Painel Admin HTML -->
+<div class="admin-topbar">
+  <img src="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/Captura_de_tela_2025-05-27_164933-removebg-preview.png?v=1748375565" alt="Logo" class="admin-logo-img" style="height:38px;margin-right:32px;filter:drop-shadow(0 2px 8px var(--cor-principal, var(--cor-principal, var(--cor-principal, #e5be5e))));">
+  <nav class="admin-menu">
+    <div class="menu-item">Arquivo
+      <div class="dropdown">
+        <button id="baixarEstampasJson" class="dropdown-btn">Baixar JSON</button>
+        <label class="dropdown-btn" for="estampasJsonInput">Carregar JSON</label>
+        <input type="file" id="estampasJsonInput" accept=".json" style="display:none;">
+      </div>
+    </div>
+    <div class="menu-item">Categoria
+      <div class="dropdown">
+        <button id="abrirModalCriarCategoria" class="dropdown-btn">Criar</button>
+        <button id="abrirModalExcluirCategoria" class="dropdown-btn">Excluir</button>
+      </div>
+    </div>
+    <div class="menu-item">Estampa
+      <div class="dropdown">
+        <button id="uploadMassaBtn" class="dropdown-btn">Upload em Massa</button>
+        <input type="file" id="inputUploadMassa" accept="image/*" multiple style="display:none;">
+      </div>
+    </div>
+    <div class="menu-item">Marcas D'água
+      <div class="dropdown">
+        <button id="abrirModalMarcasDagua" class="dropdown-btn">Editar Marcas d'água</button>
+      </div>
+    </div>
+    <div class="menu-item">Ajuda❔
+      <div class="dropdown">
+        <a href="https://wa.me/5515991876055?text=Ol%C3%A1,%20preciso%20de%20ajuda!%20%F0%9F%A4%94" class="dropdown-btn" target="_blank" rel="noopener">Suporte</a>
+        <button id="abrirModalCreditos" class="dropdown-btn">Créditos</button>
+      </div>
+    </div>
+  </nav>
+  <button id="btnConfigApp" style="position:fixed;top:14px;right:72px;background:none;border:none;cursor:pointer;font-size:1.6em;color:var(--cor-principal, var(--cor-principal, var(--cor-principal, #e5be5e)));filter:drop-shadow(0 2px 8px var(--cor-principal, var(--cor-principal, #e5be5e)));z-index:101;" title="Configurações"><a width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--cor-principal, #e5be5e)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.5"/>🎨</a></button>
+</div>
+<!-- Modal Configurações (Nova Estrutura) -->
+<div id="modalConfigApp" class="admin-modal-bg" style="display:none;z-index:20001;">
+  <div class="admin-modal modal-personalizacao" style="min-width:420px;max-width:98vw;width:520px;">
+    <div class="modal-title">Personalização do App</div>
+    <div class="personalizacao-selector">
+      <button class="personalizacao-selector-btn active" data-painel="admin">Painel Admin</button>
+      <button class="personalizacao-selector-btn" data-painel="usuario">Painel do Usuário</button>
+    </div>
+    <div class="personalizacao-content">
+      <div class="personalizacao-menu-categorias">
+        <button class="personalizacao-categoria-btn active" data-categoria="wallpaper">Wallpaper</button>
+        <button class="personalizacao-categoria-btn" data-categoria="cores">Cores</button>
+        <button class="personalizacao-categoria-btn" data-categoria="tipografia">Tipografia</button>
+        <button class="personalizacao-categoria-btn" data-categoria="blur">Blur</button>
+      </div>
+      <div class="personalizacao-area" id="personalizacaoArea">
+        <!-- Conteúdo dinâmico das opções -->
+      </div>
+      <div class="personalizacao-preview-box">
+        <div class="preview-title">Preview em tempo real</div>
+        <div id="personalizacaoPreview" class="personalizacao-preview"></div>
+      </div>
+    </div>
+    <div class="personalizacao-footer">
+      <button id="btnSalvarConfigApp" class="btn-primary">Salvar</button>
+      <button class="btn-secundary" id="btnFecharConfigApp">Fechar</button>
+    </div>
+  </div>
+</div>
+<style>
+.modal-personalizacao { width: 520px; min-width: 420px; max-width: 98vw; }
+.personalizacao-selector { display: flex; gap: 12px; justify-content: center; margin-bottom: 18px; }
+.personalizacao-selector-btn { flex:1; padding: 10px 0; border-radius: 12px; border: 2px solid var(--cor-principal, #e5be5e); background: var(--cor-fundo, #1a1a17); color: var(--cor-principal, #e5be5e); font-weight: 700; font-size: 1.08rem; cursor: pointer; transition: background 0.18s, color 0.18s; }
+.personalizacao-selector-btn.active, .personalizacao-selector-btn:hover { background: linear-gradient(90deg,var(--cor-principal, #e5be5e) 0%,#b99470 100%); color: var(--cor-fundo, #1a1a17); }
+.personalizacao-content { display: flex; flex-direction: row; gap: 18px; }
+.personalizacao-menu-categorias { display: flex; flex-direction: column; gap: 10px; min-width: 120px; }
+.personalizacao-categoria-btn { padding: 10px 0; border-radius: 8px; border: 2px solid var(--cor-principal, #e5be5e); background: var(--cor-fundo, #1a1a17); color: var(--cor-principal, #e5be5e); font-weight: 600; font-size: 1.01rem; cursor: pointer; transition: background 0.18s, color 0.18s; }
+.personalizacao-categoria-btn.active, .personalizacao-categoria-btn:hover { background: linear-gradient(90deg,var(--cor-principal, #e5be5e) 0%,#b99470 100%); color: var(--cor-fundo, #1a1a17); }
+.personalizacao-area { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 16px; }
+.personalizacao-preview-box { min-width: 180px; max-width: 220px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.preview-title { font-size: 0.98rem; color: var(--cor-principal, #e5be5e); font-weight: 700; margin-bottom: 4px; }
+.personalizacao-preview { width: 180px; height: 120px; border-radius: 12px; background: var(--cor-fundo, #1a1a17); border: 2px solid var(--cor-principal, #e5be5e); box-shadow: 0 2px 10px var(--cor-principal, #e5be5e)33; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.personalizacao-footer { display: flex; gap: 18px; justify-content: flex-end; margin-top: 18px; }
+/* Drag & Drop */
+#wallpaperDropArea { width: 100%; padding: 18px 0; border: 2px dashed var(--cor-principal, #e5be5e); border-radius: 10px; text-align: center; color: var(--cor-principal, #e5be5e); cursor: pointer; background: var(--cor-fundo, #1a1a17); margin-bottom: 10px; transition: background 0.18s, border-color 0.18s; }
+#wallpaperDropArea.dragover { background: var(--cor-principal, #e5be5e)22; border-color: #b99470; color: #b99470; }
+#wallpaperPreviewImg { max-width: 120px; max-height: 80px; border-radius: 10px; border: 1.5px solid var(--cor-principal, #e5be5e); background: #fff; box-shadow: 0 2px 10px var(--cor-principal, #e5be5e)33; margin-bottom: 8px; }
+#btnRemoveWallpaper { margin-bottom: 8px; }
+/* Ajuste de altura mínima/fixa para modal de personalização */
+.modal-personalizacao { min-height: 540px; height: 540px; max-height: 98vh; }
+.personalizacao-content { min-height: 320px; }
+</style>
+<script>
+// --- Personalização Modal Logic ---
+let personalizacaoPainel = 'admin';
+let personalizacaoCategoria = 'wallpaper';
+let personalizacaoConfig = JSON.parse(localStorage.getItem('appConfig')||'{}');
+function renderPersonalizacaoArea() {
+  const area = document.getElementById('personalizacaoArea');
+  if (!area) return;
+  if (personalizacaoCategoria === 'wallpaper') {
+    area.innerHTML = `
+      <div id="wallpaperDropArea">Arraste e solte uma imagem aqui ou clique para selecionar</div>
+      <div id="wallpaperPreviewBox" style="display:${personalizacaoConfig.wallpaper?'flex':'none'};align-items:center;gap:10px;flex-direction:column;">
+        <img id="wallpaperPreviewImg" src="${personalizacaoConfig.wallpaper||''}" />
+        <button id="btnRemoveWallpaper" class="btn-cancel-upload" type="button">Remover</button>
+      </div>
+    `;
+    // Drag & Drop logic
+    const dropArea = document.getElementById('wallpaperDropArea');
+    const previewBox = document.getElementById('wallpaperPreviewBox');
+    const previewImg = document.getElementById('wallpaperPreviewImg');
+    const btnRemove = document.getElementById('btnRemoveWallpaper');
+    dropArea.onclick = function() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          previewImg.src = ev.target.result;
+          previewBox.style.display = 'flex';
+          personalizacaoConfig.wallpaper = ev.target.result;
+          updatePersonalizacaoPreview();
+        };
+        reader.readAsDataURL(file);
+      };
+      input.click();
+    };
+    dropArea.ondragover = function(e) { e.preventDefault(); dropArea.classList.add('dragover'); };
+    dropArea.ondragleave = function(e) { e.preventDefault(); dropArea.classList.remove('dragover'); };
+    dropArea.ondrop = function(e) {
+      e.preventDefault();
+      dropArea.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        previewImg.src = ev.target.result;
+        previewBox.style.display = 'flex';
+        personalizacaoConfig.wallpaper = ev.target.result;
+        updatePersonalizacaoPreview();
+      };
+      reader.readAsDataURL(file);
+    };
+    btnRemove.onclick = function() {
+      previewImg.src = '';
+      previewBox.style.display = 'none';
+      personalizacaoConfig.wallpaper = '';
+      updatePersonalizacaoPreview();
+    };
+  } else if (personalizacaoCategoria === 'cores') {
+    area.innerHTML = `
+      <label>Cor principal:</label>
+      <input type="color" id="inputCorPrincipal" value="${personalizacaoConfig.corPrincipal||'var(--cor-principal, #e5be5e)'}" style="width:48px;height:32px;">
+      <label>Cor de fundo:</label>
+      <input type="color" id="inputCorFundo" value="${personalizacaoConfig.corFundo||'var(--cor-fundo, #1a1a17)'}" style="width:48px;height:32px;">
+    `;
+    document.getElementById('inputCorPrincipal').oninput = function(e){ personalizacaoConfig.corPrincipal = this.value; updatePersonalizacaoPreview(); };
+    document.getElementById('inputCorFundo').oninput = function(e){ personalizacaoConfig.corFundo = this.value; updatePersonalizacaoPreview(); };
+  } else if (personalizacaoCategoria === 'tipografia') {
+    area.innerHTML = `
+      <label>Fonte:</label>
+      <select id="inputFonte">
+        <option value="Inter">Inter</option>
+        <option value="Arial">Arial</option>
+        <option value="Roboto">Roboto</option>
+        <option value="Montserrat">Montserrat</option>
+      </select>
+    `;
+    document.getElementById('inputFonte').value = personalizacaoConfig.fonte||'Inter';
+    document.getElementById('inputFonte').onchange = function(e){ personalizacaoConfig.fonte = this.value; updatePersonalizacaoPreview(); };
+  } else if (personalizacaoCategoria === 'blur') {
+    area.innerHTML = `
+      <label style="margin-bottom:6px;">Ativar Blur:</label>
+      <input type="checkbox" id="inputEnableBlur" ${personalizacaoConfig.enableBlur!==false?'checked':''} style="margin-bottom:12px;">
+      <label>Cor do Blur:</label>
+      <input type="color" id="inputBlurColor" value="${personalizacaoConfig.blurColor||'var(--cor-fundo, #1a1a17)'}" style="width:48px;height:32px;">
+      <label>Opacidade do Blur:</label>
+      <input type="range" id="inputBlurOpacity" min="0" max="1" step="0.01" value="${personalizacaoConfig.blurOpacity||0.6}" style="width:120px;">
+      <span id="blurOpacityValue">${Math.round((personalizacaoConfig.blurOpacity||0.6)*100)}%</span>
+    `;
+    document.getElementById('inputEnableBlur').onchange = function(){ personalizacaoConfig.enableBlur = this.checked; updatePersonalizacaoPreview(); };
+    document.getElementById('inputBlurColor').oninput = function(){ personalizacaoConfig.blurColor = this.value; updatePersonalizacaoPreview(); };
+    document.getElementById('inputBlurOpacity').oninput = function(){ personalizacaoConfig.blurOpacity = parseFloat(this.value); document.getElementById('blurOpacityValue').textContent = `${Math.round(this.value*100)}%`; updatePersonalizacaoPreview(); };
+  }
+  updatePersonalizacaoPreview();
+}
+function updatePersonalizacaoPreview() {
+  const preview = document.getElementById('personalizacaoPreview');
+  if (!preview) return;
+  // Wallpaper
+  let wallpaper = personalizacaoConfig.wallpaper||'';
+  // Cores
+  let corPrincipal = personalizacaoConfig.corPrincipal||'var(--cor-principal, #e5be5e)', corFundo = personalizacaoConfig.corFundo||'var(--cor-fundo, #1a1a17)';
+  // Fonte
+  let fonte = personalizacaoConfig.fonte||'Inter';
+  // Blur
+  let blur = personalizacaoConfig.enableBlur!==false;
+  let blurColor = personalizacaoConfig.blurColor||'var(--cor-fundo, #1a1a17)';
+  let blurOpacity = personalizacaoConfig.blurOpacity||0.6;
+  // Render preview
+  preview.innerHTML = `
+    <div style="width:100%;height:100%;background:${wallpaper ? `url('${wallpaper}') center/cover` : corFundo};display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:${fonte};position:relative;">
+      ${blur?`<div style='position:absolute;top:0;left:0;width:100%;height:100%;backdrop-filter:blur(12px);background:${hexToRgba(blurColor,blurOpacity)};z-index:1;'></div>`:''}
+      <div style="background:rgba(26,26,23,0.85);padding:8px 18px;border-radius:8px;margin-bottom:8px;color:${corPrincipal};font-weight:900;z-index:2;">${personalizacaoPainel==='admin'?'Painel Admin':'Painel do Usuário'}</div>
+      <div style="background:rgba(229,190,94,0.12);padding:6px 12px;border-radius:6px;color:${corPrincipal};font-size:0.98em;z-index:2;">Preview</div>
+    </div>
+  `;
+}
+function hexToRgba(hex, alpha) {
+  hex = hex.replace('#','');
+  if (hex.length === 3) hex = hex.split('').map(x=>x+x).join('');
+  const num = parseInt(hex,16);
+  return `rgba(${(num>>16)&255},${(num>>8)&255},${num&255},${alpha})`;
+}
+// Navegação
+function setPersonalizacaoPainel(painel) {
+  personalizacaoPainel = painel;
+  document.querySelectorAll('.personalizacao-selector-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.painel===painel));
+  updatePersonalizacaoPreview();
+}
+function setPersonalizacaoCategoria(cat) {
+  personalizacaoCategoria = cat;
+  document.querySelectorAll('.personalizacao-categoria-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.categoria===cat));
+  renderPersonalizacaoArea();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  // Modal Personalização
+  const btnConfigApp = document.getElementById('btnConfigApp');
+  const modalConfigApp = document.getElementById('modalConfigApp');
+  const btnFecharConfigApp = document.getElementById('btnFecharConfigApp');
+  if(btnConfigApp && modalConfigApp){
+    btnConfigApp.onclick = function(){
+      personalizacaoConfig = JSON.parse(localStorage.getItem('appConfig')||'{}');
+      modalConfigApp.style.display = 'flex';
+      setPersonalizacaoPainel('admin');
+      setPersonalizacaoCategoria('wallpaper');
+      renderPersonalizacaoArea();
+    };
+  }
+  if(btnFecharConfigApp && modalConfigApp){
+    btnFecharConfigApp.onclick = function(){modalConfigApp.style.display = 'none';};
+  }
+  document.querySelectorAll('.personalizacao-selector-btn').forEach(btn=>{
+    btn.onclick = ()=>setPersonalizacaoPainel(btn.dataset.painel);
+  });
+  document.querySelectorAll('.personalizacao-categoria-btn').forEach(btn=>{
+    btn.onclick = ()=>setPersonalizacaoCategoria(btn.dataset.categoria);
+  });
+  // Adiciona categoria Blur
+  const menu = document.querySelector('.personalizacao-menu-categorias');
+  if(menu && !menu.querySelector('[data-categoria="blur"]')){
+    const btn = document.createElement('button');
+    btn.className = 'personalizacao-categoria-btn';
+    btn.dataset.categoria = 'blur';
+    btn.textContent = 'Blur';
+    btn.onclick = ()=>setPersonalizacaoCategoria('blur');
+    menu.appendChild(btn);
+  }
+});
+document.getElementById('btnSalvarConfigApp').onclick = function() {
+  // Atualiza objeto com os valores atuais dos inputs
+  const previewImg = document.getElementById('wallpaperPreviewImg');
+  if (previewImg) personalizacaoConfig.wallpaper = previewImg.src || '';
+  const corPrincipal = document.getElementById('inputCorPrincipal');
+  if (corPrincipal) personalizacaoConfig.corPrincipal = corPrincipal.value;
+  const corFundo = document.getElementById('inputCorFundo');
+  if (corFundo) personalizacaoConfig.corFundo = corFundo.value;
+  const fonte = document.getElementById('inputFonte');
+  if (fonte) personalizacaoConfig.fonte = fonte.value;
+  const enableBlur = document.getElementById('inputEnableBlur');
+  if (enableBlur) personalizacaoConfig.enableBlur = enableBlur.checked;
+  const blurColor = document.getElementById('inputBlurColor');
+  if (blurColor) personalizacaoConfig.blurColor = blurColor.value;
+  const blurOpacity = document.getElementById('inputBlurOpacity');
+  if (blurOpacity) personalizacaoConfig.blurOpacity = parseFloat(blurOpacity.value);
+
+  // Salva no localStorage
+  localStorage.setItem('appConfig', JSON.stringify(personalizacaoConfig));
+
+  // Atualiza variáveis CSS do tema
+  document.body.style.setProperty('--cor-principal', personalizacaoConfig.corPrincipal || 'var(--cor-principal, #e5be5e)');
+  document.body.style.setProperty('--cor-fundo', personalizacaoConfig.corFundo || 'var(--cor-fundo, #1a1a17)');
+
+  applyCustomWallpaperConfig();
+  showNotificationIOS({title:'Personalização', message:'Configurações salvas localmente!'});
+  document.getElementById('modalConfigApp').style.display = 'none';
+  
+};
+</script>
+<!-- Tela de Loading -->
+<div id="appLoadingScreen" style="position:fixed;z-index:99999;top:0;left:0;width:100vw;height:100vh;background:var(--cor-fundo, #1a1a17);display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <img src="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/Captura_de_tela_2025-05-27_164933-removebg-preview.png?v=1748375565" alt="Logo" style="width:120px;height:auto;margin-bottom:38px;filter:drop-shadow(0 2px 18px var(--cor-principal, #e5be5e)88);">
+  <div style="width:180px;height:8px;background:#22211a;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px var(--cor-principal, #e5be5e)33;">
+    <div id="loadingBar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--cor-principal, #e5be5e) 0%,#fffbe5 100%);transition:width 0.7s cubic-bezier(.55,.06,.68,.19);"></div>
+  </div>
+</div>
+<div id="customWallpaperBg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-2;pointer-events:none;"><div id="customWallpaperBlur" style="width:100vw;height:100vh;position:absolute;top:0;left:0;"></div></div>
+<div class="admin-main-content">
+  <div class="admin-sidebar">
+    <div class="sidebar-title">Departamentos</div>
+    <select id="departamentosDropdown"></select>
+  </div>
+  <div class="admin-center-panel">
+    <div style="width:100%;display:flex;flex-direction:column;align-items:center;">
+      <input id="searchEstampaInput" placeholder="Buscar por código..." style="width:320px;padding:10px 12px;border-radius:8px;border:1.5px solid var(--cor-principal, #e5be5e);font-size:1.08rem;background:var(--cor-fundo, #1a1a17);color:var(--cor-principal, #e5be5e);box-shadow:0 1px 6px var(--cor-principal, #e5be5e)33;margin-bottom:8px;" />
+      <div class="central-search-separator" style="width:100%;height:2px;background:linear-gradient(90deg,var(--cor-principal, #e5be5e)33 0%,var(--cor-fundo, #1a1a17) 100%);margin-bottom:18px;border-radius:2px;"></div>
+    </div>
+    <div id="estampasDeptoTitle" class="center-title"></div>
+    <div id="estampasGrid" class="admin-panel-estampas-grid"></div>
+  </div>
+  <div class="admin-rightbar">
+    <div id="notificationContainer" style="position:fixed;top:24px;right:48px;z-index:20000;display:flex;flex-direction:column;align-items:flex-end;gap:12px;"></div>
+    <div class="sidebar-title"> ➕ Adicionar Estampa</div>
+    <input id="inputUrlNovaEstampa" placeholder="URL da estampa" class="rightbar-input">
+    <img id="previewNovaEstampa" src="" class="rightbar-img" style="display:none;" />
+    <button id="btnPreviewUrlEstampa" class="btn-secundary">Pré-visualizar</button>
+    <input id="inputNomeEstampa" placeholder="Nome da estampa" class="rightbar-input">
+    <input id="inputCodigoEstampa" placeholder="Código" class="rightbar-input">
+    <input id="inputRefNomeEstampa" placeholder="Nome da referência" class="rightbar-input">
+    <input id="inputRefCmEstampa" placeholder="Centímetros da referência" type="number" step="0.01" class="rightbar-input">
+    <select id="selectCategoriaEstampa" class="rightbar-input"></select>
+    <button id="salvarNovaEstampa" class="btn-primary">Salvar Estampa</button>
+    <div id="adminSalvarBtnContainer" style="width:100%;display:flex;justify-content:center;margin-top:18px;">
+      <button id="salvarEstampasBtn" class="btn-primary" style="width:100%;">Salvar Alterações</button>
+    </div>
+  </div>
+</div>
+<!-- Modais de categoria -->
+<div id="modalCriarCategoria" class="admin-modal-bg" style="display:none;">
+  <div class="admin-modal">
+    <div class="modal-title">Criar Categoria</div>
+    <label for="modalInputNomeCategoria">Nome</label>
+    <input id="modalInputNomeCategoria" type="text" placeholder="Nome da categoria" class="modal-input">
+    <label for="modalInputIconeCategoria">Emoji</label>
+    <input id="modalInputIconeCategoria" type="text" maxlength="2" placeholder="Ex: 🎨" class="modal-input">
+    <button id="modalBtnCriarCategoria" class="btn-primary" style="margin-top:18px;">Criar</button>
+    <button class="btn-secundary" id="modalFecharCriarCategoria" style="margin-top:10px;">Cancelar</button>
+  </div>
+</div>
+<div id="modalExcluirCategoria" class="admin-modal-bg" style="display:none;">
+  <div class="admin-modal">
+    <div class="modal-title">Excluir Categoria</div>
+    <div id="modalListaCategorias" style="width:100%;margin-bottom:18px;"></div>
+    <button id="modalBtnSalvarExclusao" class="btn-primary">Salvar</button>
+    <button class="btn-secundary" id="modalFecharExcluirCategoria" style="margin-top:10px;">Cancelar</button>
+  </div>
+</div>
+<div id="modalCreditos" class="admin-modal-bg" style="display:none;">
+  <div class="admin-modal">
+    <div class="modal-title">Créditos</div>
+    <div style="margin-bottom:18px;">
+      <strong>Pensado e desenvolvido por:</strong><br>
+      João Vitor Correia<br>
+      <span style="font-size:0.98em;color:#888;">© 2025 Direitos autorais de João Vitor Correia. Código independente.</span><br>
+      <span style="font-size:0.98em;">Mockup Creator - Versão 1.0</span>
+    </div>
+    <a href="https://www.linkedin.com/in/joão-vitor-correia-37b9a4176/" target="_blank" rel="noopener" style="color:#0077b5;font-weight:700;text-decoration:none;font-size:1.08em;">LinkedIn de João Vitor Correia</a>
+    <button class="btn-secundary" id="modalFecharCreditos" style="margin-top:18px;">Fechar</button>
+  </div>
+</div>
+<!-- Modal Marcas D'água -->
+<div id="modalMarcasDagua" class="admin-modal-bg" style="display:none;">
+  <div class="admin-modal">
+    <div class="modal-title">Editar Marca d'água</div>
+    <div id="watermarkPreviewBox" style="display:flex;flex-direction:column;align-items:center;margin-bottom:18px;">
+      <img id="watermarkPreviewImg" src="" style="max-width:180px;max-height:120px;border-radius:12px;border:2px solid #b99470;background:#fff;box-shadow:0 2px 10px #b9947033;margin-bottom:10px;display:none;" />
+      <div id="watermarkDropArea" style="width:100%;padding:18px 0;border:2px dashed #b99470;border-radius:10px;text-align:center;color:#783D19;cursor:pointer;background:#f8f6f2;">Arraste e solte uma imagem aqui ou clique para selecionar</div>
+    </div>
+    <label for="watermarkUrlInput" style="margin-bottom:6px;">URL da marca d'água:</label>
+    <input type="text" id="watermarkUrlInput" placeholder="URL da marca d'água (opcional)" class="modal-input" style="margin-bottom:10px;">
+    <button id="toggleWatermarkBtn" class="btn-secundary" style="margin-bottom:10px;">Habilitar marca d'água</button>
+    <button class="btn-primary" id="btnSalvarWatermark" style="margin-top:10px;">Salvar</button>
+    <button class="btn-secundary" id="modalFecharMarcasDagua" style="margin-top:10px;">Fechar</button>
+  </div>
+</div>
+<style>
+body {
+  background: linear-gradient(135deg, var(--cor-fundo, #1a1a17) 0%, #22211a 100%);
+  font-family: 'Inter', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: var(--cor-principal, #e5be5e);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.admin-topbar {
+  width: 100%;
+  min-width: 1450px;
+  margin: 0 auto;
+  background: rgba(26,26,23,0.98);
+  box-shadow: 0 2px 18px var(--cor-principal, #e5be5e)33, 0 1.5px 6px var(--cor-fundo, #1a1a17)cc;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  height: 58px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-radius: 0px 0px 0px 0px;
+  backdrop-filter: blur(2px);
+}
+.admin-logo-img {
+  height: 38px;
+  margin-right: 32px;
+  filter: drop-shadow(0 2px 8px var(--cor-principal, #e5be5e)88);
+}
+.admin-menu {
+  display: flex;
+  gap: 32px;
+  flex: 1;
+}
+.menu-item {
+  position: relative;
+  font-weight: 700;
+  color: var(--cor-principal, #e5be5e);
+  padding: 0 12px;
+  cursor: pointer;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  border-radius: 8px 8px 0 0;
+}
+.menu-item:hover, .menu-item:focus-within {
+  background: linear-gradient(90deg, #22211a 60%, #2d2617 100%);
+  color: #fffbe5;
+  box-shadow: 0 4px 18px var(--cor-principal, #e5be5e)33;
+}
+.menu-item .dropdown {
+  display: none;
+  position: absolute;
+  top: 58px;
+  left: 0;
+  background: linear-gradient(135deg, var(--cor-fundo, #1a1a17) 80%, #2d2617 100%);
+  min-width: 190px;
+  box-shadow: 0 8px 32px var(--cor-principal, #e5be5e)44, 0 2px 8px var(--cor-fundo, #1a1a17)cc;
+  border-radius: 0 0 14px 14px;
+  padding: 10px 0;
+  z-index: 10;
+  flex-direction: column;
+  gap: 0;
+  border-top: 2px solid var(--cor-principal, #e5be5e)44;
+}
+.menu-item:hover .dropdown, .menu-item:focus-within .dropdown {
+  display: flex;
+}
+.dropdown-btn, .dropdown-input {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--cor-principal, #e5be5e);
+  font-size: 1.04rem;
+  padding: 10px 18px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.dropdown-btn:hover, .dropdown-input:focus {
+  background: linear-gradient(90deg, var(--cor-principal, #e5be5e)22 0%, var(--cor-fundo, #1a1a17) 100%);
+  color: #fffbe5;
+  box-shadow: 0 2px 8px var(--cor-principal, #e5be5e)55;
+}
+.dropdown-input {
+  border-bottom: 1.5px solid var(--cor-principal, #e5be5e);
+  margin-bottom: 2px;
+  outline: none;
+}
+.admin-main-content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-width: 1450px;
+  max-height: 887px;
+  margin: 0 auto;
+  gap: 0;
+  overflow: hidden;
+  border-radius: 0px 0px 0px 0px;
+}
+.admin-sidebar, .admin-rightbar {
+  min-height: 800px;
+  max-height: 900px;
+  overflow-y: auto;
+}
+.admin-center-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 38px 32px;
+  min-width: 0;
+  min-height: 800px;
+  max-height: 900px;
+  height: 900px;
+  overflow: hidden;
+}
+.center-title {
+  font-size: 1.13rem;
+  font-weight: 800;
+  color: var(--cor-principal, #e5be5e);
+  letter-spacing: 1.1px;
+  margin-bottom: 18px;
+  text-shadow: 0 2px 8px var(--cor-principal, #e5be5e)44;
+}
+.admin-panel-estampas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px,1fr));
+  gap: 28px 22px;
+  padding: 18px 0;
+  min-height: 320px;
+  max-height: 760px;
+  height: 760px;
+  border-radius: 0 0 18px 18px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--cor-principal, #e5be5e) var(--cor-fundo, #1a1a17);
+}
+.admin-panel-estampas-grid::-webkit-scrollbar {
+  width: 10px;
+  background: var(--cor-fundo, #1a1a17);
+  border-radius: 8px;
+}
+.admin-panel-estampas-grid::-webkit-scrollbar-thumb {
+  background: var(--cor-principal, #e5be5e);
+  border-radius: 8px;
+}
+.admin-panel-card-estampa {
+  background: linear-gradient(135deg, #22211a 80%, var(--cor-fundo, #1a1a17) 100%);
+  border-radius: 16px;
+  box-shadow: 0 2px 16px var(--cor-principal, #e5be5e)33, 0 1.5px 6px var(--cor-fundo, #1a1a17)cc;
+  padding: 12px 8px 10px 8px;
+  min-width: 150px;
+  min-height: 150px;
+  max-width: 150px;
+  max-height: 150px;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: box-shadow 0.18s, transform 0.18s;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+  position: relative;
+}
+.admin-panel-card-estampa:hover {
+  box-shadow: 0 8px 32px var(--cor-principal, #e5be5e)55, 0 2px 8px var(--cor-fundo, #1a1a17)cc;
+  transform: translateY(-2px) scale(1.03);
+}
+.admin-panel-card-estampa img {
+  width: 100%;
+  max-width: 120px;
+  max-height: 80px;
+  min-height: 60px;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 1.5px solid var(--cor-principal, #e5be5e);
+  background: #22211a;
+  margin-bottom: 4px;
+  box-shadow: 0 1px 8px var(--cor-principal, #e5be5e)33;
+}
+.admin-panel-card-estampa span {
+  word-break: break-word;
+  text-align: center;
+  display: block;
+  width: 100%;
+  font-size: 0.98rem;
+  color: var(--cor-principal, #e5be5e);
+  font-weight: 600;
+  line-height: 1.1;
+  text-shadow: 0 1px 4px var(--cor-fundo, #1a1a17)cc;
+}
+.admin-panel-card-estampa .estampa-codigo {
+  font-size: 0.93rem;
+  color: var(--cor-principal, #e5be5e);
+  font-weight: 500;
+  margin-top: 1px;
+}
+.admin-sidebar {
+  flex: 0 0 260px;
+  background: linear-gradient(135deg, #22211a 80%, var(--cor-fundo, #1a1a17) 100%);
+  border-right: 2px solid var(--cor-principal, #e5be5e);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 38px 24px;
+  gap: 24px;
+  min-height: 800px;
+  border-radius: 0 0 0 0;
+  box-shadow: 2px 0 12px var(--cor-principal, #e5be5e)22;
+}
+.sidebar-title {
+  font-size: 1.18rem;
+  font-weight: 900;
+  color: var(--cor-principal, #e5be5e);
+  margin-bottom: 18px;
+  letter-spacing: 1.2px;
+  text-shadow: 0 1px 0 #0008, 0 2px 8px var(--cor-principal, #e5be5e)22;
+}
+#departamentosDropdown {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--cor-principal, #e5be5e);
+  font-size: 1.08rem;
+  background: var(--cor-fundo, #1a1a17);
+  color: var(--cor-principal, #e5be5e);
+  margin-bottom: 18px;
+  box-shadow: 0 1px 6px var(--cor-principal, #e5be5e)33;
+}
+.sidebar-search {
+  width: 100%;
+  margin-top: 18px;
+}
+.sidebar-search input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--cor-principal, #e5be5e);
+  font-size: 1.08rem;
+  background: var(--cor-fundo, #1a1a17);
+  color: var(--cor-principal, #e5be5e);
+  box-shadow: 0 1px 6px var(--cor-principal, #e5be5e)33;
+}
+.admin-rightbar {
+  flex: 0 0 340px;
+  background: linear-gradient(135deg, #22211a 80%, var(--cor-fundo, #1a1a17) 100%);
+  border-left: 2px solid var(--cor-principal, #e5be5e);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 38px 32px;
+  gap: 18px;
+  min-height: 800px;
+}
+.rightbar-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--cor-principal, #e5be5e);
+  font-size: 1.08rem;
+  margin-bottom: 8px;
+  background: var(--cor-fundo, #1a1a17);
+  color: var(--cor-principal, #e5be5e);
+  box-shadow: 0 1px 6px var(--cor-principal, #e5be5e)22;
+}
+.rightbar-img {
+  max-width: 140px;
+  max-height: 140px;
+  border-radius: 12px;
+  border: 2px solid var(--cor-principal, #e5be5e);
+  margin-bottom: 14px;
+  background: #22211a;
+  box-shadow: 0 2px 10px var(--cor-principal, #e5be5e)33;
+}
+.btn-primary, .btn-secundary {
+  font-weight: 700;
+  border-radius: 18px;
+  font-size: 1.04rem;
+  padding: 10px 22px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px var(--cor-principal, #e5be5e)33, 0 1.5px 6px var(--cor-fundo, #1a1a17)cc;
+  letter-spacing: 0.8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.23s cubic-bezier(.55,.06,.68,.19);
+  will-change: transform, background, color, box-shadow;
+}
+.btn-primary {
+  background: linear-gradient(90deg, var(--cor-principal, #e5be5e) 0%, #b99470 100%);
+  color: var(--cor-fundo, #1a1a17);
+  border: 2px solid var(--cor-principal, #e5be5e);
+  text-shadow: 0 1px 4px #fffbe5cc;
+}
+.btn-primary:hover {
+  background: linear-gradient(90deg, var(--cor-principal, #e5be5e) 0%, #fffbe5 100%);
+  color: var(--cor-fundo, #1a1a17);
+  box-shadow: 0 4px 18px var(--cor-principal, #e5be5e)55, 0 2px 8px var(--cor-fundo, #1a1a17)cc;
+  transform: translateY(-2px) scale(1.04);
+}
+.btn-primary:active {
+  transform: scale(0.92);
+}
+.btn-secundary {
+  background: var(--cor-fundo, #1a1a17);
+  color: var(--cor-principal, #e5be5e);
+  border: 2px solid var(--cor-principal, #e5be5e);
+  text-shadow: 0 1px 4px var(--cor-fundo, #1a1a17)cc;
+}
+.btn-secundary:hover {
+  color: var(--cor-fundo, #1a1a17);
+  background: linear-gradient(90deg, var(--cor-principal, #e5be5e) 0%, #b99470 100%);
+  border: 2px solid var(--cor-principal, #e5be5e);
+  box-shadow: 0 4px 18px var(--cor-principal, #e5be5e)55, 0 2px 8px var(--cor-fundo, #1a1a17)cc;
+  transform: translateY(-2px) scale(1.04);
+}
+.btn-secundary:active {
+  transform: scale(0.92);
+}
+.btn-cancel-upload {
+  background: #B99470;
+  color: #783D19;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.01rem;
+  font-weight: 600;
+  margin-top: 16px;
+  padding: 8px 26px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, transform 0.23s cubic-bezier(.55,.06,.68,.19);
+}
+.btn-cancel-upload:hover {
+  background: #783D19;
+  color: #fff;
+}
+.btn-cancel-upload:active {
+  transform: scale(0.95);
+}
+.admin-modal-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(229,190,94,0.10);
+  z-index: 10010;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.admin-modal {
+  background: #22211a;
+  border-radius: 18px;
+  box-shadow: 0 10px 40px var(--cor-principal, #e5be5e)22;
+  padding: 32px 32px 24px 32px;
+  min-width: 320px;
+  max-width: 98vw;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+}
+.modal-title {
+  font-size: 1.18rem;
+  font-weight: 900;
+  color: var(--cor-principal, #e5be5e);
+  margin-bottom: 18px;
+  letter-spacing: 1.2px;
+  text-align: center;
+  text-shadow: 0 2px 8px #000a;
+}
+.modal-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--cor-principal, #e5be5e);
+  font-size: 1.08rem;
+  margin-bottom: 12px;
+  background: var(--cor-fundo, #1a1a17);
+  color: var(--cor-principal, #e5be5e);
+}
+.modal-categoria-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--cor-fundo, #1a1a17);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-bottom: 8px;
+  font-size: 1.08rem;
+  color: var(--cor-principal, #e5be5e);
+  font-weight: 600;
+}
+.modal-categoria-x {
+  background: var(--cor-principal, #e5be5e);
+  color: var(--cor-fundo, #1a1a17);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s;
+  box-shadow: 0 2px 8px var(--cor-principal, #e5be5e)55;
+}
+.modal-categoria-x:hover {
+  background: var(--cor-fundo, #1a1a17);
+  color: var(--cor-principal, #e5be5e);
+  border: 1.5px solid var(--cor-principal, #e5be5e);
+}
+.notification-ios {
+  min-width: 320px;
+  max-width: 420px;
+  background: rgba(34,33,26,0.92);
+  color: #fffbe5;
+  border-radius: 18px;
+  border: 2.5px solid var(--cor-principal, #e5be5e);
+  box-shadow: 0 8px 32px var(--cor-principal, #e5be5e)88, 0 2px 8px var(--cor-fundo, #1a1a17)cc;
+  backdrop-filter: blur(10px);
+  padding: 20px 32px 20px 28px;
+  font-size: 1.13rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  position: relative;
+  cursor: pointer;
+  animation: slideDownNotif 0.45s cubic-bezier(.55,.06,.68,.19);
+  transition: box-shadow 0.18s, background 0.18s, opacity 0.18s, transform 0.18s;
+  opacity: 0.98;
+  margin-bottom: 8px;
+}
+@keyframes slideDownNotif {
+  0% { transform: translateY(-60px) scale(0.98); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 0.98; }
+}
+.notification-ios .notif-x {
+  display: none;
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 1.35em;
+  color: var(--cor-principal, #e5be5e);
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.18s;
+}
+.notification-ios:hover .notif-x {
+  display: block;
+  opacity: 1;
+}
+.notification-ios .notif-title {
+  font-weight: 900;
+  font-size: 1.25em;
+  margin-right: 12px;
+  color: var(--cor-principal, #e5be5e);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.notification-ios .notif-emoji {
+  font-size: 1.45em;
+  margin-right: 6px;
+  filter: drop-shadow(0 2px 8px var(--cor-principal, #e5be5e)88);
+}
+#modalDetalheAlteracao {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(26,26,23,0.18);
+  z-index: 30000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#modalDetalheAlteracao .admin-modal {
+  min-width: 340px;
+  max-width: 98vw;
+  background: #22211a;
+  border-radius: 18px;
+  box-shadow: 0 10px 40px var(--cor-principal, #e5be5e)22;
+  padding: 32px 32px 24px 32px;
+  color: var(--cor-principal, #e5be5e);
+  font-size: 1.08rem;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+}
+#modalDetalheAlteracao .modal-title {
+  font-size: 1.18rem;
+  font-weight: 900;
+  color: var(--cor-principal, #e5be5e);
+  margin-bottom: 18px;
+  letter-spacing: 1.2px;
+  text-align: center;
+  text-shadow: 0 2px 8px #000a;
+}
+#modalDetalheAlteracao .btn-secundary {
+  margin-top: 18px;
+}
+</style>
+<script>
+const BACKEND_URL = 'https://estampas-oda7.onrender.com/estampas';
+const AUTH_HEADER = 'Basic ' + btoa('admin:senha123');
+let estampasJson = { categorias: [] };
+let selectedDepto = 0;
+
+// Variáveis para marca d'água
+let watermarkDataUrl = '';
+let watermarkEnabled = false;
+
+function fetchEstampasBackend(cb) {
+  console.log('fetchEstampasBackend chamado');
+  fetch(BACKEND_URL, {
+    method: 'GET',
+    headers: {
+      'Authorization': AUTH_HEADER
+    }
+  })
+    .then(res => {
+      if (res.status === 401) throw new Error('Não autorizado. Verifique usuário e senha.');
+      return res.json();
+    })
+    .then(json => {
+      console.log('JSON recebido do backend:', json);
+      estampasJson = json;
+      if (cb) cb(json);
+      renderDepartamentos();
+      renderEstampas();
+      updateCategoriaSelect();
+    })
+    .catch(err => {
+      alert('Erro ao buscar estampas: ' + (err && err.message ? err.message : err));
+    });
+}
+function renderDepartamentos() {
+  console.log('renderDepartamentos', estampasJson);
+  const dropdown = document.getElementById('departamentosDropdown');
+  dropdown.innerHTML = '';
+  if (!estampasJson.categorias || !Array.isArray(estampasJson.categorias) || estampasJson.categorias.length === 0) {
+    dropdown.disabled = true;
+    document.getElementById('estampasDeptoTitle').textContent = '';
+    document.getElementById('estampasGrid').innerHTML = '<div style="color:#b94a48;grid-column:1/-1;">Nenhum departamento cadastrado.</div>';
+    return;
+  }
+  dropdown.disabled = false;
+  estampasJson.categorias.forEach((cat, idx) => {
+    const opt = document.createElement('option');
+    opt.value = idx;
+    opt.textContent = `${cat.icone ? cat.icone + ' ' : ''}${cat.nome}`;
+    dropdown.appendChild(opt);
+  });
+  if (selectedDepto >= estampasJson.categorias.length) selectedDepto = 0;
+  dropdown.value = selectedDepto;
+  dropdown.onchange = function() {
+    selectedDepto = parseInt(this.value, 10);
+    renderEstampas();
+  };
+  renderEstampas();
+}
+function renderEstampas() {
+  console.log('renderEstampas', estampasJson);
+  const grid = document.getElementById('estampasGrid');
+  const header = document.getElementById('estampasDeptoTitle');
+  const search = document.getElementById('searchEstampaInput');
+  grid.innerHTML = '';
+  if (!estampasJson.categorias || estampasJson.categorias.length === 0) {
+    header.textContent = '';
+    return;
+  }
+  const cat = estampasJson.categorias[selectedDepto];
+  header.textContent = `${cat.icone ? cat.icone + ' ' : ''}${cat.nome}`;
+  let estampasFiltradas = cat.estampas || [];
+  if (search && search.value.trim()) {
+    const termo = search.value.trim().toLowerCase();
+    estampasFiltradas = estampasFiltradas.filter(est => (est.code||'').toLowerCase().includes(termo));
+  }
+  if (!estampasFiltradas.length) {
+    grid.innerHTML = '<div style="color:#b94a48;grid-column:1/-1;">Nenhuma estampa encontrada.</div>';
+    return;
+  }
+  estampasFiltradas.forEach((est, idxEst) => {
+    const estDiv = document.createElement('div');
+    estDiv.className = 'admin-panel-card-estampa';
+    estDiv.innerHTML = `
+      <img src='${est.url}' alt='${est.name || ''}'>
+      <span>${est.name || ''}</span>
+      <span class='estampa-codigo'>${est.code || ''}</span>
+    `;
+    estDiv.onclick = function() {
+      abrirModalEstampa(cat, cat.estampas.indexOf(estampasFiltradas[idxEst]));
+    };
+    grid.appendChild(estDiv);
+  });
+}
+
+function abrirModalEstampa(cat, idxEst) {
+  const est = cat.estampas[idxEst];
+  let modalBg = document.querySelector('.admin-modal-estampa-bg');
+  if (modalBg) modalBg.remove();
+  modalBg = document.createElement('div');
+  modalBg.className = 'admin-modal-estampa-bg';
+  modalBg.style = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:10020;background:rgba(120,61,25,0.18);display:flex;align-items:center;justify-content:center;';
+  modalBg.innerHTML = `
+    <div class="admin-modal-estampa" style="background:#fff;border-radius:18px;box-shadow:0 10px 40px #783d1916;padding:32px 32px 24px 32px;min-width:320px;max-width:98vw;width:380px;display:flex;flex-direction:column;align-items:stretch;position:relative;">
+      <button class="close-modal-btn" type="button" style="position:absolute;top:12px;right:12px;font-size:1.6em;background:none;border:none;cursor:pointer;">×</button>
+      <div class="estampa-preview-box" style="display:flex;flex-direction:column;align-items:center;margin-bottom:18px;">
+        <img src="${est.url}" class="estampa-preview-img" id="modalEstampaImg" style="max-width:180px;max-height:180px;border-radius:12px;border:2px solid #b99470;background:#fff;box-shadow:0 2px 10px #b9947033;margin-bottom:10px;" />
+        <button class="btn-edit" id="btnEditEstampa" title="Editar informações" style="position:absolute;top:18px;right:48px;background:none;border:none;cursor:pointer;font-size:1.2em;"✏️</button>
+      </div>
+      <div class="edit-fields" style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+        <input id="modalNomeEstampa" value="${est.name||''}" placeholder="Nome da estampa" disabled style="padding:10px 12px;border-radius:8px;border:1.5px solid #b99470;font-size:1.08rem;" />
+        <input id="modalCodigoEstampa" value="${est.code||''}" placeholder="Código" disabled style="padding:10px 12px;border-radius:8px;border:1.5px solid #b99470;font-size:1.08rem;" />
+        <input id="modalRefNomeEstampa" value="${est.refnome||''}" placeholder="Nome da referência" disabled style="padding:10px 12px;border-radius:8px;border:1.5px solid #b99470;font-size:1.08rem;" />
+        <input id="modalRefCmEstampa" value="${est.refcm||''}" placeholder="Centímetros da referência" type="number" step="0.01" disabled style="padding:10px 12px;border-radius:8px;border:1.5px solid #b99470;font-size:1.08rem;" />
+      </div>
+      <div class="edit-btns" style="width:100%;display:flex;justify-content:space-between;gap:10px;">
+        <button id="excluirModalEstampa" class="btn-secundary" style="min-width:90px;background:#fff;color:#b94a48;border:2px solid #b94a48;">Excluir</button>
+        <button id="salvarModalEstampa" class="btn-primary" style="min-width:120px;" disabled>Salvar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modalBg);
+  modalBg.querySelector('.close-modal-btn').onclick = () => modalBg.remove();
+  const btnEdit = modalBg.querySelector('#btnEditEstampa');
+  const fields = ['modalNomeEstampa','modalCodigoEstampa','modalRefNomeEstampa','modalRefCmEstampa'];
+  const salvarBtn = modalBg.querySelector('#salvarModalEstampa');
+  btnEdit.onclick = function() {
+    fields.forEach(id=>modalBg.querySelector('#'+id).disabled=false);
+    salvarBtn.disabled = false;
+    modalBg.querySelector('#modalNomeEstampa').focus();
+  };
+  salvarBtn.onclick = function() {
+    const nome = modalBg.querySelector('#modalNomeEstampa').value.trim();
+    const codigo = modalBg.querySelector('#modalCodigoEstampa').value.trim();
+    const refnome = modalBg.querySelector('#modalRefNomeEstampa').value.trim();
+    const refcm = parseFloat(modalBg.querySelector('#modalRefCmEstampa').value);
+    if (!nome || !codigo || !refnome || isNaN(refcm)) {
+      showNotificationIOS({title:'Erro', message:'Preencha todos os campos corretamente.'});
+      return;
+    }
+    cat.estampas[idxEst] = {
+      ...est,
+      name: nome,
+      code: codigo,
+      refnome: refnome,
+      refcm: refcm
+    };
+    fetch(BACKEND_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': AUTH_HEADER
+      },
+      body: JSON.stringify(estampasJson)
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Erro HTTP: ' + res.status);
+      return res.json();
+    })
+    .then(data => {
+      modalBg.remove();
+      renderEstampas();
+      showNotificationIOS({title:'Salvo', message:'Estampa salva com sucesso!', details:`Campo: Nome\nAntes: ${est.name}\nDepois: ${nome}`, type:'success'});
+    })
+    .catch(err => {
+      showNotificationIOS({title:'Erro', message:'Erro ao salvar: ' + (err && err.message ? err.message : err), type:'error'});
+    });
+  };
+  const excluirBtn = modalBg.querySelector('#excluirModalEstampa');
+  excluirBtn.onclick = function() {
+    if (!confirm('Tem certeza que deseja excluir esta estampa?')) return;
+    cat.estampas.splice(idxEst, 1);
+    fetch(BACKEND_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': AUTH_HEADER
+      },
+      body: JSON.stringify(estampasJson)
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Erro HTTP: ' + res.status);
+      return res.json();
+    })
+    .then(data => {
+      modalBg.remove();
+      renderEstampas();
+      showNotificationIOS({title:'Excluído', message:'Estampa excluída com sucesso!', details:`Estampa: ${est.name}`, type:'success'});
+    })
+    .catch(err => {
+      showNotificationIOS({title:'Erro', message:'Erro ao excluir: ' + (err && err.message ? err.message : err), type:'error'});
+    });
+  };
+}
+document.getElementById('searchEstampaInput').addEventListener('input', renderEstampas);
+document.getElementById('departamentosDropdown').addEventListener('change', function() {
+  selectedDepto = parseInt(this.value, 10);
+  renderEstampas();
+});
+document.getElementById('btnPreviewUrlEstampa').onclick = function() {
+  const url = document.getElementById('inputUrlNovaEstampa').value.trim();
+  const img = document.getElementById('previewNovaEstampa');
+  if (url) {
+    img.src = url;
+    img.style.display = 'block';
+  } else {
+    img.style.display = 'none';
+  }
+};
+document.getElementById('salvarNovaEstampa').onclick = function() {
+  const url = document.getElementById('inputUrlNovaEstampa').value.trim();
+  const nome = document.getElementById('inputNomeEstampa').value.trim();
+  const codigo = document.getElementById('inputCodigoEstampa').value.trim();
+  const refnome = document.getElementById('inputRefNomeEstampa').value.trim();
+  const refcm = parseFloat(document.getElementById('inputRefCmEstampa').value);
+  const catIdx = parseInt(document.getElementById('selectCategoriaEstampa').value, 10);
+  if (!url || !nome || !codigo || !refnome || isNaN(refcm)) {
+    showNotificationIOS({title:'Erro', message:'Preencha todos os campos corretamente.'});
+    return;
+  }
+  const novaEstampa = { url, name: nome, code: codigo, refcm, refnome };
+  estampasJson.categorias[catIdx].estampas.push(novaEstampa);
+  document.getElementById('inputNomeEstampa').value = '';
+  document.getElementById('inputCodigoEstampa').value = '';
+  document.getElementById('inputRefNomeEstampa').value = '';
+  document.getElementById('inputRefCmEstampa').value = '';
+  document.getElementById('inputUrlNovaEstampa').value = '';
+  document.getElementById('previewNovaEstampa').src = '';
+  document.getElementById('previewNovaEstampa').style.display = 'none';
+  renderEstampas();
+  showNotificationIOS({title:'Criado', message:'Nova estampa criada com sucesso!', details:`Estampa: ${nome}\nCategoria: ${estampasJson.categorias[catIdx].nome}`, type:'success'});
+};
+document.getElementById('baixarEstampasJson').onclick = function() {
+  const blob = new Blob([JSON.stringify(estampasJson, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'estampas.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+};
+document.getElementById('estampasJsonInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      estampasJson = JSON.parse(ev.target.result);
+      renderDepartamentos();
+      renderEstampas();
+      updateCategoriaSelect();
+      showNotificationIOS({title:'Importado', message:'JSON importado com sucesso!', type:'success'});
+    } catch (err) {
+      showNotificationIOS({title:'Erro', message:'Erro ao carregar JSON: ' + err.message, type:'error'});
+    }
+  };
+  reader.readAsText(file);
+});
+document.getElementById('uploadMassaBtn').onclick = function() {
+  document.getElementById('inputUploadMassa').click();
+};
+document.getElementById('inputUploadMassa').onchange = function(e) {
+  const files = Array.from(e.target.files);
+  if (!files.length) return;
+  const catIdx = selectedDepto;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      estampasJson.categorias[catIdx].estampas.push({
+        url: ev.target.result,
+        name: file.name,
+        code: '',
+        refcm: '',
+        refnome: ''
+      });
+      renderEstampas();
+    };
+    reader.readAsDataURL(file);
+  });
+};
+document.getElementById('salvarEstampasBtn').onclick = function() {
+  this.disabled = true;
+  this.textContent = 'Salvando...';
+  showNotificationIOS({title:'Salvando', message:'Salvando todas as estampas...'});
+  fetch(BACKEND_URL, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': AUTH_HEADER
+    },
+    body: JSON.stringify(estampasJson)
+  })
+    .then(res => {
+      if (res.status === 401) throw new Error('Não autorizado. Verifique usuário e senha.');
+      if (!res.ok) throw new Error('Erro HTTP: ' + res.status);
+      return res.json();
+    })
+    .then(data => {
+      this.disabled = false;
+      this.textContent = 'Salvar Alterações';
+      showNotificationIOS({title:'Salvo', message:'Todas as estampas salvas com sucesso!', type:'success'});
+    })
+    .catch(err => {
+      this.disabled = false;
+      this.textContent = 'Salvar Alterações';
+      showNotificationIOS({title:'Erro', message:'Erro ao salvar: ' + (err && err.message ? err.message : err), type:'error'});
+    });
+};
+window.abrirModalEditarEstampa = function(cat, idxEst) {
+  const est = cat.estampas[idxEst];
+  let modalBg = document.querySelector('.admin-modal-estampa-bg');
+  if (modalBg) modalBg.remove();
+  modalBg = document.createElement('div');
+  modalBg.className = 'admin-modal-estampa-bg';
+  modalBg.innerHTML = `
+    <div class=\"admin-modal-estampa\">
+      <button class=\"close-modal-btn\" type=\"button\">×</button>
+      <div class=\"estampa-preview-box\">
+        <img src=\"${est.url}\" class=\"estampa-preview-img\" id=\"modalEstampaImg\" />
+        <button class=\"btn-edit\" id=\"btnEditEstampa\" title=\"Editar informações\" style=\"position:absolute;top:8px;right:8px;\"><span>✏️</span></button>
+      </div>
+      <div class=\"zoom-controls\" style=\"margin-bottom:10px;\">
+        <button id=\"zoomInModal\" class=\"circle-btn\" type=\"button\">+</button>
+        <input type=\"range\" id=\"zoomSliderModal\" min=\"50\" max=\"300\" value=\"100\" step=\"1\" style=\"width:120px;\">
+        <button id=\"zoomOutModal\" class=\"circle-btn\" type=\"button\">-</button>
+      </div>
+      <div class=\"edit-fields\">
+        <input id=\"modalNomeEstampa\" value=\"${est.name||''}\" placeholder=\"Nome da estampa\" disabled>
+        <input id=\"modalCodigoEstampa\" value=\"${est.code||''}\" placeholder=\"Código\" disabled>
+        <input id=\"modalRefNomeEstampa\" value=\"${est.refnome||''}\" placeholder=\"Nome da referência\" disabled>
+        <input id=\"modalRefCmEstampa\" value=\"${est.refcm||''}\" placeholder=\"Centímetros da referência\" type=\"number\" step=\"0.01\" disabled>
+      </div>
+      <div class=\"edit-btns\" style=\"width:100%;justify-content:flex-end;\">
+        <button id=\"salvarModalEstampa\" class=\"btn-primary\" style=\"min-width:120px;\" disabled>Salvar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modalBg);
+  modalBg.querySelector('.close-modal-btn').onclick = () => modalBg.remove();
+  const img = modalBg.querySelector('#modalEstampaImg');
+  const zoomSlider = modalBg.querySelector('#zoomSliderModal');
+  let zoom = 100;
+  function updateZoom() {
+    img.style.transform = `scale(${zoom/100})`;
+  }
+  zoomSlider.oninput = function() {
+    zoom = parseInt(this.value,10);
+    updateZoom();
+  };
+  modalBg.querySelector('#zoomInModal').onclick = function() {
+    zoom = Math.min(zoom+10,300); zoomSlider.value=zoom; updateZoom();
+  };
+  modalBg.querySelector('#zoomOutModal').onclick = function() {
+    zoom = Math.max(zoom-10,50); zoomSlider.value=zoom; updateZoom();
+  };
+  updateZoom();
+  const btnEdit = modalBg.querySelector('#btnEditEstampa');
+  const fields = ['modalNomeEstampa','modalCodigoEstampa','modalRefNomeEstampa','modalRefCmEstampa'];
+  const salvarBtn = modalBg.querySelector('#salvarModalEstampa');
+  btnEdit.onclick = function() {
+    fields.forEach(id=>modalBg.querySelector('#'+id).disabled=false);
+    salvarBtn.disabled = false;
+    modalBg.querySelector('#modalNomeEstampa').focus();
+  };
+  salvarBtn.onclick = function() {
+    const nome = modalBg.querySelector('#modalNomeEstampa').value.trim();
+    const codigo = modalBg.querySelector('#modalCodigoEstampa').value.trim();
+    const refnome = modalBg.querySelector('#modalRefNomeEstampa').value.trim();
+    const refcm = parseFloat(modalBg.querySelector('#modalRefCmEstampa').value);
+    if (!nome || !codigo || !refnome || isNaN(refcm)) {
+      showNotificationIOS({title:'Erro', message:'Preencha todos os campos corretamente.'});
+      return;
+    }
+    cat.estampas[idxEst] = {
+      ...est,
+      name: nome,
+      code: codigo,
+      refnome: refnome,
+      refcm: refcm
+    };
+    fetch(BACKEND_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': AUTH_HEADER
+      },
+      body: JSON.stringify(estampasJson)
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Erro HTTP: ' + res.status);
+      return res.json();
+    })
+    .then(data => {
+      modalBg.remove();
+      renderEstampas();
+      showNotificationIOS({title:'Salvo', message:'Estampa salva com sucesso!', details:`Campo: Nome\nAntes: ${est.name}\nDepois: ${nome}`, type:'success'});
+    })
+    .catch(err => {
+      showNotificationIOS({title:'Erro', message:'Erro ao salvar: ' + (err && err.message ? err.message : err), type:'error'});
+    });
+  };
+};
+function atualizarListaCategoriasModal() {
+  const lista = document.getElementById('modalListaCategorias');
+  if (!lista) return;
+  lista.innerHTML = '';
+  estampasJson.categorias.forEach((cat, idx) => {
+    const div = document.createElement('div');
+    div.className = 'modal-categoria-item';
+    div.innerHTML = `${cat.icone ? cat.icone + ' ' : ''}${cat.nome} <button class='modal-categoria-x' data-idx='${idx}' title='Excluir'>&times;</button>`;
+    lista.appendChild(div);
+  });
+  lista.querySelectorAll('.modal-categoria-x').forEach(btn => {
+    btn.onclick = function() {
+      const idx = parseInt(this.getAttribute('data-idx'), 10);
+      estampasJson.categorias.splice(idx, 1);
+      atualizarListaCategoriasModal();
+    };
+  });
+}
+function initCategoriaModals() {
+  // Modal Criar Categoria
+  const modalCriar = document.getElementById('modalCriarCategoria');
+  const btnAbrirCriar = document.getElementById('abrirModalCriarCategoria');
+  const btnFecharCriar = document.getElementById('modalFecharCriarCategoria');
+  const btnCriar = document.getElementById('modalBtnCriarCategoria');
+  if (btnAbrirCriar && modalCriar) {
+       btnAbrirCriar.onclick = function() { modalCriar.style.display = 'flex'; };
+  }
+  if (btnFecharCriar && modalCriar) {
+    btnFecharCriar.onclick = function() { modalCriar.style.display = 'none'; };
+  }
+  if (btnCriar && modalCriar) {
+    btnCriar.onclick = function() {
+      const nome = document.getElementById('modalInputNomeCategoria').value.trim();
+      const icone = document.getElementById('modalInputIconeCategoria').value.trim();
+      if (!nome) return showNotificationIOS({title:'Erro', message:'Nome obrigatório'});
+      estampasJson.categorias.push({ nome, icone, estampas: [] });
+      fetch(BACKEND_URL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': AUTH_HEADER
+        },
+        body: JSON.stringify(estampasJson)
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Erro HTTP: ' + res.status);
+        return res.json();
+      })
+      .then(() => {
+        modalCriar.style.display = 'none';
+        renderDepartamentos();
+        updateCategoriaSelect();
+        showNotificationIOS({title:'Criado', message:'Categoria criada com sucesso!', details:`Categoria: ${nome}`, type:'success'});
+      })
+      .catch(err => showNotificationIOS({title:'Erro', message:'Erro ao criar categoria: ' + (err && err.message ? err.message : err), type:'error'}));
+    };
+  }
+  // Modal Excluir Categoria
+  const modalExcluir = document.getElementById('modalExcluirCategoria');
+  const btnAbrirExcluir = document.getElementById('abrirModalExcluirCategoria');
+  const btnFecharExcluir = document.getElementById('modalFecharExcluirCategoria');
+  const btnSalvarExclusao = document.getElementById('modalBtnSalvarExclusao');
+  if (btnAbrirExcluir && modalExcluir) {
+    btnAbrirExcluir.onclick = function() {
+      atualizarListaCategoriasModal();
+      modalExcluir.style.display = 'flex';
+    };
+  }
+  if (btnFecharExcluir && modalExcluir) {
+    btnFecharExcluir.onclick = function() { modalExcluir.style.display = 'none'; };
+  }
+  if (btnSalvarExclusao && modalExcluir) {
+    btnSalvarExclusao.onclick = function() {
+      fetch(BACKEND_URL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': AUTH_HEADER
+        },
+        body: JSON.stringify(estampasJson)
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Erro HTTP: ' + res.status);
+        return res.json();
+      })
+      .then(() => {
+        modalExcluir.style.display = 'none';
+        renderDepartamentos();
+        updateCategoriaSelect();
+        showNotificationIOS({title:'Atualizado', message:'Categorias atualizadas com sucesso!', type:'success'});
+      })
+      .catch(err => showNotificationIOS({title:'Erro', message:'Erro ao excluir categoria: ' + (err && err.message ? err.message : err), type:'error'}));
+    };
+  }
+}
+// Altera o dropdown do menu Ajuda
+const ajudaMenu = document.querySelector('.menu-item:nth-child(5) .dropdown');
+if (ajudaMenu) {
+  ajudaMenu.innerHTML = `
+    <button id="abrirModalCreditos" class="dropdown-btn">Créditos</button>
+    <a href="https://wa.me/5515991876055?text=Ol%C3%A1,%20preciso%20de%20ajuda!%20%F0%9F%A4%94" class="dropdown-btn" target="_blank" rel="noopener">Suporte</a>
+  `;
+}
+// Adiciona o modal de créditos ao final do body se não existir
+if (!document.getElementById('modalCreditos')) {
+  const modalCreditos = document.createElement('div');
+  modalCreditos.id = 'modalCreditos';
+  modalCreditos.className = 'admin-modal-bg';
+  modalCreditos.style.display = 'none';
+  modalCreditos.innerHTML = `
+    <div class="admin-modal">
+      <div class="modal-title">Créditos</div>
+      <div style="margin-bottom:18px;">
+        <strong>Pensado e desenvolvido por:</strong><br>
+        João Vitor Correia<br>
+        <span style="font-size:0.98em;color:#888;">© 2025 Direitos autorais de João Vitor Correia. Código independente.</span><br>
+        <span style="font-size:0.98em;">Mockup Creator - Versão 1.0</span>
+      </div>
+      <a href="https://www.linkedin.com/in/joão-vitor-correia-37b9a4176/" target="_blank" rel="noopener" style="color:#0077b5;font-weight:700;text-decoration:none;font-size:1.08em;">LinkedIn de João Vitor Correia</a>
+      <button class="btn-secundary" id="modalFecharCreditos" style="margin-top:18px;">Fechar</button>
+    </div>
+  `;
+  document.body.appendChild(modalCreditos);
+}
+// Script para abrir/fechar o modal de créditos
+const btnAbrirCreditos = document.getElementById('abrirModalCreditos');
+const modalCreditos = document.getElementById('modalCreditos');
+const btnFecharCreditos = document.getElementById('modalFecharCreditos');
+if (btnAbrirCreditos && modalCreditos) {
+  btnAbrirCreditos.onclick = function() { modalCreditos.style.display = 'flex'; };
+}
+if (btnFecharCreditos && modalCreditos) {
+  btnFecharCreditos.onclick = function() { modalCreditos.style.display = 'none'; };
+}
+// Garante que os botões e modais de categoria existem antes de inicializar eventos
+function ensureCategoriaModals() {
+  // Não faz nada, pois os elementos já existem no HTML
+}
+// Garante que o fetch das estampas rode sempre ao abrir a página e inicializa eventos dos modais
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    console.log('SCRIPT INICIADO');
+    // DEBUG: Confirma se os botões realmente existem e estão visíveis
+    console.log('abrirModalCriarCategoria:', document.getElementById('abrirModalCriarCategoria'));
+    console.log('abrirModalExcluirCategoria:', document.getElementById('abrirModalExcluirCategoria'));
+    console.log('modalCriarCategoria:', document.getElementById('modalCriarCategoria'));
+    console.log('modalExcluirCategoria:', document.getElementById('modalExcluirCategoria'));
+    // DEBUG: Adiciona listeners de click para testar
+    const btnCriar = document.getElementById('abrirModalCriarCategoria');
+    if (btnCriar) btnCriar.addEventListener('click', function() { console.log('CLICOU CRIAR'); });
+    const btnExcluir = document.getElementById('abrirModalExcluirCategoria');
+    if (btnExcluir) btnExcluir.addEventListener('click', function() { console.log('CLICOU EXCLUIR'); });
+    // Inicializa normalmente
+    initCategoriaModals();
+    fetchEstampasBackend();
+  } catch (e) {
+    console.error('ERRO GLOBAL:', e);
+  }
+});
+function updateCategoriaSelect() {
+  const select = document.getElementById('selectCategoriaEstampa');
+  if (!select) return;
+  select.innerHTML = '';
+  if (!estampasJson.categorias || !Array.isArray(estampasJson.categorias)) return;
+  estampasJson.categorias.forEach((cat, idx) => {
+    const opt = document.createElement('option');
+    opt.value = idx;
+    opt.textContent = `${cat.icone ? cat.icone + ' ' : ''}${cat.nome}`;
+    select.appendChild(opt);
+  });
+}
+
+// Abrir/fechar modal marcas d'água
+const btnAbrirMarcasDagua = document.getElementById('abrirModalMarcasDagua');
+const modalMarcasDagua = document.getElementById('modalMarcasDagua');
+const btnFecharMarcasDagua = document.getElementById('modalFecharMarcasDagua');
+// Adiciona input para URL da marca d'água se não existir
+let watermarkUrlInput = document.getElementById('watermarkUrlInput');
+if (!watermarkUrlInput && modalMarcasDagua) {
+  watermarkUrlInput = document.createElement('input');
+  watermarkUrlInput.type = 'text';
+  watermarkUrlInput.id = 'watermarkUrlInput';
+  watermarkUrlInput.placeholder = 'URL da marca d\'água (opcional)';
+  watermarkUrlInput.className = 'modal-input';
+  watermarkUrlInput.style.marginBottom = '10px';
+  const previewBox = document.getElementById('watermarkPreviewBox');
+  if (previewBox) previewBox.parentNode.insertBefore(watermarkUrlInput, previewBox.nextSibling);
+}
+if (btnAbrirMarcasDagua && modalMarcasDagua) {
+  btnAbrirMarcasDagua.onclick = function() {
+    const wm = estampasJson.watermark || {};
+    watermarkEnabled = !!wm.enabled;
+    watermarkDataUrl = wm.image || '';
+    if (watermarkUrlInput) watermarkUrlInput.value = wm.url || '';
+    updateToggleBtn();
+    if (wm.image) {
+      previewImg.src = wm.image;
+      previewImg.style.display = 'block';
+    } else {
+      previewImg.src = '';
+      previewImg.style.display = 'none';
+    }
+    modalMarcasDagua.style.display = 'flex';
+  };
+}
+if (btnFecharMarcasDagua && modalMarcasDagua) {
+  btnFecharMarcasDagua.onclick = function() { modalMarcasDagua.style.display = 'none'; };
+}
+// Drag and drop para marca d'água
+const dropArea = document.getElementById('watermarkDropArea');
+const previewImg = document.getElementById('watermarkPreviewImg');
+dropArea.onclick = function() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      watermarkDataUrl = ev.target.result;
+      previewImg.src = watermarkDataUrl;
+      previewImg.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+};
+dropArea.ondragover = function(e) { e.preventDefault(); dropArea.style.background = '#f9ebc7'; };
+dropArea.ondragleave = function(e) { e.preventDefault(); dropArea.style.background = '#f8f6f2'; };
+dropArea.ondrop = function(e) {
+  e.preventDefault();
+  dropArea.style.background = '#f8f6f2';
+  const file = e.dataTransfer.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    watermarkDataUrl = ev.target.result;
+    previewImg.src = watermarkDataUrl;
+    previewImg.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+};
+// Botão habilitar/desabilitar marca d'água
+const toggleBtn = document.getElementById('toggleWatermarkBtn');
+function updateToggleBtn() {
+  toggleBtn.textContent = watermarkEnabled ? 'Desabilitar marca d\'água' : 'Habilitar marca d\'água';
+  toggleBtn.classList.toggle('btn-primary', watermarkEnabled);
+  toggleBtn.classList.toggle('btn-secundary', !watermarkEnabled);
+}
+toggleBtn.onclick = function() {
+  watermarkEnabled = !watermarkEnabled;
+  updateToggleBtn();
+};
+updateToggleBtn();
+
+// Loading screen logic
+(function(){
+  const loadingScreen = document.getElementById('appLoadingScreen');
+  const loadingBar = document.getElementById('loadingBar');
+  let progress = 0;
+  let interval = setInterval(()=>{
+    progress += Math.random()*18+7;
+    if(progress>100) progress=100;
+    loadingBar.style.width = progress+'%';
+  }, 600);
+  setTimeout(()=>{
+    clearInterval(interval);
+    loadingBar.style.width = '100%';
+    setTimeout(()=>{
+      if(loadingScreen) loadingScreen.style.opacity = '0';
+      setTimeout(()=>{ if(loadingScreen) loadingScreen.remove(); }, 600);
+    }, 800);
+  }, 7000);
+})();
+
+function showNotificationIOS({title, message, details, type}) {
+  const container = document.getElementById('notificationContainer');
+  if (!container) return;
+  let emoji = '';
+  if (type === 'success') emoji = '<span class="notif-emoji">✔️</span>';
+  else if (type === 'error') emoji = '<span class="notif-emoji">❌</span>';
+  else if (type === 'warn' || type === 'alert') emoji = '<span class="notif-emoji">⚠️</span>';
+  else emoji = '<span class="notif-emoji">ℹ️</span>';
+  const notif = document.createElement('div');
+  notif.className = 'notification-ios';
+  notif.innerHTML = `
+    <span class="notif-title">${emoji}${title||'Alteração salva'}</span>
+    <span>${message||''}</span>
+    <button class="notif-x" title="Fechar">×</button>
+  `;
+  let timeoutId;
+  function closeNotif() {
+    notif.style.opacity = '0';
+    notif.style.transform = 'translateY(-30px) scale(0.98)';
+    setTimeout(()=>notif.remove(), 350);
+  }
+  notif.querySelector('.notif-x').onclick = function(e) {
+    e.stopPropagation();
+    closeNotif();
+  };
+  notif.onclick = function(e) {
+    if (e.target.classList.contains('notif-x')) return;
+    showModalDetalheAlteracao(details);
+    closeNotif();
+  };
+  notif.onmouseenter = function() {
+    notif.querySelector('.notif-x').style.display = 'block';
+  };
+  notif.onmouseleave = function() {
+    notif.querySelector('.notif-x').style.display = 'none';
+  };
+  container.appendChild(notif);
+  timeoutId = setTimeout(closeNotif, 4200);
+}
+
+function applyCustomWallpaperConfig() {
+  const config = JSON.parse(localStorage.getItem('appConfig')||'{}');
+  const bgDiv = document.getElementById('customWallpaperBg');
+  const blurDiv = document.getElementById('customWallpaperBlur');
+  if (!bgDiv || !blurDiv) return;
+  if (config.wallpaper) {
+    bgDiv.style.background = `url('${config.wallpaper}') center center/cover no-repeat`;
+  } else {
+    bgDiv.style.background = '';
+  }
+  if (config.enableBlur && config.blurColor && config.blurOpacity > 0) {
+    blurDiv.style.backdropFilter = `blur(18px)`;
+    blurDiv.style.backgroundColor = hexToRgba(config.blurColor, config.blurOpacity);
+    blurDiv.style.display = '';
+  } else {
+    blurDiv.style.backdropFilter = '';
+    blurDiv.style.backgroundColor = '';
+    blurDiv.style.display = 'none';
+  }
+}
+function hexToRgba(hex, alpha) {
+  hex = hex.replace('#','');
+  if (hex.length === 3) hex = hex.split('').map(x=>x+x).join('');
+  const num = parseInt(hex,16);
+  return `rgba(${(num>>16)&255},${(num>>8)&255},${num&255},${alpha})`;
+}
+applyCustomWallpaperConfig();
+// Engrenagem abre modal
+const btnConfigApp = document.getElementById('btnConfigApp');
+const modalConfigApp = document.getElementById('modalConfigApp');
+const btnFecharConfigApp = document.getElementById('btnFecharConfigApp');
+if (btnConfigApp && modalConfigApp) {
+  btnConfigApp.onclick = function() {
+    personalizacaoConfig = JSON.parse(localStorage.getItem('appConfig')||'{}');
+    modalConfigApp.style.display = 'flex';
+    setPersonalizacaoPainel('admin');
+    setPersonalizacaoCategoria('wallpaper');
+    renderPersonalizacaoArea();
+  };
+}
+if (btnFecharConfigApp && modalConfigApp) {
+  btnFecharConfigApp.onclick = function() { modalConfigApp.style.display = 'none'; };
+}
+document.getElementById('inputWallpaper').onchange = function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    document.getElementById('wallpaperPreviewImg').src = ev.target.result;
+    document.getElementById('wallpaperPreviewBox').style.display = 'flex';
+  };
+  reader.readAsDataURL(file);
+};
+document.getElementById('btnRemoveWallpaper').onclick = function() {
+  document.getElementById('wallpaperPreviewImg').src = '';
+  document.getElementById('wallpaperPreviewBox').style.display = 'none';
+};
+document.getElementById('inputBlurOpacity').oninput = function() {
+  document.getElementById('blurOpacityValue').textContent = `${Math.round(this.value*100)}%`;
+};
+
+document.getElementById('btnSalvarConfigApp').onclick = function() {
+  // Atualiza objeto com os valores atuais dos inputs
+  const previewImg = document.getElementById('wallpaperPreviewImg');
+  if (previewImg) personalizacaoConfig.wallpaper = previewImg.src || '';
+  const corPrincipal = document.getElementById('inputCorPrincipal');
+  if (corPrincipal) personalizacaoConfig.corPrincipal = corPrincipal.value;
+  const corFundo = document.getElementById('inputCorFundo');
+  if (corFundo) personalizacaoConfig.corFundo = corFundo.value;
+  const fonte = document.getElementById('inputFonte');
+  if (fonte) personalizacaoConfig.fonte = fonte.value;
+  const enableBlur = document.getElementById('inputEnableBlur');
+  if (enableBlur) personalizacaoConfig.enableBlur = enableBlur.checked;
+  const blurColor = document.getElementById('inputBlurColor');
+  if (blurColor) personalizacaoConfig.blurColor = blurColor.value;
+  const blurOpacity = document.getElementById('inputBlurOpacity');
+  if (blurOpacity) personalizacaoConfig.blurOpacity = parseFloat(blurOpacity.value);
+
+  // Salva no localStorage
+  localStorage.setItem('appConfig', JSON.stringify(personalizacaoConfig));
+
+  // Atualiza variáveis CSS do tema
+  document.body.style.setProperty('--cor-principal', personalizacaoConfig.corPrincipal || 'var(--cor-principal, #e5be5e)');
+  document.body.style.setProperty('--cor-fundo', personalizacaoConfig.corFundo || 'var(--cor-fundo, #1a1a17)');
+
+  applyCustomWallpaperConfig();
+  showNotificationIOS({title:'Personalização', message:'Configurações salvas localmente!'});
+  document.getElementById('modalConfigApp').style.display = 'none';
+};
+
+// Evento para o botão Salvar do modal de marcas d'água
+const btnSalvarWatermark = document.getElementById('btnSalvarWatermark');
+if (btnSalvarWatermark) {
+  btnSalvarWatermark.onclick = function() {
+    estampasJson.watermark = {
+      enabled: watermarkEnabled,
+      image: watermarkDataUrl,
+      url: watermarkUrlInput ? watermarkUrlInput.value.trim() : ''
+    };
+    fetch(BACKEND_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': AUTH_HEADER
+      },
+      body: JSON.stringify(estampasJson)
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Erro HTTP: ' + res.status);
+      return res.json();
+    })
+    .then(() => {
+      showNotificationIOS({title:'Salvo', message:'Marca d\'água salva com sucesso!', type:'success'});
+      modalMarcasDagua.style.display = 'none';
+    })
+    .catch(err => showNotificationIOS({title:'Erro', message:'Erro ao salvar marca d\'água: ' + (err && err.message ? err.message : err), type:'error'}));
+  };
+}
+
+function applyCustomThemeColors() {
+  const config = JSON.parse(localStorage.getItem('appConfig')||'{}');
+  if(config.corPrincipal)
+    document.body.style.setProperty('--cor-principal', config.corPrincipal);
+  if(config.corFundo)
+    document.body.style.setProperty('--cor-fundo', config.corFundo);
+}
+
+// Chame logo após definir a função, fora de qualquer evento/callback:
+applyCustomThemeColors();
+applyCustomWallpaperConfig();
+</script>
