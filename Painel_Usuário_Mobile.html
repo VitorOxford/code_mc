@@ -45,24 +45,6 @@ html {
   to { transform: translateY(0); }
 }
 
-#custom-loading-overlay { /* Mantido como no original */
-    position:absolute;top:0;left:0;width:100%;height:100%;
-    z-index:99999;background:linear-gradient(135deg,#f9ebc7 40%,#b99470 100%);
-    display:flex;align-items:center;justify-content:center;transition:opacity 0.7s cubic-bezier(.5,.01,.34,1);
-    box-shadow:0 8px 64px #783d1918;overflow:hidden;
-}
-#custom-loading-inner {display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;}
-@keyframes logo-bounce {
-  0%   { transform: scale(1) rotate(-6deg);}
-  13%  { transform: scale(1.13) rotate(3deg);}
-  19%  { transform: scale(1.07) rotate(-2deg);}
-  22%  { transform: scale(1.11) rotate(2deg);}
-  33%  { transform: scale(1) rotate(-6deg);}
-  100% { transform: scale(1) rotate(-6deg);}
-}
-.loading-bar-anim {width:130px;height:7px;border-radius:8px;background:#fff2;overflow:hidden;position:relative;}
-#custom-bar-load {width:0;height:100%;background:linear-gradient(90deg,#783D19 0%,#B99470 100%);border-radius:8px;transition:width 3.2s cubic-bezier(.6,0,.79,1.08);}
-
 
 /* =================================================================== */
 /* 2. ESTRUTURA PRINCIPAL (Mobile Layout)
@@ -112,16 +94,21 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px 16px;
-  padding-bottom: var(--bottom-nav-height); /* Espaço para nav inferior */
+  padding: 16px;
+  /* Garante que o padding não cause overflow */
+  padding-bottom: calc(var(--bottom-nav-height) + 16px); 
   overflow: hidden;
   position: relative;
 }
 
 .mockup-content {
   width: 100%;
-  height: 100%;
-  max-width: 450px;
+  /* Use max-width para não ficar excessivamente grande em telas largas */
+  max-width: 450px; 
+  /* Use aspect-ratio para manter a proporção (ex: 7/8) */
+  aspect-ratio: 7 / 8;
+  /* Garante que a altura não ultrapasse o espaço visível */
+  max-height: 75vh; 
   position: relative;
   border-radius: 24px;
   border: 3px solid var(--cor-borda);
@@ -764,16 +751,6 @@ html {
 
 </style>
 <div class="interface-wrapper">
-  
-  <div id="custom-loading-overlay">
-    <div id="custom-loading-inner">
-      <img src="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/Sem_nome_250_x_250_px.png?v=1747315608" alt="Logo" style="width:250px;height:150px;animation:logo-bounce 1.8s cubic-bezier(.39,.75,.56,1.52) infinite;">
-      <div style="margin-top:10px;font-size:1.12rem;color:#783D19;letter-spacing:1.4px;font-weight:bold;">Carregando interface...</div>
-      <div class="loading-bar-anim">
-        <div id="custom-bar-load"></div>
-      </div>
-    </div>
-  </div>
 
   <div class="mobile-header">
     <div class="codigo-estampa-remaster" id="codigoEstampa">Código da Estampa</div>
@@ -908,12 +885,16 @@ html {
         <div class="config-table-remaster" id="configTable"></div>
       </div>
       <pre id="configData" class="config-data-remaster" style="display:none;"></pre>
-      <div class="modal-actions-row">
-        <button onclick="copyConfig()" class="btn-secundary" type="button">Copiar JSON</button>
-        <button onclick="downloadMockup()" class="btn-primary" type="button">Baixar Mockup</button>
-        <button onclick="downloadInfo('pdf')" class="btn-primary" type="button">Baixar PDF</button>
-        <button onclick="downloadInfo('img')" class="btn-primary" type="button">Baixar Imagem Info</button>
-      </div>
+      <div class="modal-actions-row" style="flex-direction: column; gap: 12px; width:100%;">
+    <button onclick="downloadMockup()" class="btn-primary" type="button">Baixar Mockup</button>
+    <button id="baixarInfoBtn" class="btn-secundary" type="button">Baixar Info Técnica</button>
+
+    <div id="opcoesDownloadInfo" style="display:none; margin-top: 10px; width: 100%; justify-content: space-around;">
+        <button onclick="downloadInfo('pdf')" class="btn-primary" style="flex-grow:1;">PDF</button>
+        <button onclick="downloadInfo('img')" class="btn-primary" style="flex-grow:1; margin-left: 10px;">Imagem</button>
+        <button onclick="copyConfig()" class="btn-primary" style="flex-grow:1; margin-left: 10px;">JSON</button>
+    </div>
+</div>
       <button id="toggleConfigRaw" class="btn-toggle-raw" type="button">Ver JSON</button>
     </div>
   </div>
@@ -943,6 +924,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const navBtnEdit = document.getElementById('nav-btn-edit');
     const navBtnItems = document.getElementById('nav-btn-items');
+let estampasCarregadas = false; // Flag para controlar o carregamento
+
+navBtnItems.addEventListener('click', () => {
+    openSheet(itensPanel, navBtnItems);
+    
+    // Apenas carrega as estampas se ainda não tiverem sido carregadas
+    if (!estampasCarregadas) {
+        if (typeof carregarEstampasPrincipais === 'function') {
+            carregarEstampasPrincipais();
+            estampasCarregadas = true;
+        }
+    }
+});
     
     const closeButtons = document.querySelectorAll('.sheet-close-btn');
 
@@ -1626,11 +1620,18 @@ function sendConfigVia(destino) { /* Função original mantida */ }
 function abrirModalImagemGrande(src) { /* Função original mantida */ }
 function escapeHtml(str) { if (!str) return ''; return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); }
 function carregarEstampasPrincipais() {
+  const compartimentosEstampa = document.getElementById('compartimentosEstampa');
+  if (!compartimentosEstampa) return;
+
+  // Mostra um feedback visual de carregamento para o usuário
+  compartimentosEstampa.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--cor-primaria); font-weight: bold;">Carregando estampas...</div>';
+
   fetchEstampasBackend(function(json) {
     window.estampasJson = json;
-    const compartimentosEstampa = document.getElementById('compartimentosEstampa');
-    if (!compartimentosEstampa) return;
-    compartimentosEstampa.innerHTML = '';
+    
+    // Limpa o feedback de carregamento
+    compartimentosEstampa.innerHTML = ''; 
+
     estampasJson.categorias.forEach(cat => {
       const catDiv = document.createElement('div');
       catDiv.className = 'categoria-box-remaster';
@@ -1776,30 +1777,17 @@ document.addEventListener('DOMContentLoaded', function () {
     closeCreditosModal.onclick = () => { creditosModal.style.display = 'none'; };
     creditosModal.addEventListener('mousedown', function(e){ if (e.target === creditosModal) creditosModal.style.display = 'none'; });
   }
-});
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Anima a barra de progresso
-    setTimeout(() => {
-        const bar = document.getElementById('custom-bar-load');
-        if (bar) {
-            bar.style.width = "100%";
-        }
-    }, 350);
-
-    // Esconde a tela de loading após 7 segundos
-    setTimeout(() => {
-        const overlay = document.getElementById('custom-loading-overlay');
-        if (overlay) {
-            overlay.style.opacity = 0;
-            overlay.style.pointerEvents = "none";
-            // Define o display como 'none' após a animação de fade-out terminar
-            setTimeout(() => { 
-                overlay.style.display = "none"; 
-            }, 800); 
-        }
-    }, 7000);
+  // Lógica para o novo botão de download de informações
+    const baixarInfoBtn = document.getElementById('baixarInfoBtn');
+    if (baixarInfoBtn) {
+        baixarInfoBtn.addEventListener('click', function() {
+            const opcoes = document.getElementById('opcoesDownloadInfo');
+            if (opcoes) {
+                const isHidden = opcoes.style.display === 'none';
+                opcoes.style.display = isHidden ? 'flex' : 'none';
+            }
+        });
+    }
 });
 </script>
 </html>
