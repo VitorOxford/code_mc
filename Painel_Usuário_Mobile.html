@@ -1,0 +1,1710 @@
+<html>
+<head>
+<style>
+/* =================================================================== */
+/* 1. GERAL & RESET (Mobile-First)
+/* =================================================================== */
+:root {
+  --cor-primaria: #783D19;
+  --cor-secundaria: #F9EBC7;
+  --cor-terciaria: #B99470;
+  --cor-quaternaria: #5F6F52;
+  --cor-background: #FAF4EC;
+  --cor-fundo-cards: #fff;
+  --cor-borda: #B99470;
+  --cor-hover: #5F6F52;
+  --cor-branco: #fff;
+  --cor-sombra: rgba(120, 61, 25, 0.13);
+  --cor-btn: linear-gradient(90deg, #783D19 0%, #B99470 100%);
+  --cor-btn-hover: linear-gradient(90deg, #5F6F52 0%, #783D19 100%);
+  --bottom-nav-height: 70px; /* Altura da navegação inferior */
+}
+
+/* Mantém o reset original e fontes */
+body,
+html {
+  background: var(--cor-background);
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: var(--cor-primaria);
+  -webkit-tap-highlight-color: transparent; /* Remove highlight de toque */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Animações e Efeitos de Carregamento */
+@keyframes fadeIn2 {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp2 {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+
+/* =================================================================== */
+/* 2. ESTRUTURA PRINCIPAL (Mobile Layout)
+/* =================================================================== */
+.interface-wrapper2 {
+  /* Wrapper agora controla o layout mobile */
+  width: 100%;
+  max-width: 900px; /* Limite para layout mobile/tablet */
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--cor-background);
+}
+
+.mobile-header2 {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+/* Código da estampa movido para o header */
+.codigo-estampa-remaster2 {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--cor-primaria);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--cor-terciaria);
+  text-align: center;
+  box-shadow: 0 2px 8px #0000001a;
+}
+
+/* Área principal do mockup */
+.center-mockup2 {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  /* Garante que o padding não cause overflow */
+  padding-bottom: calc(var(--bottom-nav-height) + 16px);
+  overflow: hidden;
+  position: relative;
+}
+
+.mockup-content2 {
+  width: 100%;
+  /* Use max-width para não ficar excessivamente grande em telas largas */
+  max-width: 450px;
+  /* Use aspect-ratio para manter a proporção (ex: 7/8) */
+  aspect-ratio: 7 / 8;
+  /* Garante que a altura não ultrapasse o espaço visível */
+  max-height: 75vh;
+  position: relative;
+  border-radius: 24px;
+  border: 3px solid var(--cor-borda);
+  background: var(--cor-fundo-cards);
+  overflow: hidden;
+  box-shadow: 0 8px 36px #783d191a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.estampa-bg2, .mockup-png2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0; left: 0;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 100%;
+  z-index: 1;
+}
+
+.mockup-png2 {
+  object-fit: contain;
+  z-index: 2;
+}
+
+/* Referência de CM */
+.ref-cm-box2 {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    background: #fffb;
+    color: #783D19;
+    border: 1.5px solid #b99470;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    box-shadow: 0 2px 10px #783d1922;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+}
+.ref-cm-box2 span#refCmNome2 {font-weight: bold; font-size: 0.8rem; color: #5F6F52;}
+.ref-cm-box2 span#refCmValue2 {color: #783D19; font-family: monospace; font-size: 0.9rem;}
+
+
+/* =================================================================== */
+/* 3. NAVEGAÇÃO INFERIOR (Bottom Navigation)
+/* =================================================================== */
+.bottom-nav2 {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--bottom-nav-height);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--cor-sombra);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 -4px 20px #0000001a;
+}
+
+.nav-button2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--cor-primaria);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 12px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-button2.active,
+.nav-button2:active {
+  color: var(--cor-hover);
+}
+
+.nav-button2 svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* =================================================================== */
+/* 4. PAINÉIS DESLIZANTES (Bottom Sheets)
+/* =================================================================== */
+.backdrop2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1010;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.backdrop2.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bottom-sheet2 {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 85vh;
+  background: var(--cor-fundo-cards);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.15);
+  z-index: 1020;
+  transform: translateY(105%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 16px;
+  padding-bottom: 32px;
+  overflow-y: auto;
+}
+
+.bottom-sheet2.is-open {
+  transform: translateY(0);
+}
+
+.sheet-header2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sheet-title2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--cor-primaria);
+}
+
+.sheet-close-btn2 {
+  background: #f0f0f0;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =================================================================== */
+/* 5. CONTEÚDO DOS PAINÉIS
+/* =================================================================== */
+
+/* --- Painel de Edição (Zoom, Mover) --- */
+.editor-content2 {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.tool-block2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.tool-label2 {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--cor-primaria);
+}
+
+.zoom-controls2 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Slider de zoom agora é horizontal */
+.zoom-slider-wrapper2 {
+  flex: 1;
+  height: 38px;
+  display: flex;
+  align-items: center;
+}
+.zoom-slider-vertical2 {
+  width: 100%;
+  height: 8px;
+  accent-color: var(--cor-terciaria);
+  -webkit-appearance: none;
+  background: #ddd;
+  border-radius: 8px;
+  outline: none;
+}
+.zoom-slider-vertical2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: var(--cor-primaria);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.zoom-slider-vertical2::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: var(--cor-primaria);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.circle-btn2 {
+  background: var(--cor-secundaria);
+  color: var(--cor-primaria);
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 1px 8px #0000001a;
+  flex-shrink: 0;
+}
+
+.joystick-area2 { display: flex; flex-direction: column; align-items: center; }
+.joystick-base2 { width: 120px; height: 120px; border: 4px solid var(--cor-secundaria); background: var(--cor-terciaria); border-radius: 50%; position: relative; }
+.joystick-handle2 { width: 42px; height: 42px; background: var(--cor-primaria); border-radius: 50%; position: absolute; top: calc(50% - 21px); left: calc(50% - 21px); cursor: grab; box-shadow: 0 2px 8px #00000033; border: 3px solid var(--cor-branco); }
+
+.actions-grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.btn-primary2, .btn-upload-remaster2 {
+  border: none;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 16px 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px #0000001a;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary2 { background: var(--cor-btn); color: var(--cor-branco); }
+.btn-upload-remaster2 { background: var(--cor-btn); color: var(--cor-branco); }
+#falarRepresentanteBtn2 { background: #25D366; color: #fff; }
+
+.btn-primary2:active, .btn-upload-remaster2:active { transform: scale(0.96); }
+
+/* Balão da IA */
+#iaBalloonTip2 { /* Mantido como no original com pequenos ajustes */
+    display:none;position:fixed;z-index:10001;
+    max-width:200px;background:#fffbe9;color:#783D19;
+    border:2px solid #b99470;border-radius:14px;padding:13px 18px;
+    font-size:1rem;box-shadow:0 4px 24px #783d1912;
+    animation:ia-balloon-in2 0.7s cubic-bezier(.39,1.52,.37,.98);
+}
+@keyframes ia-balloon-in2 { 0% { opacity:0; transform:translateY(18px) scale(0.92);} 100% { opacity:1; transform:translateY(0) scale(1);} }
+
+
+/* --- Painel de Itens (Mockups, Estampas, Tecidos) --- */
+.tabs-categorias2 {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+  padding: 0 8px;
+}
+
+.tab-btn-remaster2 {
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 12px 8px;
+  background: none;
+  color: var(--cor-terciaria);
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  flex: 1;
+  text-align: center;
+}
+
+.tab-btn-remaster2.active {
+  color: var(--cor-primaria);
+  border-bottom-color: var(--cor-primaria);
+}
+
+.compartimentos-categorias-remaster2 { /* Mantém a classe original para compatibilidade com JS */
+  display: none; /* JS controla a visibilidade */
+}
+.compartimentos-categorias-remaster2.active {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: fadeIn2 0.3s;
+}
+
+.categoria-box-remaster2 {
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  border: none;
+}
+
+.categoria-title-remaster2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--cor-primaria);
+  margin-bottom: 12px;
+  padding-left: 8px;
+}
+
+.categoria-thumbnails-remaster2 {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 8px;
+  /* Melhora o scroll em mobile */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+.categoria-thumbnails-remaster2::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.thumbnail2 {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  border: 2px solid var(--cor-terciaria);
+  box-shadow: 0 2px 10px #783d191a;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  flex-shrink: 0; /* Impede que os itens encolham */
+  background-color: var(--cor-branco);
+}
+.thumbnail2:hover, .thumbnail2.selected {
+  transform: scale(1.08);
+  border-color: var(--cor-primaria);
+  box-shadow: 0 6px 18px #783d192a;
+}
+.mockup-circle2, .estampa-circle2 { width: 100%; height: 100%; object-fit: cover; }
+.estampa-circle2 { background-size: cover; background-position: center; }
+.tecido-thumbnail2 { border-radius: 18px; }
+
+
+/* =================================================================== */
+/* 6. MODAIS (Upload, Config, Créditos)
+/* =================================================================== */
+/* Estilo geral para modais, adaptado para mobile */
+.modal-upload-remaster2, .modal-info-remaster2, #creditosModal2 {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(40, 20, 10, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+  animation: fadeIn2 0.3s;
+}
+
+.modal-content-remaster2, #creditosModal2 > div {
+  background: var(--cor-fundo-cards);
+  border-radius: 24px;
+  box-shadow: 0 10px 40px #783d1916;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  animation: slideUp2 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.close-x-modal2, #closeCreditosModal2 {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  color: #b99470;
+  cursor: pointer;
+}
+
+/* Modal de Upload */
+.upload-dropzones2 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  margin: 18px 0;
+}
+.drop-zone-remaster2 {
+  border: 2px dashed var(--cor-primaria);
+  border-radius: 16px;
+  background: #f5e7d433;
+  padding: 30px 15px;
+  text-align: center;
+  color: var(--cor-primaria);
+  font-weight: bold;
+}
+.btn-cancel-upload2 {
+  background: var(--cor-terciaria);
+  color: var(--cor-primaria);
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  margin-top: 16px;
+  padding: 12px 30px;
+  cursor: pointer;
+}
+
+/* Modal de Configuração */
+.info-modal-large2 { max-width: 500px; }
+.info-flex-row2 { flex-direction: column; align-items: center; gap: 20px; width: 100%;}
+.miniaturas-info2 { flex-direction: row; gap: 20px; }
+.miniatura-thumb2 { width: 90px; height: 90px; border-radius: 16px;}
+.miniatura-mockup-label2, .miniatura-estampa-label2 { font-size: 0.9rem; text-align: center; }
+.config-table-remaster2 { font-size: 0.9rem; }
+.config-table-remaster2 .config-key2 { font-weight: 600; text-align: left; }
+.config-table-remaster2 .config-value2 { font-size: 0.85rem; }
+.modal-actions-row2 { flex-wrap: wrap; justify-content: center; gap: 10px; }
+.modal-actions-row2 button { flex-basis: 45%; font-size: 0.9rem; padding: 12px 5px; }
+.btn-toggle-raw2, .btn-secundary2 { font-size: 0.9rem; padding: 10px 18px; }
+
+/* =================================================================== */
+/* 7. CHAT IA (Abre em tela cheia)
+/* =================================================================== */
+#iaDrawer2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--cor-fundo-cards);
+  z-index: 10050;
+  display: flex; /* Mantido para JS original */
+  flex-direction: column; /* Alterado para layout de tela cheia */
+  transform: translateX(100%); /* Começa fora da tela à direita */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+#iaDrawer2.open {
+  transform: translateX(0);
+}
+
+/* Remove painel de mídia lateral, integra ao header */
+#iaDrawerMediaPanel2 { display: none; }
+
+.ia-drawer-main2 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ia-drawer-header2 {
+  padding: 16px;
+  gap: 12px;
+  background: var(--cor-fundo-cards);
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0; /* Impede que o header encolha */
+}
+.ia-drawer-title2 h3 { font-size: 1.1rem; }
+.ia-drawer-title2 span { font-size: 0.85rem; }
+#closeIaDrawer2 { font-size: 2rem; }
+
+.ia-drawer-chat2 {
+  flex: 1;
+  padding: 16px;
+  gap: 18px;
+}
+.ia-msg-bubble2 {
+  max-width: 80%; /* Bolhas de chat mais largas */
+  padding: 12px 16px;
+  font-size: 1rem;
+}
+
+.ia-drawer-form2 {
+  padding: 12px;
+  gap: 8px;
+  background: #f9f9f9;
+  border-top: 1px solid #eee;
+  flex-shrink: 0; /* Impede que o form encolha */
+}
+#iaDrawerPrompt2 {
+  min-height: 42px;
+  font-size: 1rem;
+  padding: 10px 14px;
+}
+#iaDrawerEnviarBtn2, #iaDrawerAddImageBtn2 {
+  height: 42px;
+}
+
+/* =================================================================== */
+/* 8. DESKTOP & TELAS MAIORES (Media Query)
+/* =================================================================== */
+@media (min-width: 901px) {
+  /* Restaura layout original para desktop */
+  body, html {
+    background: var(--cor-background);
+  }
+
+  .interface-wrapper2 {
+    flex-direction: row;
+    width: 1420px;
+    height: 860px;
+  }
+
+  /* Esconde layout mobile */
+  .mobile-header2, .bottom-nav2, .bottom-sheet2, .backdrop2 {
+    display: none !important;
+  }
+
+  /* Restaura painéis laterais (usando as classes e IDs originais) */
+  .painel-lateral-remaster2, .painel-lateral-categorias2 {
+    display: flex !important; /* Força a exibição */
+    position: static;
+    transform: none;
+    box-shadow: 2px 0 18px var(--cor-sombra);
+    animation: none;
+  }
+
+  /* Re-cria a estrutura original do HTML visualmente */
+  .produto-pagina-remasterizada2 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .painel-lateral-remaster2 {
+      width: 220px;
+      min-width: 200px;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      padding: 46px 18px 34px 18px;
+      border-radius: 0;
+      order: 1; /* Esquerda */
+  }
+
+  .center-mockup2 {
+    order: 2; /* Centro */
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 50px 12px 40px 12px;
+  }
+
+  .painel-lateral-categorias2 {
+      width: 345px;
+      min-width: 270px;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 36px 22px 24px 28px;
+      border-radius: 0;
+      order: 3; /* Direita */
+  }
+
+  /* Ajustes finos para reverter estilos mobile */
+  .codigo-estampa-remaster2 {
+    position: static;
+    font-size: 1.08rem;
+    padding: 10px 28px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    min-width: 190px;
+  }
+  .mockup-content2 {
+    width: 700px;
+    height: 800px;
+  }
+  .zoom-controls2 { flex-direction: column; gap: 8px; }
+  .zoom-slider-wrapper2 { width: 38px; height: 120px; }
+  .zoom-slider-vertical2 { transform: translate(-50%, -50%) rotate(-90deg); width: 120px; height: 12px; }
+  .tabs-categorias2 { flex-direction: row; }
+  .categoria-thumbnails-remaster2 { flex-wrap: wrap; } /* Permite quebrar linha no desktop */
+
+  /* Mantém o chat como drawer lateral no desktop */
+  #iaDrawer2 {
+    width: 540px;
+    height: 100vh;
+    transform: translateX(-110%);
+    border-right: 3px solid #B99470;
+    box-shadow: 8px 0 40px #783d1930;
+    flex-direction: row; /* Volta a ser lateral */
+  }
+  #iaDrawerMediaPanel2 { display: flex; } /* Mostra painel de mídia no desktop */
+  .ia-drawer-main2 { flex: 1; }
+  .ia-drawer-header2, .ia-drawer-chat2, .ia-drawer-form2 {
+      padding-left: 28px;
+      padding-right: 28px;
+  }
+}
+.config-data-remaster2 {
+    /* Estilo adicionado para garantir que a classe renomeada funcione, caso estivesse faltando */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-family: monospace;
+}
+
+</style>
+</head>
+<body>
+<div class="interface-wrapper2">
+
+  <div class="mobile-header2">
+    <div class="codigo-estampa-remaster2" id="codigoEstampa2">Código da Estampa</div>
+  </div>
+
+  <main class="center-mockup2">
+    <div class="mockup-content2">
+      <div class="ref-cm-box2" id="refCmBox2" style="display:none;">
+          <span id="refCmNome2"></span>
+          <span id="refCmValue2"></span>
+      </div>
+      <div class="estampa-bg2" id="estampaBg2"></div>
+      <img src="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/mockup_experimental_1.png?v=1746646882" class="mockup-png2" />
+    </div>
+  </main>
+
+  <nav class="bottom-nav2">
+    <button class="nav-button2" id="nav-btn-edit2" type="button" aria-label="Editar">
+      <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      <span>Editar</span>
+    </button>
+    <button class="nav-button2" id="nav-btn-items2" type="button" aria-label="Itens">
+       <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      <span>Itens</span>
+    </button>
+    <button class="nav-button2" id="abrirIaBtn2" type="button" aria-label="Assistente IA">
+      <svg viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect x="4" y="12" width="8" height="8" rx="2"/><path d="M20 12h-4"/><path d="M16 8h4"/></svg>
+      <span>IA</span>
+    </button>
+    </nav>
+
+  <div id="iaBalloonTip2" style="display:none;">
+    <span style="font-weight:bold;display:block;margin-bottom:3px;">Alguma dúvida?</span>
+    Eu posso te ajudar!
+    <span style="position:absolute;left:-18px;top:22px;width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-right:18px solid #fffbe9;filter:drop-shadow(-2px 0 #b99470);"></span>
+  </div>
+
+  <div class="backdrop2" id="sheet-backdrop2"></div>
+
+  <div class="bottom-sheet2" id="editor-panel2">
+    <div class="sheet-header2">
+      <h3 class="sheet-title2">Ferramentas de Edição</h3>
+      <button class="sheet-close-btn2" type="button" aria-label="Fechar">×</button>
+    </div>
+    <div class="editor-content2">
+      <div class="tools-group2">
+          <div class="tool-block2">
+            <div class="tool-label2">Zoom</div>
+            <div class="zoom-controls2">
+              <button class="circle-btn2" id="zoomOut2" type="button" aria-label="Diminuir zoom">-</button>
+              <div class="zoom-slider-wrapper2">
+                  <input type="range" id="zoomSlider2" min="90" max="400" value="100" step="1" class="zoom-slider-vertical2">
+              </div>
+              <button class="circle-btn2" id="zoomIn2" type="button" aria-label="Aumentar zoom">+</button>
+            </div>
+          </div>
+          <div class="tool-block2">
+            <div class="tool-label2">Mover Estampa</div>
+            <div class="joystick-area2">
+              <div id="joystickBase2" class="joystick-base2">
+                <div id="joystickHandle2" class="joystick-handle2"></div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="actions-grid2">
+        <button id="showConfig2" class="btn-primary2" type="button">⚙️ Ver Config.</button>
+        <button id="uploadButton2" class="btn-upload-remaster2" type="button">⬆️ Enviar</button>
+        <button id="falarRepresentanteBtn2" class="btn-primary2" type="button" style="grid-column: 1 / -1;">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" style="width:22px;height:22px;"> Falar com representante
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-sheet2" id="itens-panel2">
+     <div class="sheet-header2">
+      <h3 class="sheet-title2">Selecionar Itens</h3>
+      <button class="sheet-close-btn2" type="button" aria-label="Fechar">×</button>
+    </div>
+    <div class="tabs-categorias2">
+        <button class="tab-btn-remaster2 active" id="tabMockupsBtn2" type="button">🧢 Mockups</button>
+        <button class="tab-btn-remaster2" id="tabEstampasBtn2" type="button">🖼️ Estampas</button>
+        <button class="tab-btn-remaster2" id="tabTecidosBtn2" type="button">🧵 Tecidos</button>
+    </div>
+    <div id="compartimentosMockup2" class="compartimentos-categorias-remaster2 active">
+        <div class="categoria-box-remaster2">
+          <div class="categoria-title-remaster2">👗 Vestidos</div>
+          <div class="categoria-thumbnails-remaster2">
+            <div class="thumbnail2" data-url="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/1_f1889a02-1ccc-4139-b9e5-5651a4f86f86.png?v=1747078489" data-type="preset" data-name="Vestido 01"><img src="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/1_f1889a02-1ccc-4139-b9e5-5651a4f86f86.png?v=1747078489" class="mockup-circle2" /></div>
+            <div class="thumbnail2" data-url="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/3_bc04240f-3214-40c4-8c4e-060485f8368e.png?v=1747078489" data-type="preset" data-name="Vestido 02"><img src="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/3_bc04240f-3214-40c4-8c4e-060485f8368e.png?v=1747078489" class="mockup-circle2" /></div>
+          </div>
+        </div>
+        <div class="categoria-box-remaster2">
+          <div class="categoria-title-remaster2">🛋️ Estofados</div>
+          <div class="categoria-thumbnails-remaster2">
+             <div class="thumbnail2" data-url="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/2_9ead9243-af01-40a9-84c4-3cc56dc690be.png?v=1747078489" data-type="preset" data-name="Almofada 01"><img src="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/2_9ead9243-af01-40a9-84c4-3cc56dc690be.png?v=1747078489" class="mockup-circle2" /></div>
+          </div>
+        </div>
+    </div>
+    <div id="compartimentosEstampa2" class="compartimentos-categorias-remaster2" style="display:none;"></div>
+    <div id="compartimentosTecidos2" class="compartimentos-categorias-remaster2" style="display:none;"></div>
+  </div>
+
+
+  <div class="produto-pagina-remasterizada2" style="display: none;">
+    <aside class="painel-lateral-remaster2"></aside>
+    <main class="center-mockup2"></main>
+    <aside class="painel-lateral-categorias2"></aside>
+  </div>
+
+
+  <div id="uploadModal2" class="modal-upload-remaster2" style="display:none;">
+    <div class="modal-content-remaster2">
+      <h3>Upload de Arquivos</h3>
+      <div class="upload-dropzones2">
+        <div id="dropEstampa2" class="drop-zone-remaster2"><span>Arraste ou clique para enviar Estampa</span><input type="file" id="uploadEstampaInput2" accept="image/*" style="display: none;"></div>
+        <div id="dropMockup2" class="drop-zone-remaster2"><span>Arraste ou clique para enviar Mockup</span><input type="file" id="uploadMockupInput2" accept="image/*" style="display: none;"></div>
+      </div>
+      <button id="closeUploadModal2" class="btn-cancel-upload2" type="button">Cancelar</button>
+    </div>
+  </div>
+  <div id="configModal2" class="modal-info-remaster2" style="display:none;">
+    <div class="modal-content-remaster2 info-modal-large2">
+      <button id="closeConfigModal2" class="close-x-modal2" type="button" aria-label="Fechar">×</button>
+      <h3>Configuração Técnica</h3>
+      <div class="info-flex-row2">
+        <div class="miniaturas-info2">
+          <div class="miniatura-info-block2"><span class="miniatura-label2">Mockup</span><div class="miniatura-thumb2" id="miniaturaMockup2"></div><div class="miniatura-mockup-label2" id="labelMockup2"></div></div>
+          <div class="miniatura-info-block2"><span class="miniatura-label2">Estampa</span><div class="miniatura-thumb2" id="miniaturaEstampa2"></div><div class="miniatura-estampa-label2" id="labelEstampa2"></div></div>
+        </div>
+        <div class="config-table-remaster2" id="configTable2"></div>
+      </div>
+      <pre id="configData2" class="config-data-remaster2" style="display:none;"></pre>
+      <div class="modal-actions-row2" style="flex-direction: column; gap: 12px; width:100%;">
+    <button onclick="downloadMockup2()" class="btn-primary2" type="button">Baixar Mockup</button>
+    <button id="baixarInfoBtn2" class="btn-secundary2" type="button">Baixar Info Técnica</button>
+
+    <div id="opcoesDownloadInfo2" style="display:none; margin-top: 10px; width: 100%; justify-content: space-around;">
+        <button onclick="downloadInfo2('pdf')" class="btn-primary2" style="flex-grow:1;">PDF</button>
+        <button onclick="downloadInfo2('img')" class="btn-primary2" style="flex-grow:1; margin-left: 10px;">Imagem</button>
+        <button onclick="copyConfig2()" class="btn-primary2" style="flex-grow:1; margin-left: 10px;">JSON</button>
+    </div>
+</div>
+      <button id="toggleConfigRaw2" class="btn-toggle-raw2" type="button">Ver JSON</button>
+    </div>
+  </div>
+  <button id="creditosBtn2" style="position:fixed;bottom:12px;left:12px;z-index:99;background:#fff2;border:1px solid #b99470;color:#783D19;padding:6px 12px;border-radius:12px;cursor:pointer;opacity:0.7;" type="button">Créditos</button>
+  <div id="creditosModal2" style="display:none;">
+    <div style="background:#fff;border-radius:18px;padding:32px;min-width:320px;max-width:96vw;width:370px;position:relative;">
+      <button id="closeCreditosModal2" type="button" style="position:absolute;top:14px;right:14px;background:none;border:none;font-size:1.7rem;color:#b99470;cursor:pointer;">×</button>
+      <h3 style="margin-bottom:18px;color:#783D19;font-size:1.18rem;text-align:center;">Créditos</h3>
+      <div style="font-size:1.04rem;color:#5F6F52;margin-bottom:10px;text-align:center;">Pensado e desenvolvido por:<br><b>João Vitor Correia</b></div>
+      <div style="text-align:center; margin-top: 16px;"><a href="https://www.linkedin.com/in/joão-vitor-correia-37b9a4176/" target="_blank" rel="noopener"><button type="button" style="background:#0a66c2;color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:1rem;cursor:pointer;">LinkedIn</button></a></div>
+    </div>
+  </div>
+
+  <aside id="iaDrawer2"></aside>
+
+</div>
+
+<script>
+// =================================================================== //
+//  NOVO SCRIPT PARA CONTROLE DO LAYOUT MOBILE
+//  Este script é ADICIONAL e não modifica o original.
+// =================================================================== //
+document.addEventListener('DOMContentLoaded', function() {
+    const backdrop2 = document.getElementById('sheet-backdrop2');
+    const editorPanel2 = document.getElementById('editor-panel2');
+    const itensPanel2 = document.getElementById('itens-panel2');
+
+    const navBtnEdit2 = document.getElementById('nav-btn-edit2');
+    const navBtnItems2 = document.getElementById('nav-btn-items2');
+    let estampasCarregadas2 = false; // Flag para controlar o carregamento
+
+    const closeButtons2 = document.querySelectorAll('.sheet-close-btn2');
+
+    // Função para fechar todos os painéis abertos
+    function closeAllSheets2() {
+        backdrop2.classList.remove('is-open');
+        editorPanel2.classList.remove('is-open');
+        itensPanel2.classList.remove('is-open');
+        // Remove a classe 'active' de todos os botões da nav
+        document.querySelectorAll('.nav-button2').forEach(btn => btn.classList.remove('active'));
+    }
+
+    // Função para abrir um painel específico
+    function openSheet2(panel, button) {
+        // Se o painel já estiver aberto, fecha tudo
+        if (panel.classList.contains('is-open')) {
+            closeAllSheets2();
+        } else {
+            // Fecha qualquer outro painel antes de abrir o novo
+            closeAllSheets2();
+            backdrop2.classList.add('is-open');
+            panel.classList.add('is-open');
+            if (button) button.classList.add('active');
+        }
+    }
+
+    // Eventos dos botões da navegação
+    navBtnEdit2.addEventListener('click', () => openSheet2(editorPanel2, navBtnEdit2));
+    navBtnItems2.addEventListener('click', () => {
+        openSheet2(itensPanel2, navBtnItems2);
+        // Apenas carrega as estampas se ainda não tiverem sido carregadas
+        if (!estampasCarregadas2) {
+            if (typeof carregarEstampasPrincipais2 === 'function') {
+                carregarEstampasPrincipais2();
+                estampasCarregadas2 = true;
+            }
+        }
+    });
+
+    // Eventos para fechar
+    backdrop2.addEventListener('click', closeAllSheets2);
+    closeButtons2.forEach(btn => btn.addEventListener('click', closeAllSheets2));
+
+    // Lógica para alternar as abas dentro do painel de itens
+    const tabButtons2 = document.querySelectorAll('#itens-panel2 .tab-btn-remaster2');
+    const compartments2 = document.querySelectorAll('#itens-panel2 .compartimentos-categorias-remaster2');
+
+    tabButtons2.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove 'active' de todos os botões e compartimentos
+            tabButtons2.forEach(btn => btn.classList.remove('active'));
+            compartments2.forEach(comp => {
+                comp.classList.remove('active');
+                comp.style.display = 'none'; // Garante que será escondido
+            });
+
+            // Adiciona 'active' ao botão clicado
+            this.classList.add('active');
+
+            // Mostra o compartimento correspondente
+            let targetId = '';
+            if (this.id === 'tabMockupsBtn2') targetId = 'compartimentosMockup2';
+            if (this.id === 'tabEstampasBtn2') targetId = 'compartimentosEstampa2';
+            if (this.id === 'tabTecidosBtn2') targetId = 'compartimentosTecidos2';
+
+            const targetCompartment = document.getElementById(targetId);
+            if (targetCompartment) {
+                targetCompartment.classList.add('active');
+                targetCompartment.style.display = 'flex'; // Garante que será exibido
+            }
+        });
+    });
+});
+</script>
+
+<script>
+// =================================================================== //
+//  SCRIPT ORIGINAL - MODIFICADO COM '2'
+// =================================================================== //
+// Função para buscar estampas do backend Render.com
+function fetchEstampasBackend2(callback) {
+  fetch('https://estampas-oda7.onrender.com/estampas', {
+    headers: {
+      'Authorization': 'Basic ' + btoa('admin:senha123') // Troque se mudar usuário/senha do backend
+    }
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('Erro ao buscar estampas');
+      return res.json();
+    })
+    .then(data => {
+      if (typeof callback === 'function') callback(data);
+    })
+    .catch(err => {
+
+      alert('Erro ao carregar estampas do servidor: ' + err.message);
+    });
+}
+
+// ----------------- REGUA REAL & REFERÊNCIA DINÂMICA + MARCAÇÕES -----------------
+window.refCm2 = 0; // Valor em cm da referência atual
+window.refNome2 = ''; // Nome do elemento referência
+window.refCmDefault2 = 4; // Valor padrão se não houver na estampa
+window.refNomeDefault2 = "Elemento referência";
+
+document.addEventListener('DOMContentLoaded', function () {
+  const refCmBox2 = document.getElementById('refCmBox2');
+  const refCmNomeSpan2 = document.getElementById('refCmNome2');
+  const refCmValue2 = document.getElementById('refCmValue2');
+
+  // Função para atualizar o box dinâmico de referência
+  window.updateRefCmBox2 = function updateRefCmBox2() {
+    const zoomSlider2 = document.getElementById('zoomSlider2');
+    if (window.refCm2 > 0 && refCmBox2 && refCmValue2 && refCmNomeSpan2 && zoomSlider2) {
+      const mult2 = parseFloat(zoomSlider2.value) / 100;
+      const atual2 = +(window.refCm2 * mult2).toFixed(2);
+      refCmBox2.style.display = 'flex';
+      refCmNomeSpan2.textContent = window.refNome2 ? window.refNome2 + ":" : window.refNomeDefault2 + ":";
+      refCmValue2.textContent = `${atual2}cm`;
+      refCmBox2.title = `Com zoom de ${zoomSlider2.value}%, o elemento de referência (${window.refCm2}cm) fica com ${atual2}cm`;
+    } else if (refCmBox2) {
+      refCmBox2.style.display = 'none';
+    }
+  };
+});
+
+function loadHtml2Canvas2(callback) {
+  if (window.html2canvas) return callback();
+  const script2 = document.createElement('script');
+  script2.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+  script2.onload = callback;
+  document.body.appendChild(script2);
+}
+loadHtml2Canvas2(() => {
+  document.addEventListener('DOMContentLoaded', function () {
+    const estampaBg2 = document.getElementById('estampaBg2');
+    const zoomSlider2 = document.getElementById('zoomSlider2');
+    const codigoEstampa2 = document.getElementById('codigoEstampa2');
+    const mockupImg2 = document.querySelector('.mockup-png2');
+    const configModal2 = document.getElementById('configModal2');
+    const configData2 = document.getElementById('configData2');
+    const configTable2 = document.getElementById('configTable2');
+    const showConfigBtn2 = document.getElementById('showConfig2');
+    const uploadButton2 = document.getElementById('uploadButton2');
+    const uploadModal2 = document.getElementById('uploadModal2');
+    const closeUploadModal2 = document.getElementById('closeUploadModal2');
+    const closeConfigModal2 = document.getElementById('closeConfigModal2');
+    const toggleConfigRaw2 = document.getElementById('toggleConfigRaw2');
+    const uploadEstampaInput2 = document.getElementById('uploadEstampaInput2');
+    const uploadMockupInput2 = document.getElementById('uploadMockupInput2');
+    const dropEstampa2 = document.getElementById('dropEstampa2');
+    const dropMockup2 = document.getElementById('dropMockup2');
+    const miniaturaMockup2 = document.getElementById('miniaturaMockup2');
+    const miniaturaEstampa2 = document.getElementById('miniaturaEstampa2');
+    const labelMockup2 = document.getElementById('labelMockup2');
+    const labelEstampa2 = document.getElementById('labelEstampa2');
+    let posX2 = 50;
+    let posY2 = 50;
+
+    // Estado para saber se é personalizado ou preset
+    window.mockupState2 = {type: "none", url: mockupImg2.src, name: "", thumb: mockupImg2.src};
+    window.estampaState2 = {type: "none", url: "", code: "", name: ""};
+
+    // ----------------- ZOOM SLIDER CORREÇÃO -----------------
+    function updateZoom2(value) {
+      zoomSlider2.value = value;
+      estampaBg2.style.backgroundSize = `${value}%`;
+      if (typeof window.updateRefCmBox2 === "function") window.updateRefCmBox2();
+    }
+    zoomSlider2.addEventListener('input', () => updateZoom2(zoomSlider2.value));
+
+    // ----------------- CLIQUE CONTINUO NO ZOOM -----------------
+    let zoomInterval2 = null;
+    function zoomChange2(direction) {
+      let currentZoom = parseInt(zoomSlider2.value, 10);
+      let nextZoom = direction > 0 ? Math.min(currentZoom + 10, 400) : Math.max(currentZoom - 10, 90);
+      if (nextZoom !== currentZoom) updateZoom2(nextZoom);
+    }
+    function startZoomChange2(direction) {
+      zoomChange2(direction);
+      zoomInterval2 = setInterval(() => zoomChange2(direction), 90);
+    }
+    function stopZoomChange2() {
+      clearInterval(zoomInterval2);
+      zoomInterval2 = null;
+    }
+    document.getElementById('zoomIn2').addEventListener('mousedown', () => startZoomChange2(1));
+    document.getElementById('zoomOut2').addEventListener('mousedown', () => startZoomChange2(-1));
+    document.getElementById('zoomIn2').addEventListener('mouseup', stopZoomChange2);
+    document.getElementById('zoomOut2').addEventListener('mouseup', stopZoomChange2);
+    document.getElementById('zoomIn2').addEventListener('mouseleave', stopZoomChange2);
+    document.getElementById('zoomOut2').addEventListener('mouseleave', stopZoomChange2);
+    document.getElementById('zoomIn2').addEventListener('touchstart', (e) => { e.preventDefault(); startZoomChange2(1); });
+    document.getElementById('zoomOut2').addEventListener('touchstart', (e) => { e.preventDefault(); startZoomChange2(-1); });
+    document.getElementById('zoomIn2').addEventListener('touchend', stopZoomChange2);
+    document.getElementById('zoomOut2').addEventListener('touchend', stopZoomChange2);
+    document.getElementById('zoomIn2').addEventListener('click', (e) => { if (!zoomInterval2) zoomChange2(1); });
+    document.getElementById('zoomOut2').addEventListener('click', (e) => { if (!zoomInterval2) zoomChange2(-1); });
+
+
+
+    // --------- MODAL FLUIDO: abrir/fechar ---------
+    showConfigBtn2.addEventListener('click', () => {
+      updateConfigModal2();
+      configModal2.style.display = 'flex';
+      setTimeout(() => configModal2.querySelector('.modal-content-remaster2').classList.add('animate-modal'), 1);
+    });
+    closeConfigModal2.addEventListener('click', () => closeModal2(configModal2));
+    function closeModal2(modal) {
+      const modalContent = modal.querySelector('.modal-content-remaster2');
+      if (modalContent) modalContent.classList.remove('animate-modal');
+      setTimeout(() => { modal.style.display = 'none'; }, 210);
+    }
+    configModal2.addEventListener('mousedown', function(e){
+      if (e.target === configModal2) closeModal2(configModal2);
+    });
+
+    uploadButton2.addEventListener('click', () => {
+      uploadModal2.style.display = 'flex';
+      setTimeout(() => uploadModal2.querySelector('.modal-content-remaster2').classList.add('animate-modal'), 1);
+    });
+    closeUploadModal2.addEventListener('click', () => closeModal2(uploadModal2));
+    uploadModal2.addEventListener('mousedown', function(e){
+      if (e.target === uploadModal2) closeModal2(uploadModal2);
+    });
+
+    // --------- MODAL INFORMAÇÕES TÉCNICAS INTUITIVO -----------
+    function updateConfigModal2() {
+      miniaturaMockup2.style.backgroundImage = window.mockupState2.thumb ? `url('${window.mockupState2.thumb}')` : 'none';
+      miniaturaEstampa2.style.backgroundImage = window.estampaState2.thumb ? `url('${window.estampaState2.thumb}')` : 'none';
+
+      labelMockup2.textContent = window.mockupState2.type === "custom" ? "Mockup personalizado do cliente" : (window.mockupState2.name || "Mockup");
+      labelEstampa2.textContent = window.estampaState2.type === "custom" ? "Estampa personalizada pelo cliente" : (window.estampaState2.name || "Estampa");
+
+      const mult2 = parseFloat(zoomSlider2.value) / 100;
+      const refCmFinal2 = window.refCm2 > 0 ? +(window.refCm2 * mult2).toFixed(2) : null;
+      const config2 = {
+        mockup: window.mockupState2.url,
+        estampa: window.estampaState2.url,
+        zoom: zoomSlider2.value,
+        posX: posX2,
+        posY: posY2,
+        codigo: codigoEstampa2.textContent,
+        elementoReferenciaNome: window.refNome2 || window.refNomeDefault2,
+        elementoReferenciaCm: window.refCm2 || null,
+        elementoReferenciaCmFinal: refCmFinal2
+      };
+      configData2.textContent = JSON.stringify(config2, null, 2);
+      configTable2.innerHTML = `
+        <div class="config-key2">Mockup</div>
+        <div class="config-value2"><span style="display:inline-block;max-width:170px;overflow:auto;">${escapeHtml2(labelMockup2.textContent)}</span></div>
+        <div class="config-key2">Estampa</div>
+        <div class="config-value2"><span style="display:inline-block;max-width:170px;overflow:auto;">${escapeHtml2(labelEstampa2.textContent)}</span></div>
+        <div class="config-key2">Zoom</div>
+        <div class="config-value2">${config2.zoom}%</div>
+        <div class="config-key2">X</div>
+        <div class="config-value2">${config2.posX}%</div>
+        <div class="config-key2">Y</div>
+        <div class="config-value2">${config2.posY}%</div>
+        <div class="config-key2">Código</div>
+        <div class="config-value2">${escapeHtml2(config2.codigo)}</div>
+        <div class="config-key2">Elemento referência</div>
+        <div class="config-value2">${window.refNome2 || window.refNomeDefault2}</div>
+        <div class="config-key2">Valor referência (cm)</div>
+        <div class="config-value2">${window.refCm2 || "-"}</div>
+        <div class="config-key2">Valor referência final (cm)</div>
+        <div class="config-value2">${refCmFinal2 !== null ? refCmFinal2 : "-"}</div>
+      `;
+      configData2.style.display = 'none';
+      toggleConfigRaw2.innerText = 'Ver JSON';
+
+      // Atualizar modal de config para mostrar tecido selecionado
+      let tecidoInfo2 = '';
+      if (tecidoSelecionado2) {
+        tecidoInfo2 = `<div class="config-key2">Tecido</div><div class="config-value2">${escapeHtml2(tecidoSelecionado2.nome)}</div>`;
+      }
+      configTable2.innerHTML += tecidoInfo2;
+    }
+    toggleConfigRaw2.addEventListener('click', function(){
+      if (configData2.style.display === 'none') {
+        configData2.style.display = '';
+        configTable2.style.display = 'none';
+        toggleConfigRaw2.innerText = 'Ver Tabela';
+      } else {
+        configData2.style.display = 'none';
+        configTable2.style.display = '';
+        toggleConfigRaw2.innerText = 'Ver JSON';
+      }
+    });
+
+    window.copyConfig2 = function () {
+      const text = configData2.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        toggleConfigRaw2.innerText = "Copiado!";
+        setTimeout(()=>toggleConfigRaw2.innerText='Ver JSON',900)
+      }).catch(err => { console.error('Erro ao copiar: ', err); });
+    };
+    window.downloadMockup2 = function () {
+      setTimeout(() => {
+        html2canvas(document.querySelector('.mockup-content2'), {
+          useCORS: true, allowTaint: true, logging: false,
+        }).then(canvas => {
+          const link = document.createElement('a');
+          link.download = 'mockup-personalizado.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        });
+      }, 200);
+    };
+
+    // --- PDF e Imagem de Info Técnica
+    window.downloadInfo2 = function(type) {
+      const card2 = document.createElement('div');
+      card2.style.width = "600px";
+      card2.style.background = "#f9ebc7";
+      card2.style.padding = "30px";
+      card2.style.fontFamily = "Inter, Arial, sans-serif";
+      card2.style.borderRadius = "18px";
+      card2.style.color = "#5F6F52";
+      card2.style.boxShadow = "0 2px 12px #b9947040";
+      const mult2 = parseFloat(zoomSlider2.value) / 100;
+      const refCmFinal2 = window.refCm2 > 0 ? +(window.refCm2 * mult2).toFixed(2) : null;
+      let tecidoHtml2 = '';
+      if (typeof tecidoSelecionado2 !== 'undefined' && tecidoSelecionado2 && tecidoSelecionado2.nome) {
+        tecidoHtml2 = `<div><b>Tecido:</b> ${escapeHtml2(tecidoSelecionado2.nome)}</div>`;
+      }
+      card2.innerHTML = `
+        <div style="display:flex;flex-direction:row;gap:30px;">
+          <div>
+            <div style="font-weight:bold;color:#783D19;">Mockup</div>
+            <div style="background:#fff;border-radius:9px;border:2px solid #b99470;width:80px;height:80px;box-shadow:0 2px 8px #b9947033;margin:6px auto  5px auto;display:flex;align-items:center;justify-content:center;">
+              <img src="${window.mockupState2.thumb || window.mockupState2.url}" style="max-width:76px;max-height:76px;border-radius:7px;">
+            </div>
+            <div style="font-size:0.98rem;text-align:center;min-height:20px;margin-bottom:2px;">${escapeHtml2(labelMockup2.textContent)}</div>
+          </div>
+          <div>
+            <div style="font-weight:bold;color:#783D19;">Estampa</div>
+            <div style="background:#fff;border-radius:9px;border:2px solid #b99470;width:80px;height:80px;box-shadow:0 2px 8px #b9947033;margin:6px auto 5px auto;display:flex;align-items:center;justify-content:center;">
+              <img src="${window.estampaState2.thumb || window.estampaState2.url}" style="max-width:76px;max-height:76px;border-radius:7px;">
+            </div>
+            <div style="font-size:0.98rem;text-align:center;min-height:20px;margin-bottom:2px;">${escapeHtml2(labelEstampa2.textContent)}</div>
+          </div>
+        </div>
+        <div style="margin-top:18px;font-size:1.04rem;">
+          <div><b>Zoom:</b> ${zoomSlider2.value}%</div>
+          <div><b>Posição X:</b> ${posX2}%</div>
+          <div><b>Posição Y:</b> ${posY2}%</div>
+          <div><b>Código:</b> ${escapeHtml2(codigoEstampa2.textContent)}</div>
+          <div><b>Elemento referência:</b> ${window.refNome2 || window.refNomeDefault2}</div>
+          <div><b>Valor referência (cm):</b> ${window.refCm2 || "-"}</div>
+          <div><b>Valor referência final (cm):</b> ${refCmFinal2 !== null ? refCmFinal2 : "-"}</div>
+          ${tecidoHtml2}
+        </div>
+      `;
+      document.body.appendChild(card2);
+      if (type === 'img') {
+        html2canvas(card2, {useCORS:true,backgroundColor:null}).then(canvas => {
+          const link = document.createElement('a');
+          link.download = 'informacao_tecnica.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+          document.body.removeChild(card2);
+        });
+      } else if (type === 'pdf') {
+        Promise.all([
+            new Promise(resolve => {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+                script.onload = resolve;
+                document.head.appendChild(script);
+            })
+        ]).then(() => {
+            html2canvas(card2, {useCORS:true,backgroundColor:null}).then(canvas => {
+              const doc = new window.jspdf.jsPDF({orientation:"p",unit:"px",format:[650,420]});
+              const imgData = canvas.toDataURL("image/png");
+              doc.addImage(imgData, "PNG", 20, 20, 560, 320);
+              doc.save('informacao_tecnica.pdf');
+              document.body.removeChild(card2);
+            });
+        });
+      }
+    };
+
+    // ----------------- THUMBNAILS E TABS -----------------
+    const tabMockupsBtn2 = document.getElementById('tabMockupsBtn2');
+    const tabEstampasBtn2 = document.getElementById('tabEstampasBtn2');
+    const tabTecidosBtn2 = document.getElementById('tabTecidosBtn2');
+    const compartimentosMockup2 = document.getElementById('compartimentosMockup2');
+    const compartimentosEstampa2 = document.getElementById('compartimentosEstampa2');
+    const compartimentosTecidos2 = document.getElementById('compartimentosTecidos2');
+
+    // JS ORIGINAL para o desktop
+    tabMockupsBtn2.addEventListener('click', () => {
+      if(window.innerWidth <= 900) return; // Ignora no mobile, pois é controlado pelo novo script
+      tabMockupsBtn2.classList.add('active');
+      tabEstampasBtn2.classList.remove('active');
+      tabTecidosBtn2.classList.remove('active');
+      compartimentosMockup2.style.display = "";
+      compartimentosEstampa2.style.display = "none";
+      compartimentosTecidos2.style.display = "none";
+    });
+    tabEstampasBtn2.addEventListener('click', () => {
+       if(window.innerWidth <= 900) return; // Ignora no mobile
+      tabEstampasBtn2.classList.add('active');
+      tabMockupsBtn2.classList.remove('active');
+      tabTecidosBtn2.classList.remove('active');
+      compartimentosMockup2.style.display = "none";
+      compartimentosEstampa2.style.display = "";
+      compartimentosTecidos2.style.display = "none";
+      // Atualiza as thumbnails de estampas sempre que a aba for ativada
+      carregarEstampasPrincipais2();
+    });
+    tabTecidosBtn2.addEventListener('click', () => {
+       if(window.innerWidth <= 900) return; // Ignora no mobile
+      tabTecidosBtn2.classList.add('active');
+      tabMockupsBtn2.classList.remove('active');
+      tabEstampasBtn2.classList.remove('active');
+      compartimentosMockup2.style.display = "none";
+      compartimentosEstampa2.style.display = "none";
+      compartimentosTecidos2.style.display = "";
+    });
+
+    // Tecidos: seleção e estado
+    let tecidoSelecionado2 = null;
+    document.body.addEventListener('click', function(e) {
+        if (e.target.matches('.tecido-thumbnail2')) {
+            document.querySelectorAll('.tecido-thumbnail2.selected').forEach(el => el.classList.remove('selected'));
+            e.target.classList.add('selected');
+            tecidoSelecionado2 = {
+              nome: e.target.getAttribute('data-nome'),
+              id: e.target.getAttribute('data-id'),
+              thumb: e.target.style.backgroundImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '')
+            };
+        }
+    });
+
+    // Drag and drop upload
+    function handleEstampaFiles2(files) {
+      const arquivo2 = files[0];
+      if (arquivo2) {
+        const reader2 = new FileReader();
+        reader2.onload = function(e) {
+          estampaBg2.style.backgroundImage = `url(${e.target.result})`;
+          estampaBg2.style.backgroundSize = `${zoomSlider2.value}%`;
+          estampaBg2.style.backgroundPosition = `${posX2}% ${posY2}%`;
+          window.estampaState2 = {
+            type: "custom",
+            url: e.target.result,
+            code: "",
+            name: "",
+            thumb: e.target.result
+          };
+          window.refCm2 = window.refCmDefault2;
+          window.refNome2 = window.refNomeDefault2;
+          if (typeof window.updateRefCmBox2 === "function") window.updateRefCmBox2();
+        };
+        reader2.readAsDataURL(arquivo2);
+      }
+      closeModal2(uploadModal2);
+    }
+    dropEstampa2.addEventListener('click', () => uploadEstampaInput2.click());
+    dropEstampa2.addEventListener('dragover', (e) => { e.preventDefault(); dropEstampa2.classList.add('dragover'); });
+    dropEstampa2.addEventListener('dragleave', (e) => dropEstampa2.classList.remove('dragover'));
+    dropEstampa2.addEventListener('drop', (e) => {
+      e.preventDefault(); dropEstampa2.classList.remove('dragover');
+      if (e.dataTransfer.files.length) handleEstampaFiles2(e.dataTransfer.files);
+    });
+    uploadEstampaInput2.addEventListener('change', (event) => handleEstampaFiles2(event.target.files));
+
+    function handleMockupFiles2(files) {
+      const arquivo2 = files[0];
+      if (arquivo2) {
+        const reader2 = new FileReader();
+        reader2.onload = function(e) {
+          mockupImg2.src = e.target.result;
+          window.mockupState2 = {
+            type: "custom",
+            url: e.target.result,
+            name: "",
+            thumb: e.target.result
+          };
+        };
+        reader2.readAsDataURL(arquivo2);
+      }
+      closeModal2(uploadModal2);
+    }
+    dropMockup2.addEventListener('click', () => uploadMockupInput2.click());
+    dropMockup2.addEventListener('dragover', (e) => { e.preventDefault(); dropMockup2.classList.add('dragover'); });
+    dropMockup2.addEventListener('dragleave', (e) => dropMockup2.classList.remove('dragover'));
+    dropMockup2.addEventListener('drop', (e) => {
+      e.preventDefault(); dropMockup2.classList.remove('dragover');
+      if (e.dataTransfer.files.length) handleMockupFiles2(e.dataTransfer.files);
+    });
+    uploadMockupInput2.addEventListener('change', (event) => handleMockupFiles2(event.target.files));
+
+    // ----------------- JOYSTICK -----------------
+    const joystickHandle2 = document.getElementById('joystickHandle2');
+    const joystickBase2 = document.getElementById('joystickBase2');
+    let isDragging2 = false;
+    joystickHandle2.addEventListener('mousedown', (e) => {
+      isDragging2 = true;
+      joystickHandle2.style.cursor = 'grabbing';
+      document.addEventListener('mousemove', onDrag2);
+      document.addEventListener('mouseup', onDragEnd2);
+    });
+    joystickHandle2.addEventListener('touchstart', (e) => {
+        isDragging2 = true;
+        document.addEventListener('touchmove', onDrag2, { passive: false });
+        document.addEventListener('touchend', onDragEnd2);
+    });
+
+    function onDragEnd2() {
+        isDragging2 = false;
+        joystickHandle2.style.cursor = 'grab';
+        joystickHandle2.style.transition = 'top 0.2s, left 0.2s';
+        joystickHandle2.style.left = `calc(50% - ${joystickHandle2.offsetWidth / 2}px)`;
+        joystickHandle2.style.top = `calc(50% - ${joystickHandle2.offsetHeight / 2}px)`;
+        setTimeout(() => { joystickHandle2.style.transition = ''; }, 200);
+
+        document.removeEventListener('mousemove', onDrag2);
+        document.removeEventListener('mouseup', onDragEnd2);
+        document.removeEventListener('touchmove', onDrag2);
+        document.removeEventListener('touchend', onDragEnd2);
+    }
+
+    function onDrag2(e) {
+      if (!isDragging2) return;
+      e.preventDefault();
+
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      const rect = joystickBase2.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const deltaX = clientX - centerX;
+      const deltaY = clientY - centerY;
+
+      const distance = Math.min(rect.width / 2, Math.sqrt(deltaX*deltaX + deltaY*deltaY));
+      const angle = Math.atan2(deltaY, deltaX);
+
+      const handleX = distance * Math.cos(angle);
+      const handleY = distance * Math.sin(angle);
+
+      posX2 += (handleX / (rect.width / 2)) * 2;
+      posY2 += (handleY / (rect.height / 2)) * 2;
+      posX2 = Math.max(0, Math.min(100, posX2));
+      posY2 = Math.max(0, Math.min(100, posY2));
+      estampaBg2.style.backgroundPosition = `${posX2}% ${posY2}%`;
+
+      joystickHandle2.style.left = `calc(50% - ${joystickHandle2.offsetWidth / 2}px + ${handleX}px)`;
+      joystickHandle2.style.top = `calc(50% - ${joystickHandle2.offsetHeight / 2}px + ${handleY}px)`;
+    }
+
+    // Inicializa com padrão (primeira carga)
+    window.refCm2 = window.refCmDefault2;
+    window.refNome2 = window.refNomeDefault2;
+    if (typeof window.updateRefCmBox2 === "function") window.updateRefCmBox2();
+
+    // Seleção de mockup e estampa via delegação de eventos para funcionar com conteúdo dinâmico
+    document.body.addEventListener('click', function(e) {
+        const thumbnail2 = e.target.closest('.thumbnail2');
+        if (!thumbnail2) return;
+
+        // Seleção de Mockup
+        if (thumbnail2.closest('#compartimentosMockup2')) {
+            document.querySelectorAll('#compartimentosMockup2 .thumbnail2.selected').forEach(el => el.classList.remove('selected'));
+            thumbnail2.classList.add('selected');
+            const url = thumbnail2.getAttribute('data-url');
+            const name = thumbnail2.getAttribute('data-name') || 'Mockup';
+            const thumb = thumbnail2.querySelector('img') ? thumbnail2.querySelector('img').src : url;
+            mockupImg2.src = url;
+            window.mockupState2 = { type: 'preset', url, name, thumb };
+        }
+
+        // Seleção de Estampa
+        if (thumbnail2.closest('#compartimentosEstampa2')) {
+            document.querySelectorAll('#compartimentosEstampa2 .thumbnail2.selected').forEach(el => el.classList.remove('selected'));
+            thumbnail2.classList.add('selected');
+            const url = thumbnail2.getAttribute('data-url');
+            const name = thumbnail2.getAttribute('data-name') || 'Estampa';
+            const code = thumbnail2.getAttribute('data-code') || '';
+            const thumb = url; // Simplificado
+            estampaBg2.style.backgroundImage = `url('${url}')`;
+            estampaBg2.style.backgroundSize = `${zoomSlider2.value}%`;
+            estampaBg2.style.backgroundPosition = `${posX2}% ${posY2}%`;
+            window.estampaState2 = { type: 'preset', url, code, name, thumb };
+            if (codigoEstampa2) codigoEstampa2.textContent = code || 'Código da Estampa';
+            window.refCm2 = parseFloat(thumbnail2.getAttribute('data-refcm')) || window.refCmDefault2;
+            window.refNome2 = thumbnail2.getAttribute('data-refnome') || window.refNomeDefault2;
+            if (typeof window.updateRefCmBox2 === "function") window.updateRefCmBox2();
+        }
+
+        if (typeof updateConfigModal2 === 'function') updateConfigModal2();
+    });
+  });
+});
+
+function escapeHtml2(str) { if (!str) return ''; return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); }
+function carregarEstampasPrincipais2() {
+  const compartimentosEstampa2 = document.getElementById('compartimentosEstampa2');
+  if (!compartimentosEstampa2) return;
+
+  // Mostra um feedback visual de carregamento para o usuário
+  compartimentosEstampa2.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--cor-primaria); font-weight: bold;">Carregando estampas...</div>';
+
+  fetchEstampasBackend2(function(json) {
+    window.estampasJson2 = json;
+
+    // Limpa o feedback de carregamento
+    compartimentosEstampa2.innerHTML = '';
+
+    window.estampasJson2.categorias.forEach(cat => {
+      const catDiv2 = document.createElement('div');
+      catDiv2.className = 'categoria-box-remaster2';
+      catDiv2.innerHTML = `<div class="categoria-title-remaster2">${cat.icone || ''} ${cat.nome}</div>`;
+      const thumbsDiv2 = document.createElement('div');
+      thumbsDiv2.className = 'categoria-thumbnails-remaster2';
+      cat.estampas.forEach(est => {
+        const thumb2 = document.createElement('div');
+        thumb2.className = 'thumbnail2';
+        thumb2.setAttribute('data-url', est.url);
+        thumb2.setAttribute('data-code', est.code || '');
+        thumb2.setAttribute('data-type', 'preset');
+        thumb2.setAttribute('data-name', est.name || '');
+        thumb2.setAttribute('data-refcm', est.refcm || '');
+        thumb2.setAttribute('data-refnome', est.refnome || '');
+        const img2 = document.createElement('img');
+        img2.src = est.url;
+        img2.className = 'estampa-circle2';
+        img2.alt = est.name || 'Estampa';
+        img2.style.width = '100%';
+        img2.style.height = '100%';
+        img2.style.objectFit = 'cover';
+        thumb2.appendChild(img2);
+        thumbsDiv2.appendChild(thumb2);
+      });
+      catDiv2.appendChild(thumbsDiv2);
+      compartimentosEstampa2.appendChild(catDiv2);
+    });
+  });
+}
+carregarEstampasPrincipais2();
+
+// --- INÍCIO DO BLOCO ÚNICO DO CHAT IA --- (Lógica interna mantida)
+if (!document.getElementById('iaDrawer2').innerHTML) {
+  const iaDrawer2 = document.getElementById('iaDrawer2');
+  iaDrawer2.innerHTML = `
+    <div class="ia-drawer-main2">
+      <div class="ia-drawer-header2">
+        <div class="ia-avatar2 ia-avatar-lg2">🤖</div>
+        <div class="ia-drawer-title2">
+          <h3>Mockup Creator - Nick</h3>
+          <span>Powered by ArtenzaStudio</span>
+        </div>
+        <button id="closeIaDrawer2" title="Fechar">×</button>
+      </div>
+      <div id="iaDrawerChat2" class="ia-drawer-chat2"></div>
+      <form id="iaDrawerForm2" class="ia-drawer-form2">
+        <label for="iaDrawerImageInput2" id="iaDrawerAddImageBtn2">
+          <svg width="22" height="22" fill="none" stroke="#783D19" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <input type="file" id="iaDrawerImageInput2" accept="image/*" style="display:none;">
+        </label>
+        <textarea id="iaDrawerPrompt2" placeholder="Digite sua mensagem..."></textarea>
+        <button id="iaDrawerEnviarBtn2" type="submit">Enviar</button>
+      </form>
+    </div>
+  `;
+}
+const abrirIaBtn2 = document.getElementById('abrirIaBtn2');
+const iaBalloonTip2 = document.getElementById('iaBalloonTip2');
+if (abrirIaBtn2 && iaBalloonTip2) {
+  setTimeout(() => {
+    const btnRect2 = abrirIaBtn2.getBoundingClientRect();
+    iaBalloonTip2.style.top = (btnRect2.top - iaBalloonTip2.offsetHeight - 10) + "px";
+    iaBalloonTip2.style.left = (btnRect2.left + (btnRect2.width / 2) - (iaBalloonTip2.offsetWidth / 2)) + "px";
+    iaBalloonTip2.style.display = "block";
+    let balloonTimeout2 = setTimeout(() => iaBalloonTip2.style.display = "none", 8000);
+    abrirIaBtn2.addEventListener('click', () => { iaBalloonTip2.style.display = "none"; clearTimeout(balloonTimeout2); });
+    iaBalloonTip2.addEventListener('click', () => { iaBalloonTip2.style.display = "none"; clearTimeout(balloonTimeout2); });
+  }, 8000);
+}
+const iaDrawer2 = document.getElementById('iaDrawer2');
+const closeIaDrawer2 = document.getElementById('closeIaDrawer2');
+if (abrirIaBtn2 && iaDrawer2) {
+  abrirIaBtn2.onclick = () => { iaDrawer2.classList.add('open'); renderIaDrawerChat2(); };
+}
+if (closeIaDrawer2 && iaDrawer2) {
+  closeIaDrawer2.onclick = () => iaDrawer2.classList.remove('open');
+}
+let iaChatHistory2 = [];
+let iaImageBase64_2 = null;
+function renderIaDrawerChat2() { /* Função original mantida */ }
+const iaDrawerForm2 = document.getElementById('iaDrawerForm2');
+const iaDrawerPrompt2 = document.getElementById('iaDrawerPrompt2');
+const iaDrawerImageInput2 = document.getElementById('iaDrawerImageInput2');
+if (iaDrawerForm2) {
+  iaDrawerForm2.onsubmit = async function(e) {
+    e.preventDefault();
+    const prompt2 = iaDrawerPrompt2.value.trim();
+    if (!prompt2 && !iaImageBase64_2) return;
+    const imageToSend2 = iaImageBase64_2;
+    iaChatHistory2.push({ role: 'user', text: prompt2, image: imageToSend2 ? imageToSend2 : null });
+    renderIaDrawerChat2();
+    iaDrawerPrompt2.value = '';
+    iaImageBase64_2 = null;
+    document.getElementById('iaDrawerAddImageBtn2').classList.remove('selected');
+    iaChatHistory2.push({ role: 'ia', text: 'Aguarde resposta da IA...', image: null });
+    renderIaDrawerChat2();
+    fetch('https://estampas-oda7.onrender.com/dalle', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: prompt2, image: imageToSend2 })
+    })
+    .then(res => res.json())
+    .then(data => {
+      iaChatHistory2.pop(); // Remove "Aguarde..."
+      iaChatHistory2.push({ role: 'ia', text: data.output, image: data.image || null });
+      renderIaDrawerChat2();
+    })
+    .catch(err => {
+      iaChatHistory2.pop();
+      iaChatHistory2.push({ role: 'ia', text: 'Erro: ' + err.message, image: null });
+      renderIaDrawerChat2();
+    });
+  };
+}
+if (iaDrawerImageInput2) {
+    iaDrawerImageInput2.onchange = async function(e) {
+    if (iaDrawerImageInput2.files && iaDrawerImageInput2.files[0]) {
+      const file2 = iaDrawerImageInput2.files[0];
+      iaImageBase64_2 = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(file2);
+      });
+      document.getElementById('iaDrawerAddImageBtn2').classList.add('selected');
+    } else {
+      iaImageBase64_2 = null;
+      document.getElementById('iaDrawerAddImageBtn2').classList.remove('selected');
+    }
+  };
+}
+
+// --- FIM DO BLOCO ÚNICO DO CHAT IA ---
+// Mostrar/ocultar modal de créditos
+document.addEventListener('DOMContentLoaded', function () {
+  const creditosBtn2 = document.getElementById('creditosBtn2');
+  const creditosModal2 = document.getElementById('creditosModal2');
+  const closeCreditosModal2 = document.getElementById('closeCreditosModal2');
+  if (creditosBtn2 && creditosModal2) { creditosBtn2.onclick = () => { creditosModal2.style.display = 'flex'; }; }
+  if (closeCreditosModal2 && creditosModal2) {
+    closeCreditosModal2.onclick = () => { creditosModal2.style.display = 'none'; };
+    creditosModal2.addEventListener('mousedown', function(e){ if (e.target === creditosModal2) creditosModal2.style.display = 'none'; });
+  }
+  // Lógica para o novo botão de download de informações
+    const baixarInfoBtn2 = document.getElementById('baixarInfoBtn2');
+    if (baixarInfoBtn2) {
+        baixarInfoBtn2.addEventListener('click', function() {
+            const opcoes2 = document.getElementById('opcoesDownloadInfo2');
+            if (opcoes2) {
+                const isHidden = opcoes2.style.display === 'none';
+                opcoes2.style.display = isHidden ? 'flex' : 'none';
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>
