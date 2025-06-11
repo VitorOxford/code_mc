@@ -81,7 +81,7 @@ html {
   font-weight: bold;
   color: var(--cor-primaria);
   background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(5px);
+  //backdrop-filter: blur(5px);
   padding: 8px 16px;
   border-radius: 20px;
   border: 1px solid var(--cor-terciaria);
@@ -165,13 +165,13 @@ html {
 /* 3. NAVEGAÇÃO INFERIOR (Bottom Navigation)
 /* =================================================================== */
 .bottom-nav2 {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: var(--bottom-nav-height);
   background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
+  //backdrop-filter: blur(10px);
   border-top: 1px solid var(--cor-sombra);
   display: flex;
   justify-content: space-around;
@@ -215,7 +215,7 @@ html {
 /* 4. PAINÉIS DESLIZANTES (Bottom Sheets)
 /* =================================================================== */
 .backdrop2 {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -233,7 +233,7 @@ html {
 }
 
 .bottom-sheet2 {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -248,10 +248,12 @@ html {
   padding: 16px;
   padding-bottom: 32px;
   overflow-y: auto;
+  will-change: transform;       /* Adicione esta linha */
+   transform: translateY(105%) translateZ(0); /* Combine aqui */
 }
 
 .bottom-sheet2.is-open {
-  transform: translateY(0);
+   transform: translateY(0) translateZ(0); /* E aqui também */
 }
 
 .sheet-header2 {
@@ -583,21 +585,21 @@ html {
 /* 7. CHAT IA (Abre em tela cheia)
 /* =================================================================== */
 #iaDrawer2 {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: var(--cor-fundo-cards);
   z-index: 10050;
-  display: flex; /* Mantido para JS original */
-  flex-direction: column; /* Alterado para layout de tela cheia */
-  transform: translateX(100%); /* Começa fora da tela à direita */
+  display: flex; 
+  flex-direction: column; 
+  transform: translateX(100%) translateZ(0); /* Combine aqui */
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }
 #iaDrawer2.open {
-  transform: translateX(0);
+  transform: translateX(0) translateZ(0); /* E aqui também */
 }
 
 /* Remove painel de mídia lateral, integra ao header */
@@ -608,6 +610,8 @@ html {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: var(--cor-fundo-cards); /* Garante a opacidade */
+  transform: translateZ(0);                   /* Força a criação de uma nova camada de renderização */
 }
 
 .ia-drawer-header2 {
@@ -625,6 +629,8 @@ html {
   flex: 1;
   padding: 16px;
   gap: 18px;
+  background-color: var(--cor-fundo-cards); 
+  will-change: transform;
 }
 .ia-msg-bubble2 {
   max-width: 80%; /* Bolhas de chat mais largas */
@@ -759,11 +765,11 @@ html {
     border: 1px solid #ddd;
     font-family: monospace;
 }
-
 </style>
 </head>
 <body>
-<div class="interface-wrapper2">
+
+ <div class="interface-wrapper2">
 
   <div class="mobile-header2">
     <div class="codigo-estampa-remaster2" id="codigoEstampa2">Código da Estampa</div>
@@ -907,7 +913,7 @@ html {
         <button onclick="downloadInfo2('img')" class="btn-primary2" style="flex-grow:1; margin-left: 10px;">Imagem</button>
         <button onclick="copyConfig2()" class="btn-primary2" style="flex-grow:1; margin-left: 10px;">JSON</button>
     </div>
-</div>
+  </div>
       <button id="toggleConfigRaw2" class="btn-toggle-raw2" type="button">Ver JSON</button>
     </div>
   </div>
@@ -923,7 +929,7 @@ html {
 
   <aside id="iaDrawer2"></aside>
 
-</div>
+ </div>
 
 <script>
 // =================================================================== //
@@ -1602,10 +1608,67 @@ if (!document.getElementById('iaDrawer2').innerHTML) {
           <input type="file" id="iaDrawerImageInput2" accept="image/*" style="display:none;">
         </label>
         <textarea id="iaDrawerPrompt2" placeholder="Digite sua mensagem..."></textarea>
-        <button id="iaDrawerEnviarBtn2" type="submit">Enviar</button>
-      </form>
+        <button id="iaDrawerEnviarBtn2" type="submit">Enviar</button> </form>
     </div>
   `;
+
+  // --- LÓGICA MOVIDA PARA DENTRO DO IF ---
+  const iaDrawerForm2 = document.getElementById('iaDrawerForm2');
+  const iaDrawerPrompt2 = document.getElementById('iaDrawerPrompt2');
+  const iaDrawerImageInput2 = document.getElementById('iaDrawerImageInput2');
+
+  if (iaDrawerForm2) {
+    // Use o evento onsubmit do formulário, é mais robusto
+    iaDrawerForm2.onsubmit = async function(e) {
+        e.preventDefault(); // Impede o recarregamento da página
+        const prompt2 = iaDrawerPrompt2.value.trim();
+        if (!prompt2 && !iaImageBase64_2) return;
+
+        const imageToSend2 = iaImageBase64_2;
+        iaChatHistory2.push({ role: 'user', text: prompt2, image: imageToSend2 ? imageToSend2 : null });
+        renderIaDrawerChat2();
+        iaDrawerPrompt2.value = '';
+        iaImageBase64_2 = null;
+        document.getElementById('iaDrawerAddImageBtn2').classList.remove('selected');
+        iaChatHistory2.push({ role: 'ia', text: 'Aguarde resposta da IA...', image: null });
+        renderIaDrawerChat2();
+
+        // Seu fetch continua aqui normalmente
+        fetch('https://estampas-oda7.onrender.com/dalle', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: prompt2, image: imageToSend2 })
+        })
+        .then(res => res.json())
+        .then(data => {
+            iaChatHistory2.pop(); // Remove "Aguarde..."
+            iaChatHistory2.push({ role: 'ia', text: data.output, image: data.image || null });
+            renderIaDrawerChat2();
+        })
+        .catch(err => {
+            iaChatHistory2.pop();
+            iaChatHistory2.push({ role: 'ia', text: 'Erro: ' + err.message, image: null });
+            renderIaDrawerChat2();
+        });
+    };
+  }
+
+  if (iaDrawerImageInput2) {
+    iaDrawerImageInput2.onchange = async function(e) {
+      if (iaDrawerImageInput2.files && iaDrawerImageInput2.files[0]) {
+        const file2 = iaDrawerImageInput2.files[0];
+        iaImageBase64_2 = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.readAsDataURL(file2);
+        });
+        document.getElementById('iaDrawerAddImageBtn2').classList.add('selected');
+      } else {
+        iaImageBase64_2 = null;
+        document.getElementById('iaDrawerAddImageBtn2').classList.remove('selected');
+      }
+    };
+  }
 }
 const abrirIaBtn2 = document.getElementById('abrirIaBtn2');
 const iaBalloonTip2 = document.getElementById('iaBalloonTip2');
@@ -1634,36 +1697,41 @@ function renderIaDrawerChat2() { /* Função original mantida */ }
 const iaDrawerForm2 = document.getElementById('iaDrawerForm2');
 const iaDrawerPrompt2 = document.getElementById('iaDrawerPrompt2');
 const iaDrawerImageInput2 = document.getElementById('iaDrawerImageInput2');
-if (iaDrawerForm2) {
-  iaDrawerForm2.onsubmit = async function(e) {
-    e.preventDefault();
-    const prompt2 = iaDrawerPrompt2.value.trim();
-    if (!prompt2 && !iaImageBase64_2) return;
-    const imageToSend2 = iaImageBase64_2;
-    iaChatHistory2.push({ role: 'user', text: prompt2, image: imageToSend2 ? imageToSend2 : null });
-    renderIaDrawerChat2();
-    iaDrawerPrompt2.value = '';
-    iaImageBase64_2 = null;
-    document.getElementById('iaDrawerAddImageBtn2').classList.remove('selected');
-    iaChatHistory2.push({ role: 'ia', text: 'Aguarde resposta da IA...', image: null });
-    renderIaDrawerChat2();
-    fetch('https://estampas-oda7.onrender.com/dalle', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: prompt2, image: imageToSend2 })
-    })
-    .then(res => res.json())
-    .then(data => {
-      iaChatHistory2.pop(); // Remove "Aguarde..."
-      iaChatHistory2.push({ role: 'ia', text: data.output, image: data.image || null });
-      renderIaDrawerChat2();
-    })
-    .catch(err => {
-      iaChatHistory2.pop();
-      iaChatHistory2.push({ role: 'ia', text: 'Erro: ' + err.message, image: null });
-      renderIaDrawerChat2();
-    });
-  };
+const iaDrawerEnviarBtn2 = document.getElementById('iaDrawerEnviarBtn2');
+
+if (iaDrawerEnviarBtn2) {
+    iaDrawerEnviarBtn2.onclick = async function() {
+        // Não precisamos mais do e.preventDefault()
+        const prompt2 = iaDrawerPrompt2.value.trim();
+        if (!prompt2 && !iaImageBase64_2) return;
+
+        const imageToSend2 = iaImageBase64_2;
+        iaChatHistory2.push({ role: 'user', text: prompt2, image: imageToSend2 ? imageToSend2 : null });
+        renderIaDrawerChat2();
+        iaDrawerPrompt2.value = '';
+        iaImageBase64_2 = null;
+        document.getElementById('iaDrawerAddImageBtn2').classList.remove('selected');
+        iaChatHistory2.push({ role: 'ia', text: 'Aguarde resposta da IA...', image: null });
+        renderIaDrawerChat2();
+
+        // Seu fetch continua aqui normalmente
+        fetch('https://estampas-oda7.onrender.com/dalle', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: prompt2, image: imageToSend2 })
+        })
+        .then(res => res.json())
+        .then(data => {
+            iaChatHistory2.pop(); // Remove "Aguarde..."
+            iaChatHistory2.push({ role: 'ia', text: data.output, image: data.image || null });
+            renderIaDrawerChat2();
+        })
+        .catch(err => {
+            iaChatHistory2.pop();
+            iaChatHistory2.push({ role: 'ia', text: 'Erro: ' + err.message, image: null });
+            renderIaDrawerChat2();
+        });
+    };
 }
 if (iaDrawerImageInput2) {
     iaDrawerImageInput2.onchange = async function(e) {
