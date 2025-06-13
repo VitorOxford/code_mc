@@ -30,37 +30,51 @@ Data de última atualização do código: 28/05/2025 -->
     <!-- Painel lateral esquerdo: ferramentas -->
     <aside class="painel-lateral-remaster" style="border-radius: 30px;">
       <div class="tools-group">
-        <div class="tool-block">
-            <div class="codigo-estampa-remaster" id="codigoEstampa">
-            Código da Estampa
-            </div>
-          <div class="tool-label">Zoom</div>
-              <div class="zoom-controls">
-              <button class="circle-btn" id="zoomIn" type="button" aria-label="Aumentar zoom">+</button>
-              <div class="zoom-slider-wrapper">
-                  <input type="range" id="zoomSlider" min="90" max="400" value="100" step="1" orient="vertical" class="zoom-slider-vertical">
-              </div>
-              <button class="circle-btn" id="zoomOut" type="button" aria-label="Diminuir zoom">-</button>
-              </div>
+  <div class="codigo-estampa-remaster" id="codigoEstampa">
+    Código da Estampa
+  </div>
+
+  <div style="display: flex; justify-content: center; gap: 30px; align-items: flex-start;">
+
+    <div class="tool-block">
+      <div class="tool-label">Zoom</div>
+      <div class="zoom-controls">
+        <button class="circle-btn" id="zoomIn" type="button" aria-label="Aumentar zoom">+</button>
+        <div class="zoom-slider-wrapper">
+          <input type="range" id="zoomSlider" min="90" max="400" value="100" step="1" class="zoom-slider-vertical">
         </div>
-        <div class="tool-block">
-          <div class="tool-label">Mover Estampa</div>
-          <div class="joystick-area">
-            <div id="joystickBase" class="joystick-base">
-              <div id="joystickHandle" class="joystick-handle"></div>
-            </div>
-          </div>
-        </div>
+        <button class="circle-btn" id="zoomOut" type="button" aria-label="Diminuir zoom">-</button>
       </div>
+    </div>
+
+    <div class="tool-block">
+      <div class="tool-label">Girar</div>
+      <div class="zoom-controls"> <button class="circle-btn" id="rotateRightBtn" type="button" aria-label="Girar para Direita">↻</button>
+        <div class="zoom-slider-wrapper"> <input type="range" id="rotationSlider" min="0" max="360" value="0" step="1" class="zoom-slider-vertical"> </div>
+        <button class="circle-btn" id="rotateLeftBtn" type="button" aria-label="Girar para Esquerda">↺</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tool-block" style="margin-top: 20px;">
+    <div class="tool-label">Mover Estampa</div>
+    <div class="joystick-area">
+      <div id="joystickBase" class="joystick-base">
+        <div id="joystickHandle" class="joystick-handle"></div>
+      </div>
+    </div>
+  </div>
+</div>
         <!-- Botão "Abrir IA" adicionado aqui -->
       <button id="abrirIaBtn" class="btn-primary ia" type="button">
         🤖 Dúvidas
       </button>
       <div id="iaBalloonTip" style="display:none;position:absolute;z-index:10001;left:calc(100% + 18px);top:0;max-width:220px;background:#fffbe9;color:#783D19;border:2px solid #b99470;border-radius:14px;padding:13px 18px;font-size:1.04rem;box-shadow:0 4px 24px #783d1912;animation:ia-balloon-in 0.7s cubic-bezier(.39,1.52,.37,.98);">
-  <span style="font-weight:bold;display:block;margin-bottom:3px;">Alguma dúvida?</span>
-  Eu posso te ajudar!
-  <span style="position:absolute;left:-18px;top:22px;width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-right:18px solid #fffbe9;filter:drop-shadow(-2px 0 #b99470);"></span>
-</div>
+            <span style="font-weight:bold;display:block;margin-bottom:3px;">Alguma dúvida?</span>
+            Eu posso te ajudar!
+            <span style="position:absolute;left:-18px;top:22px;width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-right:18px solid #fffbe9;filter:drop-shadow(-2px 0 #b99470);"></span>
+            </div>
       <button id="showConfig" class="btn-primary info-btn" type="button">
         ⚙️ Copiar Config.
       </button>
@@ -68,8 +82,8 @@ Data de última atualização do código: 28/05/2025 -->
         ⬆️ Enviar Imagem
       </button>
       <!-- Adicionado botão "Falar com representante" aqui -->
-      <button id="falarRepresentanteBtn" class="btn-primary" type="button" style="width:100%;margin-top:18px;background:#25D366;color:#fff;display:flex;align-items:center;gap:8px;justify-content:center;font-size:1.08rem;">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" style="width:22px;height:22px;vertical-align:middle;margin-right:7px;"> Falar com representante
+      <button id="falarRepresentanteBtn" class="btn-primary" type="button" style="width:100%;margin-top:-14px;background:#25D366;color:#fff;display:flex;align-items:center;gap:8px;justify-content:center;font-size:1.08rem;">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" style="width:22px;height:22px;vertical-align:middle;margin-right:7px;"> Fazer pedido
       </button>
     </aside>
 
@@ -1142,6 +1156,7 @@ body, html {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  margin-top: -10px;
 }
 
 /* Hover & active iguais */
@@ -1424,6 +1439,11 @@ loadHtml2Canvas(() => {
     const refCmValue = document.getElementById('refCmValue');
     let posX = 50;
     let posY = 50;
+    // --- SCRIPT ATUALIZADO PARA ROTAÇÃO DA ESTAMPA ---
+    const rotationSlider = document.getElementById('rotationSlider');
+    const estampaParaRotacionar = document.getElementById('estampaBg');
+    const rotateRightBtn = document.getElementById('rotateRightBtn');
+    const rotateLeftBtn = document.getElementById('rotateLeftBtn');
 
     // Estado para saber se é personalizado ou preset
     window.mockupState = {type: "none", url: mockupImg.src, name: "", thumb: mockupImg.src};
@@ -1485,6 +1505,35 @@ loadHtml2Canvas(() => {
     document.getElementById('zoomOut').addEventListener('touchend', stopZoomChange);
     document.getElementById('zoomIn').addEventListener('click', (e) => { if (!zoomInterval) zoomChange(1); });
     document.getElementById('zoomOut').addEventListener('click', (e) => { if (!zoomInterval) zoomChange(-1); });
+
+    // --- NOVO SCRIPT PARA ROTAÇÃO DA ESTAMPA ---
+    if (rotationSlider && estampaParaRotacionar) {
+  
+  function updateRotation(graus) {
+    // Garante que o valor fique entre 0 e 360
+    const valorFinal = (graus % 360 + 360) % 360; 
+    estampaParaRotacionar.style.transform = `rotate(${valorFinal}deg)`;
+    rotationSlider.value = valorFinal;
+  }
+
+  // Evento para o slider
+  rotationSlider.addEventListener('input', function() {
+    updateRotation(this.value);
+  });
+
+  // Evento para o botão de girar à direita
+  rotateRightBtn.addEventListener('click', function() {
+    let valorAtual = parseInt(rotationSlider.value);
+    updateRotation(valorAtual + 90);
+  });
+  
+  // Evento para o botão de girar à esquerda
+  rotateLeftBtn.addEventListener('click', function() {
+    let valorAtual = parseInt(rotationSlider.value);
+    updateRotation(valorAtual - 90);
+  });
+}
+// --- FIM DO SCRIPT DE ROTAÇÃO ---
 
     (function(){
       setTimeout(() => {
