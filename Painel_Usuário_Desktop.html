@@ -1,16 +1,4 @@
-<!-- Créditos:
-
-Desenvolvido e Pensado por: João Vitor Correia
-Produto: Mockup Creator (Alpha v1.0.0)
-Implementador: João Vitor Correia
-Licença: Temporária
-Linkedin:https://www.linkedin.com/in/joão-vitor-correia-37b9a4176/
-Data de última atualização do código: 28/05/2025 -->
-
-
-<!-- WRAPPER da interface -->
 <div class="interface-wrapper" style="position:relative;width:1420px;height:860px;margin:0 auto;">
-  <!-- Loading overlay DENTRO do wrapper -->
   <div id="custom-loading-overlay" style="
     position:absolute;top:0;left:0;width:1430px;height:900px;border-radius:30PX;
     z-index:999;background:linear-gradient(135deg,#f9ebc7 40%,#b99470 100%);
@@ -27,7 +15,6 @@ Data de última atualização do código: 28/05/2025 -->
 
   <div class="produto-pagina-remasterizada" style="border-radius: 30px;">
 
-    <!-- Painel lateral esquerdo: ferramentas -->
     <aside class="painel-lateral-remaster" style="justify-content: space-between;">
     <div>
         <div class="codigo-estampa-remaster" id="codigoEstampa">
@@ -91,22 +78,18 @@ Data de última atualização do código: 28/05/2025 -->
     </div>
 </aside>
 
-    <!-- Centro: mockup e overlay -->
     <main class="center-mockup">
       <div class="mockup-content" style="position:relative;">
-        <!-- BOX DINÂMICO DE REFERÊNCIA DE CM -->
         <div class="ref-cm-box" id="refCmBox" style="display:none;">
           <span id="refCmNome"></span>
           <span id="refCmValue"></span>
         </div>
-        <!-- FIM REF-CM-BOX -->
         <div class="estampa-bg" id="estampaBg"></div>
         <img src="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/mockup_experimental_1.png?v=1746646882" class="mockup-png" />
       </div>
     </main>
 
-    <!-- Painel lateral direito: categorias e upload -->
-    <aside class="painel-lateral-categorias" style="border-radius: 30px;">
+    <aside class="painel-lateral-categorias" id="painel-lateral-categorias" style="border-radius: 30px;">
       <div class="tabs-categorias">
         <button class="tab-btn-remaster active" id="tabMockupsBtn" type="button">
           🧢 Mockups
@@ -139,27 +122,7 @@ Data de última atualização do código: 28/05/2025 -->
         </div>
       </div>
       <div id="compartimentosEstampa" class="compartimentos-categorias-remaster" style="display:none;">
-        <div class="categoria-box-remaster">
-          <div class="categoria-title-remaster">🔷 Geométrica</div>
-          <div class="categoria-thumbnails-remaster">
-            <div class="thumbnail" data-url="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/Design_sem_nome_3_0eb77a8a-9243-4d31-9e03-4546cc40b529.jpg?v=1747248867" data-code="Código: 23413 " data-type="preset" data-name="Estampa Geométrica 01" data-refcm="4" data-refnome="Flor central" style="background-image: url('https://cdn.shopify.com/s/files/1/0661/4574/6991/files/Design_sem_nome_3_0eb77a8a-9243-4d31-9e03-4546cc40b529.jpg?v=1747248867');" class="estampa-circle"></div>
-          </div>
         </div>
-        <div class="categoria-box-remaster">
-          <div class="categoria-title-remaster">🌸 Floral</div>
-          <div class="categoria-thumbnails-remaster">
-            <div class="thumbnail" data-url="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/0093.jpg?v=1746645874" data-code="Código: 0093" data-type="preset" data-name="Estampa Floral 01" data-refcm="5.2" data-refnome="Folha maior" style="background-image: url('https://cdn.shopify.com/s/files/1/0661/4574/6991/files/0093.jpg?v=1746645874');" class="estampa-circle"></div>
-            <div class="thumbnail" data-url="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/130570BB.jpg?v=1746711245" data-code="Código: 130570BB" data-type="preset" data-name="Estampa Floral 02" data-refcm="3.5" data-refnome="Flor roxa" style="background-image: url('https://cdn.shopify.com/s/files/1/0661/4574/6991/files/130570BB.jpg?v=1746711245');" class="estampa-circle"></div>
-            <div class="thumbnail" data-url="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/0091.jpg?v=1746645874" data-code="Código: 0091" data-type="preset" data-name="Estampa Floral 03" data-refcm="6" data-refnome="Folha azul" style="background-image: url('https://cdn.shopify.com/s/files/1/0661/4574/6991/files/0091.jpg?v=1746645874');" class="estampa-circle"></div>
-          </div>
-        </div>
-        <div class="categoria-box-remaster">
-          <div class="categoria-title-remaster">🌴 Tropical</div>
-          <div class="categoria-thumbnails-remaster">
-            <div class="thumbnail" data-url="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/52678_ALT_FE_SP.jpg?v=1746645874" data-code="Código: 52678 ALT FE SP" data-type="preset" data-name="Estampa Tropical 01" data-refcm="40" data-refnome="Onça Inteira" style="background-image: url('https://cdn.shopify.com/s/files/1/0661/4574/6991/files/52678_ALT_FE_SP.jpg?v=1746645874');" class="estampa-circle"></div>
-          </div>
-        </div>
-      </div>
       <div id="compartimentosTecidos" class="compartimentos-categorias-remaster" style="display:none;">
         <div class="categoria-box-remaster">
           <div class="categoria-title-remaster">Algodão</div>
@@ -184,7 +147,6 @@ Data de última atualização do código: 28/05/2025 -->
     </aside>
   </div>
 
-  <!-- Modal de Upload -->
   <div id="uploadModal" class="modal-upload-remaster" style="display:none;">
     <div class="modal-content-remaster animate-modal">
       <h3>Upload de Arquivos</h3>
@@ -204,7 +166,6 @@ Data de última atualização do código: 28/05/2025 -->
     </div>
   </div>
 
-  <!-- Modal de Copiar Config -->
   <div id="configModal" class="modal-info-remaster" style="display:none;">
     <div class="modal-content-remaster animate-modal info-modal-large">
       <button id="closeConfigModal" class="close-x-modal" type="button"
@@ -237,9 +198,7 @@ Data de última atualização do código: 28/05/2025 -->
     </div>
   </div>
 
-  <!-- Botão de Créditos -->
-<button id="creditosBtn" style="position:fixed;bottom:18px;left:18px;z-index:9999;background:#fff2;border:1.5px solid #b99470;color:#783D19;font-size:0.93rem;padding:6px 14px;border-radius:14px;box-shadow:0 2px 8px #783d1910;cursor:pointer;opacity:0.7;transition:opacity 0.18s;" type="button">Créditos</button>
-<!-- Modal de Créditos -->
+  <button id="creditosBtn" style="position:fixed;bottom:18px;left:18px;z-index:9999;background:#fff2;border:1.5px solid #b99470;color:#783D19;font-size:0.93rem;padding:6px 14px;border-radius:14px;box-shadow:0 2px 8px #783d1910;cursor:pointer;opacity:0.7;transition:opacity 0.18s;" type="button">Créditos</button>
 <div id="creditosModal" style="display:none;position:fixed;z-index:10050;top:0;left:0;width:100vw;height:100vh;background:rgba(120,61,25,0.13);backdrop-filter:blur(1.5px);align-items:center;justify-content:center;">
   <div style="background:#fff;border-radius:18px;box-shadow:0 10px 40px #783d1916;padding:32px 32px 24px 32px;min-width:320px;max-width:96vw;width:370px;display:flex;flex-direction:column;align-items:center;position:relative;">
     <button id="closeCreditosModal" type="button" style="position:absolute;top:14px;right:14px;background:none;border:none;font-size:1.7rem;color:#b99470;cursor:pointer;">×</button>
@@ -256,6 +215,14 @@ Data de última atualização do código: 28/05/2025 -->
   </div>
 </div>
 
+<div id="categoria-modal" class="categoria-modal-remaster">
+  <div class="categoria-modal-header">
+      <input type="text" id="categoria-modal-search" placeholder="Buscar por código...">
+      <button id="categoria-modal-close" class="categoria-modal-close-btn" type="button">&times;</button>
+  </div>
+  <div id="categoria-modal-grid" class="categoria-modal-grid">
+      </div>
+</div>
 <style>
 :root {
   --cor-primaria: #783D19;
@@ -845,6 +812,7 @@ body, html {
   margin-bottom: 10px;
   display: flex; align-items: center; gap: 7px;
   letter-spacing: 0.2px;
+  position: relative; /* Adicionado para posicionar o botão + */
 }
 .categoria-thumbnails-remaster {
   display: flex;
@@ -1393,6 +1361,150 @@ body, html {
         gap: 12px;
         padding: 15px;
     }
+
+/* ============================================= */
+/* INÍCIO: NOVOS ESTILOS PARA MODAL DE CATEGORIA */
+/* ============================================= */
+.btn-expand-categoria {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  background: var(--cor-terciaria);
+  color: var(--cor-branco);
+  border: none;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  font-weight: bold;
+  line-height: 26px; /* Ajusta o "+" verticalmente */
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background-color 0.2s;
+  z-index: 5; /* Garante que fique acima do título */
+}
+.btn-expand-categoria:hover {
+  background-color: var(--cor-primaria);
+  transform: scale(1.1);
+}
+
+.categoria-modal-remaster {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 345px;
+    height: 100%;
+    background-image: url('https://cdn.shopify.com/s/files/1/0661/4574/6991/files/Sem_nome_1920_x_1080_px_1920_x_600_px_1920_x_900_px_1920_x_1080_px_2000_x_1920_px_4.png?v=1747252245');
+    background-size: cover;
+    background-position: center;
+    border-radius: 30px 0 0 30px;
+    box-shadow: -2px 0 18px var(--cor-sombra);
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    box-sizing: border-box; /* Garante que o padding não afete o tamanho total */
+    
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+.categoria-modal-remaster.open {
+    display: flex;
+    opacity: 1;
+    transform: translateX(0);
+}
+.categoria-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 36px 28px 20px 28px;
+    flex-shrink: 0;
+}
+#categoria-modal-search {
+    flex-grow: 1;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 2px solid var(--cor-borda);
+    background: var(--cor-fundo-cards);
+    color: var(--cor-primaria);
+    font-size: 1rem;
+    font-weight: 500;
+}
+#categoria-modal-search:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 8px var(--cor-sombra);
+}
+.categoria-modal-close-btn {
+    background: var(--cor-terciaria);
+    color: var(--cor-branco);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.8rem;
+    font-weight: 300;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 36px;
+    flex-shrink: 0;
+    transition: background-color 0.2s, transform 0.2s;
+}
+.categoria-modal-close-btn:hover {
+    background-color: var(--cor-primaria);
+    transform: rotate(90deg);
+}
+.categoria-modal-grid {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 24px 16px;
+    padding: 0 28px 24px 28px;
+    overflow-y: auto;
+    align-content: flex-start; /* <<< ADICIONE ESTA LINHA */
+}
+.estampa-item-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+.estampa-item-modal .thumbnail {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%; /* CORREÇÃO: Thumbnails redondas */
+    border: 3px solid var(--cor-terciaria);
+    transition: transform 0.2s, border-color 0.2s;
+    background-color: var(--cor-branco);
+    overflow: hidden; /* Garante que a imagem não vaze */
+}
+.estampa-item-modal:hover .thumbnail {
+    transform: scale(1.1);
+    border-color: var(--cor-primaria);
+}
+.estampa-item-modal .thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* CORREÇÃO: Imagem cobre toda a área */
+    border-radius: 50%;
+}
+.estampa-codigo-modal {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--cor-primaria);
+    text-align: center;
+    word-break: break-all;
+}
+/* ============================================= */
+/* FIM: NOVOS ESTILOS                          */
+/* ============================================= */
+
 /* --- FIM NOVO CSS --- */
 </style>
 
@@ -2212,78 +2324,165 @@ function escapeHtml(str) {
     .replace(/'/g, "&#39;");
 }
 
+// =======================================================
+// INÍCIO: LÓGICA DO MODAL DE CATEGORIA E BUSCA
+// =======================================================
+let estampasJson = {};
+let estampasCategoriaAtual = []; // Armazena estampas da categoria aberta no modal
+
+// Função para abrir o modal com as estampas da categoria correta
+function abrirModalCategoria(nomeCategoria) {
+    const categoria = estampasJson.categorias.find(cat => cat.nome === nomeCategoria);
+    if (!categoria) return;
+
+    estampasCategoriaAtual = categoria.estampas || [];
+    renderizarGridModal(estampasCategoriaAtual); // Chama a função que renderiza a grade
+
+    // Limpa o campo de busca e abre o modal
+    document.getElementById('categoria-modal-search').value = '';
+    document.getElementById('categoria-modal').classList.add('open');
+}
+
+// Função que renderiza a grade do modal
+function renderizarGridModal(estampasParaRenderizar) {
+    const grid = document.getElementById('categoria-modal-grid');
+    grid.innerHTML = ''; // Limpa a grade antes de popular
+
+    if (estampasParaRenderizar.length === 0) {
+        grid.innerHTML = `<p style="color: var(--cor-primaria); grid-column: 1 / -1; text-align: center;">Nenhuma estampa encontrada.</p>`;
+        return;
+    }
+
+    estampasParaRenderizar.forEach(est => {
+        const itemWrapper = document.createElement('div');
+        itemWrapper.className = 'estampa-item-modal';
+        itemWrapper.onclick = () => selecionarEstampa(est);
+
+        const thumb = document.createElement('div');
+        thumb.className = 'thumbnail';
+        
+        const img = document.createElement('img');
+        img.src = est.url;
+        img.alt = est.name || 'Estampa';
+
+        const codeSpan = document.createElement('span');
+        codeSpan.className = 'estampa-codigo-modal';
+        codeSpan.textContent = est.code || '';
+
+        thumb.appendChild(img);
+        itemWrapper.appendChild(thumb);
+        itemWrapper.appendChild(codeSpan);
+        grid.appendChild(itemWrapper);
+    });
+}
+
+
+// Função para fechar o modal
+function fecharModalCategoria() {
+    document.getElementById('categoria-modal').classList.remove('open');
+}
+
+// Função para filtrar as estampas em tempo real
+function filtrarEstampas() {
+    const termo = document.getElementById('categoria-modal-search').value.toLowerCase();
+    const estampasFiltradas = estampasCategoriaAtual.filter(est => 
+        (est.code || '').toLowerCase().includes(termo)
+    );
+    renderizarGridModal(estampasFiltradas);
+}
+
+// Função para aplicar a estampa selecionada no modal
+function selecionarEstampa(est) {
+    const estampaBg = document.getElementById('estampaBg');
+    const zoomSlider = document.getElementById('zoomSlider');
+    const codigoEstampa = document.getElementById('codigoEstampa');
+
+    estampaBg.style.backgroundImage = `url('${est.url}')`;
+    estampaBg.style.backgroundSize = `${zoomSlider.value}%`;
+    estampaBg.style.backgroundPosition = `50% 50%`;
+    
+    window.estampaState = {
+        type: 'preset',
+        url: est.url,
+        code: est.code || '',
+        name: est.name || '',
+        thumb: est.url
+    };
+
+    if (codigoEstampa) codigoEstampa.textContent = est.code || 'Código da Estampa';
+    window.refCm = parseFloat(est.refcm) || window.refCmDefault;
+    window.refNome = est.refnome || window.refNomeDefault;
+    
+    if (typeof window.updateRefCmBox === 'function') window.updateRefCmBox();
+    if (typeof updateConfigModal === 'function') updateConfigModal();
+
+    fecharModalCategoria(); // Fecha o modal após a seleção
+}
+
+// Adiciona os event listeners para o modal
+document.getElementById('categoria-modal-close').addEventListener('click', fecharModalCategoria);
+document.getElementById('categoria-modal-search').addEventListener('input', filtrarEstampas);
+// =======================================================
+// FIM: LÓGICA DO MODAL DE CATEGORIA E BUSCA
+// =======================================================
+
+
 // Carregar estampas do backend e exibir na interface principal
 function carregarEstampasPrincipais() {
   fetchEstampasBackend(function(json) {
     estampasJson = json;
     const compartimentosEstampa = document.getElementById('compartimentosEstampa');
     if (!compartimentosEstampa) return;
-    // Remove todas as thumbnails fixas e antigas
     compartimentosEstampa.innerHTML = '';
-    // Só exibe as dinâmicas do estampas.json
+    
     estampasJson.categorias.forEach(cat => {
       const catDiv = document.createElement('div');
       catDiv.className = 'categoria-box-remaster';
-      catDiv.innerHTML = `<div class="categoria-title-remaster">${cat.icone || ''} ${cat.nome}</div>`;
+      
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'categoria-title-remaster';
+      titleDiv.innerHTML = `${cat.icone || ''} ${cat.nome}`;
+      
+      const expandBtn = document.createElement('button');
+      expandBtn.className = 'btn-expand-categoria';
+      expandBtn.textContent = '+';
+      expandBtn.type = 'button';
+      expandBtn.title = `Ver todas as estampas de ${cat.nome}`;
+      expandBtn.onclick = () => abrirModalCategoria(cat.nome);
+      
+      titleDiv.appendChild(expandBtn);
+      catDiv.appendChild(titleDiv);
+
       const thumbsDiv = document.createElement('div');
       thumbsDiv.className = 'categoria-thumbnails-remaster';
-      cat.estampas.forEach(est => {
+      
+      cat.estampas.slice(0, 4).forEach(est => {
         const thumb = document.createElement('div');
         thumb.className = 'thumbnail';
-        thumb.setAttribute('data-url', est.url);
-        thumb.setAttribute('data-code', est.code || '');
-        thumb.setAttribute('data-type', 'preset');
-        thumb.setAttribute('data-name', est.name || '');
-        thumb.setAttribute('data-refcm', est.refcm || '');
-        thumb.setAttribute('data-refnome', est.refnome || '');
-        // Cria o <img> igual às mockups
+        
         const img = document.createElement('img');
         img.src = est.url;
         img.className = 'estampa-circle';
         img.alt = est.name || 'Estampa';
-        img.style.width = '100%';
-        img.style.height = '100%';
-        img.style.objectFit = 'cover';
-        img.style.borderRadius = '50%';
+
         thumb.appendChild(img);
-        // Evento de clique
+        
         thumb.addEventListener('click', function() {
           document.querySelectorAll('#compartimentosEstampa .thumbnail.selected').forEach(el => el.classList.remove('selected'));
           thumb.classList.add('selected');
-          const url = thumb.getAttribute('data-url');
-          const name = thumb.getAttribute('data-name') || 'Estampa';
-          const code = thumb.getAttribute('data-code') || '';
-          const refcm = parseFloat(thumb.getAttribute('data-refcm')) || window.refCmDefault;
-          const refnome = thumb.getAttribute('data-refnome') || window.refNomeDefault;
-          const estampaBg = document.getElementById('estampaBg');
-          const zoomSlider = document.getElementById('zoomSlider');
-          const codigoEstampa = document.getElementById('codigoEstampa');
-          estampaBg.style.backgroundImage = `url('${url}')`;
-          estampaBg.style.backgroundSize = `${zoomSlider.value}%`;
-          estampaBg.style.backgroundPosition = `50% 50%`;
-          window.estampaState = {
-            type: 'preset',
-            url: url,
-            code: code,
-            name: name,
-            thumb: url
-          };
-          // Atualiza código da estampa e referência se houver
-          if (codigoEstampa) codigoEstampa.textContent = code || 'Código da Estampa';
-          window.refCm = refcm;
-          window.refNome = refnome;
-          if (typeof window.updateRefCmBox === 'function') window.updateRefCmBox();
-          if (typeof updateConfigModal === 'function') updateConfigModal();
+          selecionarEstampa(est);
+          fecharModalCategoria();
         });
         thumbsDiv.appendChild(thumb);
       });
       catDiv.appendChild(thumbsDiv);
       compartimentosEstampa.appendChild(catDiv);
     });
-    // Chama renderWatermarkOverlay após carregar as estampas do backend
+    
     renderWatermarkOverlay();
   });
 }
+
 // Chama ao carregar a página
 carregarEstampasPrincipais();
 
@@ -2303,16 +2502,15 @@ function renderWatermarkOverlay() {
     watermarkImg.style.width = '100%';
     watermarkImg.style.height = '100%';
     watermarkImg.style.objectFit = 'contain';
-    //watermarkImg.style.opacity = '0.35';
     watermarkImg.style.pointerEvents = 'none';
     watermarkImg.style.zIndex = '1';
     estampaBg.parentNode.insertBefore(watermarkImg, estampaBg.nextSibling);
   }
 }
-// Chame renderWatermarkOverlay sempre que carregar estampas ou trocar estampa
+
 document.addEventListener('DOMContentLoaded', function() {
- carregarEstampasPrincipais(); // Carrega as estampas e categorias
-  renderWatermarkOverlay();     // Exibe a marca d'água se existir
+ carregarEstampasPrincipais();
+  renderWatermarkOverlay();
 });
 carregarEstampasPrincipais();
 
