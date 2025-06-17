@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MockupCreator Pro - Canvas Edition (Corrigido)</title>
     <style>
+        /* (Seu CSS existente aqui - sem alterações nesta seção) */
         :root {
             --cor-fundo-workspace: #2a2a2e;
             --cor-fundo-paineis: #1e1e1e;
@@ -63,6 +64,43 @@
         .header-button.cta { background-color: var(--cor-verde-acao); color: var(--cor-texto-inverso); font-weight: 700; }
         .header-button.cta:hover { background-color: #2fdd70; }
         .header-button svg { width: 16px; height: 16px; }
+
+        /* Estilos adicionados para os botões de desfazer/refazer */
+        .undo-redo-group {
+            display: flex;
+            gap: 4px; /* Espaçamento menor entre os botões */
+            margin-right: 16px; /* Ajusta a margem para não colar nos botões de exportar/pedido */
+        }
+
+        .undo-redo-btn {
+            background: var(--cor-fundo-elementos);
+            border: 1px solid var(--cor-borda-sutil);
+            color: var(--cor-texto-secundario);
+            width: 32px; /* Tamanho ajustado para os ícones */
+            height: 32px; /* Tamanho ajustado para os ícones */
+            border-radius: 6px; /* Cantos levemente arredondados */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .undo-redo-btn:hover:not(:disabled) {
+            background-color: var(--cor-acento-secundario);
+            color: var(--cor-texto-principal);
+            border-color: var(--cor-acento-primario);
+        }
+
+        .undo-redo-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .undo-redo-btn svg {
+            width: 18px; /* Tamanho do ícone dentro do botão */
+            height: 18px;
+        }
 
         .workspace-main {
             grid-row: 2 / 3; display: grid;
@@ -181,7 +219,6 @@
         .selection-rect, .lasso-path {
             position: absolute;
             border: 2px dashed var(--cor-acento-primario);
-            /* REMOVIDO: background: rgba(185, 148, 112, 0.7); */ /* Esta linha será movida para .selection-rect separadamente */
             pointer-events: none;
             display: flex;
             align-items: flex-end;
@@ -339,6 +376,162 @@
             margin: 0; /* Sobrescreve margem anterior */
             white-space: nowrap;
         }
+
+        /* --- Novo CSS para o Mini Modal de Seleção --- */
+        #selection-action-modal {
+            position: absolute;
+            background-color: var(--cor-vidro);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--cor-vidro-borda);
+            border-radius: var(--raio-borda);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 105; /* Acima da overlay de seleção */
+            display: none; /* Controlado por JS */
+            flex-direction: column;
+            padding: 8px;
+            gap: 4px;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .selection-action-modal-btn {
+            background: none;
+            border: none;
+            color: var(--cor-texto-principal);
+            font-size: 0.88rem;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .selection-action-modal-btn:hover {
+            background-color: var(--cor-fundo-elementos);
+            color: var(--cor-acento-primario);
+        }
+
+        .selection-action-modal-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* --- Novo CSS para o Painel da Área de Transferência --- */
+        #clipboard-panel {
+            position: absolute;
+            top: 10px; /* Posição inicial, pode ser ajustada via JS */
+            right: 10px; /* Posição inicial, pode ser ajustada via JS */
+            width: 200px; /* Largura do painel */
+            max-height: 80%; /* Altura máxima */
+            background-color: var(--cor-vidro);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--cor-vidro-borda);
+            border-radius: var(--raio-borda);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            z-index: 110; /* Acima de outros elementos do canvas */
+            display: none; /* Controlado por JS */
+            flex-direction: column;
+            overflow: hidden;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        #clipboard-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--cor-borda-sutil);
+            background-color: rgba(0,0,0,0.1); /* Fundo leve para o cabeçalho */
+        }
+
+        #clipboard-panel-header h4 {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--cor-texto-principal);
+            font-weight: 600;
+        }
+
+        #closeClipboardPanelBtn {
+            background: none;
+            border: none;
+            color: var(--cor-texto-secundario);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        #closeClipboardPanelBtn:hover {
+            color: var(--cor-acento-primario);
+        }
+
+        #clipboard-panel-content {
+            flex-grow: 1;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto; /* Scroll para muitos itens */
+        }
+
+        .clipboard-item {
+            background-color: var(--cor-fundo-elements); /* Usar a cor de fundo de elementos para o item */
+            border: 1px solid var(--cor-borda-sutil);
+            border-radius: 8px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .clipboard-item:hover {
+            background-color: var(--cor-acento-primario);
+            color: var(--cor-texto-inverso);
+        }
+
+        .clipboard-item img {
+            width: 50px; /* Tamanho da thumbnail */
+            height: 50px;
+            object-fit: contain;
+            border-radius: 4px;
+            background-color: #000; /* Fundo para a thumbnail */
+            flex-shrink: 0;
+        }
+
+        .clipboard-item span {
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-grow: 1;
+        }
+
+        .clipboard-item-delete-btn {
+            background: none;
+            border: none;
+            color: var(--cor-texto-secundario);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .clipboard-item-delete-btn:hover {
+            background-color: rgba(255,0,0,0.2);
+            color: #ff6b6b;
+        }
     </style>
 </head>
 <body>
@@ -346,10 +539,24 @@
     <div class="workspace-wrapper">
         <header class="workspace-header">
             <div class="header-group">
-                <span class="logo">MockupCreator</span>
+                 <img class="logo" src="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/ChatGPT_Image_17_de_jun._de_2025__16_24_13-removebg-preview.png?v=1750188295" style="height:50px;margin-right:32px;filter:drop-shadow(0 4px 10px #e5be5e88);">
                 <div id="codigoEstampa" class="codigo-estampa">Nenhuma estampa</div>
             </div>
             <div class="header-group">
+                <div class="undo-redo-group">
+                    <button type="button" id="undoBtn" class="undo-redo-btn" title="Desfazer (Ctrl+Z)" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 17l-5-5 5-5m-5 5h14"/></svg>
+                    </button>
+                    <button type="button" id="redoBtn" class="undo-redo-btn" title="Refazer (Ctrl+Y)" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 17l5-5-5-5m5 5H4"/></svg>
+                    </button>
+                </div>
+
+                <button type="button" id="openClipboardPanelBtn" class="header-button" title="Área de Transferência (Ctrl+V)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                    Colar
+                </button>
+
                 <button type="button" id="creditosBtn" class="header-button">Créditos</button>
                 <button type="button" id="abrirIaBtn" class="header-button">Assistente IA</button>
                 <button type="button" id="falarRepresentanteBtn" class="header-button cta">
@@ -411,7 +618,33 @@
                 <div class="ruler vertical" id="ruler-vertical"></div>
                 <div id="canvas-wrapper">
                     <canvas id="mainCanvas"></canvas>
-                    <div class="selection-overlay"></div> </div>
+                    <div class="selection-overlay"></div>
+                    <div id="selection-action-modal">
+                        <button class="selection-action-modal-btn" id="copySelectionBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                            Copiar
+                        </button>
+                        <button class="selection-action-modal-btn" id="cutSelectionBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><path d="M20 4L8.5 15.5"/><path d="M14 14L20 20"/><path d="M8.5 8.5L12 12"/></svg>
+                            Recortar
+                        </button>
+                        <button class="selection-action-modal-btn" id="deleteSelectionBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                            Apagar
+                        </button>
+                    </div>
+
+                    <div id="clipboard-panel">
+                        <div id="clipboard-panel-header">
+                            <h4>Área de Transferência</h4>
+                            <button id="closeClipboardPanelBtn">&times;</button>
+                        </div>
+                        <div id="clipboard-panel-content">
+                            <p style="text-align: center; font-size: 0.8em; color: var(--cor-texto-secundario);">Nenhum item na área de transferência.</p>
+                        </div>
+                    </div>
+
+                </div>
                 <div class="ref-cm-box" id="refCmBox">
                     <span id="refCmNome"></span>: <span id="refCmValue"></span>
                 </div>
@@ -496,7 +729,7 @@
             <p>Pensado e desenvolvido por:<br><b>João Vitor Correia</b></p>
             <p><a href="https://www.linkedin.com/in/joão-vitor-correia-37b9a4176/" target="_blank">LinkedIn</a></p>
         </div>
-    </div>
+    </div >
     
     <aside id="iaDrawer">
         <div class="modal-header" style="padding: 0 16px; height: var(--altura-header); border-bottom: 1px solid var(--cor-borda-sutil);">
@@ -521,6 +754,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const rulerH = document.getElementById('ruler-horizontal');
     const rulerV = document.getElementById('ruler-vertical');
     const selectionOverlay = document.querySelector('.selection-overlay');
+    const selectionActionModal = document.getElementById('selection-action-modal'); // Mini modal de seleção
+    const copySelectionBtn = document.getElementById('copySelectionBtn');
+    const cutSelectionBtn = document.getElementById('cutSelectionBtn');
+    const deleteSelectionBtn = document.getElementById('deleteSelectionBtn');
+    const undoBtn = document.getElementById('undoBtn'); // Botão Desfazer
+    const redoBtn = document.getElementById('redoBtn'); // Botão Refazer
+    const openClipboardPanelBtn = document.getElementById('openClipboardPanelBtn'); // Botão para abrir o painel de clipboard
+    const clipboardPanel = document.getElementById('clipboard-panel'); // Painel da área de transferência
+    const closeClipboardPanelBtn = document.getElementById('closeClipboardPanelBtn');
+    const clipboardPanelContent = document.getElementById('clipboard-panel-content');
 
     const codigoEstampaEl = document.getElementById('codigoEstampa');
     const zoomSlider = document.getElementById('zoomSlider');
@@ -535,7 +778,7 @@ document.addEventListener('DOMContentLoaded', () => {
         layers: [
             { // Camada 0: Estampa
                 type: 'estampa', image: null, source: null, visible: true,
-                x: 0, y: 0, scale: 1.0, rotation: 0, // x, y, scale, rotation para o modo MOCKUP VISÍVEL
+                x: 0, y: 0, scale: 1.0, rotation: 0, 
                 name: 'Nenhuma', code: '', dpi: 96,
                 refCm: 4, refNome: "Ref.", originalWidth: 0, originalHeight: 0
             },
@@ -546,61 +789,174 @@ document.addEventListener('DOMContentLoaded', () => {
                 name: "Mockup Padrão"
             }
         ],
-        // pan.x e pan.y agora controlam o pan geral do canvas (quando mockup oculto)
-        // OU o pan do canvaswrapper (quando mockup visível, embora não usado na renderização do mockup)
         pan: { x: 0, y: 0, isPanning: false, lastX: 0, lastY: 0 },
         isJoystickDragging: false,
-        activeTool: null, // 'move', 'zoom', 'rotate', 'rect-select', 'lasso-select', 'toggle-mockup', 'upload'
+        activeTool: null, 
         assetsData: { categorias: [] },
         tecidoState: { type: "none", name: "Nenhum", thumb: "" },
         rulerMaxCm: { w: 100, h: 100 },
         selection: {
             active: false,
-            type: null, // 'rect' or 'lasso'
+            type: null, 
             startX: 0,
             startY: 0,
             currentElement: null,
-            lassoPoints: []
-        }
+            lassoPoints: [],
+            selectionPixels: null, 
+            selectionImage: null 
+        },
+        clipboardItems: [], // Agora um array para múltiplos itens
+        history: [], 
+        historyPointer: -1 
     };
 
     const BACKEND_URL = 'https://estampas-oda7.onrender.com/estampas';
     const AUTH_HEADER = 'Basic ' + btoa('admin:senha123');
 
+    // --- Funções de Histórico (Desfazer/Refazer) ---
+    function saveState() {
+        if (state.historyPointer < state.history.length - 1) {
+            state.history = state.history.slice(0, state.historyPointer + 1);
+        }
+        const currentEstampa = state.layers[0];
+        const stateToSave = {
+            estampa: {
+                source: currentEstampa.source,
+                name: currentEstampa.name,
+                code: currentEstampa.code,
+                dpi: currentEstampa.dpi,
+                refCm: currentEstampa.refCm,
+                refNome: currentEstampa.refNome,
+                originalWidth: currentEstampa.originalWidth,
+                originalHeight: currentEstampa.originalHeight,
+                x: currentEstampa.x,
+                y: currentEstampa.y,
+                scale: currentEstampa.scale,
+                rotation: currentEstampa.rotation,
+                imageData: currentEstampa.image ? createImageBitmap(currentEstampa.image) : null 
+            },
+            pan: { ...state.pan },
+            mockupVisible: state.layers[1].visible 
+        };
+
+        state.history.push(stateToSave);
+        state.historyPointer++;
+        updateUndoRedoButtons();
+    }
+    
+    function updateUndoRedoButtons() {
+        undoBtn.disabled = state.historyPointer <= 0;
+        redoBtn.disabled = state.historyPointer >= state.history.length - 1;
+    }
+
+    async function restoreState(historyState) {
+        const estampaLayer = state.layers[0];
+        estampaLayer.source = historyState.estampa.source;
+        estampaLayer.name = historyState.estampa.name;
+        estampaLayer.code = historyState.estampa.code;
+        estampaLayer.dpi = historyState.estampa.dpi;
+        estampaLayer.refCm = historyState.estampa.refCm;
+        estampaLayer.refNome = historyState.estampa.refNome;
+        estampaLayer.originalWidth = historyState.estampa.originalWidth;
+        estampaLayer.originalHeight = historyState.estampa.originalHeight;
+        estampaLayer.x = historyState.estampa.x;
+        estampaLayer.y = historyState.estampa.y;
+        estampaLayer.scale = historyState.estampa.scale;
+        estampaLayer.rotation = historyState.estampa.rotation;
+
+        if (historyState.estampa.imageData) {
+            estampaLayer.image = await createImageBitmap(historyState.estampa.imageData);
+        } else {
+            estampaLayer.image = null;
+        }
+
+        state.pan = { ...historyState.pan };
+        state.layers[1].visible = historyState.mockupVisible;
+
+        zoomSlider.value = estampaLayer.scale * 100;
+        rotationSlider.value = estampaLayer.rotation * (180 / Math.PI);
+        document.querySelector('[data-tool="toggle-mockup"]').classList.toggle('active', !state.layers[1].visible);
+
+        render();
+        updateUndoRedoButtons();
+    }
+
+    undoBtn.addEventListener('click', () => {
+        if (state.historyPointer > 0) {
+            state.historyPointer--;
+            restoreState(state.history[state.historyPointer]);
+        }
+    });
+
+    redoBtn.addEventListener('click', () => {
+        if (state.historyPointer < state.history.length - 1) {
+            state.historyPointer++;
+            restoreState(state.history[state.historyPointer]);
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey || e.metaKey) { 
+            if (e.key === 'z') {
+                e.preventDefault();
+                undoBtn.click();
+            } else if (e.key === 'y') {
+                e.preventDefault();
+                redoBtn.click();
+            } else if (e.key === 'c') {
+                if (state.selection.active && state.layers[0].image) {
+                    e.preventDefault();
+                    copySelection();
+                }
+            } else if (e.key === 'x') {
+                if (state.selection.active && state.layers[0].image) {
+                    e.preventDefault();
+                    cutSelection();
+                }
+            } else if (e.key === 'v') {
+                if (state.clipboardItems.length > 0) {
+                    e.preventDefault();
+                    pasteItem(state.clipboardItems.length - 1); // Cola o último item por padrão
+                }
+            }
+        }
+    });
+
     // --- Funções de Renderização e Lógica Principal ---
     function resizeCanvasAndRender() {
         const { width, height } = canvasWrapper.getBoundingClientRect();
-        const padding = state.layers[1].visible ? 40 : 0; // No padding if mockup is hidden
+        
+        const padding = state.layers[1].visible ? 40 : 0;
+        
         const availableWidth = width - padding;
         const availableHeight = height - padding;
-        const aspectRatio = 7 / 8; // For mockup
+        const mockupAspectRatio = 7 / 8; 
 
-        let canvasWidth, canvasHeight;
+        let newCanvasWidth, newCanvasHeight;
 
-        if (state.layers[1].visible) { // Mockup is visible
-            if (availableWidth / availableHeight > aspectRatio) {
-                canvasHeight = availableHeight;
-                canvasWidth = canvasHeight * aspectRatio;
+        if (state.layers[1].visible) { 
+            if (availableWidth / availableHeight > mockupAspectRatio) {
+                newCanvasHeight = availableHeight;
+                newCanvasWidth = newCanvasHeight * mockupAspectRatio;
             } else {
-                canvasWidth = availableWidth;
-                canvasHeight = canvasWidth / aspectRatio;
+                newCanvasWidth = availableWidth;
+                newCanvasHeight = newCanvasWidth / mockupAspectRatio;
             }
             canvas.style.boxShadow = '0 10px 50px rgba(0,0,0,0.2)';
             canvas.style.borderRadius = 'var(--raio-borda)';
 
-            // Reset pan quando o mockup está visível
             state.pan.x = 0;
             state.pan.y = 0;
 
-        } else { // Mockup is hidden, canvas fills wrapper
-            canvasWidth = width;
-            canvasHeight = height;
+        } else { 
+            newCanvasWidth = width;
+            newCanvasHeight = height;
             canvas.style.boxShadow = 'none';
             canvas.style.borderRadius = '0';
         }
 
-        canvas.width = canvasWidth;
-        canvas.height = canvasHeight;
+        canvas.width = newCanvasWidth;
+        canvas.height = newCanvasHeight;
         render();
         renderRulers();
     }
@@ -609,17 +965,29 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!ctx) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        ctx.save();
-        
-        if (state.layers[1].visible) { // Render com mockup como base
-            // Draw Estampa Layer (Layer 0)
-            const estampa = state.layers[0];
+        const estampa = state.layers[0];
+        const mockup = state.layers[1];
+
+        if (!mockup.visible) {
+            if (estampa.visible && estampa.image) {
+                ctx.save();
+                
+                const drawX = canvas.width / 2 + state.pan.x;
+                const drawY = canvas.height / 2 + state.pan.y;
+
+                ctx.translate(drawX, drawY);
+                ctx.rotate(estampa.rotation);
+                ctx.scale(estampa.scale, estampa.scale);
+                
+                ctx.drawImage(estampa.image, -estampa.originalWidth / 2, -estampa.originalHeight / 2, estampa.originalWidth, estampa.originalHeight);
+                ctx.restore();
+            }
+        } else { 
             if (estampa.visible && estampa.image) {
                 ctx.save();
                 const centerX = canvas.width / 2;
                 const centerY = canvas.height / 2;
 
-                // Aqui usa estampa.x e estampa.y para o posicionamento DENTRO do mockup
                 ctx.translate(centerX + estampa.x, centerY + estampa.y); 
                 ctx.rotate(estampa.rotation);
                 ctx.scale(estampa.scale, estampa.scale);
@@ -628,33 +996,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.restore();
             }
 
-            // Draw Mockup Layer (Layer 1)
-            const mockup = state.layers[1];
             if (mockup.visible && mockup.image) {
                 ctx.save();
-                // Mockup fica centralizado e fixo, sem transformações aplicadas a ele
                 ctx.drawImage(mockup.image, 0, 0, canvas.width, canvas.height);
-                ctx.restore();
-            }
-
-        } else { // Render estampa livremente dentro do canvas (mockup oculto)
-            const estampa = state.layers[0];
-            if (estampa.visible && estampa.image) {
-                ctx.save();
-                
-                // Aplicar pan, zoom e rotação diretamente na estampa.
-                // Move o contexto para o centro do canvas, aplica o pan, e então o resto das transformações
-                ctx.translate(canvas.width / 2 + state.pan.x, canvas.height / 2 + state.pan.y);
-                ctx.rotate(estampa.rotation);
-                ctx.scale(estampa.scale, estampa.scale);
-                
-                // Desenhar a imagem com a sua própria origem centralizada (naturalWidth/2, naturalHeight/2)
-                ctx.drawImage(estampa.image, -estampa.originalWidth / 2, -estampa.originalHeight / 2, estampa.originalWidth, estampa.originalHeight);
                 ctx.restore();
             }
         }
         
-        ctx.restore();
         updateRefCmBox();
     }
 
@@ -677,45 +1025,41 @@ document.addEventListener('DOMContentLoaded', () => {
         img.onload = () => {
             layer.image = img;
             
-            // Armazena as dimensões originais da estampa
             if (layer.type === 'estampa') {
                 layer.originalWidth = img.naturalWidth;
                 layer.originalHeight = img.naturalHeight;
-            }
 
-            // Reseta as transformações na nova imagem
-            layer.x = 0; layer.y = 0; layer.rotation = 0;
-            
-            // Escala automaticamente para caber
-            const targetWidth = state.layers[1].visible ? canvas.width : canvasWrapper.clientWidth;
-            const targetHeight = state.layers[1].visible ? canvas.height : canvasWrapper.clientHeight;
-            
-            const hRatio = targetWidth / img.naturalWidth;
-            const vRatio = targetHeight / img.naturalHeight;
-            layer.scale = Math.min(hRatio, vRatio);
+                const mockupVisible = state.layers[1].visible;
+                const targetAreaWidth = mockupVisible ? canvas.width : canvasWrapper.clientWidth;
+                const targetAreaHeight = mockupVisible ? canvas.height : canvasWrapper.clientHeight;
+                
+                const imgRatio = img.naturalWidth / img.naturalHeight;
+                const targetRatio = targetAreaWidth / targetAreaHeight;
 
-            // Se for estampa e o mockup estiver oculto, a escala inicial deve 'conter' na área do wrapper
-            if (layer.type === 'estampa' && !state.layers[1].visible) {
-                 const wrapperRect = canvasWrapper.getBoundingClientRect();
-                 const imgRatio = img.naturalWidth / img.naturalHeight;
-                 const wrapperRatio = wrapperRect.width / wrapperRect.height;
+                if (imgRatio > targetRatio) { 
+                    layer.scale = targetAreaWidth / img.naturalWidth;
+                } else { 
+                    layer.scale = targetAreaHeight / img.naturalHeight;
+                }
+                
+                layer.scale = Math.min(Math.max(layer.scale, 0.2), 2.0); 
 
-                 if (imgRatio > wrapperRatio) { // Imagem é mais larga que o wrapper
-                     layer.scale = wrapperRect.width / img.naturalWidth;
-                 } else { // Imagem é mais alta que o wrapper
-                     layer.scale = wrapperRect.height / img.naturalHeight;
-                 }
-            }
-            
-            if(layer.type === 'estampa') {
+                layer.x = 0; 
+                layer.y = 0; 
+                layer.rotation = 0;
+                state.pan.x = 0;
+                state.pan.y = 0;
+
                 zoomSlider.value = layer.scale * 100;
                 rotationSlider.value = 0;
             }
             
             render();
+            saveState(); 
             if (onComplete) onComplete(img);
         };
     }
+
 
     // --- Funções Auxiliares para Coordenadas e Conversões ---
     function getMousePosOnCanvas(e) {
@@ -726,29 +1070,35 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    function getMousePosOnImagePixels(e) {
+    function getCanvasCoordsFromWrapper(wrapperX, wrapperY) {
+        const canvasRect = canvas.getBoundingClientRect();
+        const wrapperRect = canvasWrapper.getBoundingClientRect();
+        return {
+            x: wrapperX - (canvasRect.left - wrapperRect.left),
+            y: wrapperY - (canvasRect.top - wrapperRect.top)
+        };
+    }
+
+    function getMousePosOnImagePixels(wrapperX, wrapperY) {
         const estampa = state.layers[0];
         if (!estampa.image) return null;
 
-        const mousePos = getMousePosOnCanvas(e);
-        let adjustedX = mousePos.x;
-        let adjustedY = mousePos.y;
+        const canvasPos = getCanvasCoordsFromWrapper(wrapperX, wrapperY);
+        let adjustedX = canvasPos.x;
+        let adjustedY = canvasPos.y;
 
-        // Se o mockup estiver oculto, ajusta para o pan do canvasWrapper
         if (!state.layers[1].visible) { 
             adjustedX -= state.pan.x;
             adjustedY -= state.pan.y;
         } else {
-             // Se o mockup estiver visível, ajusta para o pan (x,y) da estampa DENTRO do mockup
              adjustedX -= estampa.x;
              adjustedY -= estampa.y;
         }
 
-        // Translate back to stamp's local coordinates, considering rotation and scale
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
 
-        const rotatedX = (adjustedX - centerX); // Mouse pos relative to canvas center
+        const rotatedX = (adjustedX - centerX); 
         const rotatedY = (adjustedY - centerY);
 
         const cos = Math.cos(-estampa.rotation);
@@ -776,28 +1126,175 @@ document.addEventListener('DOMContentLoaded', () => {
         state.selection.active = false;
         state.selection.type = null;
         state.selection.lassoPoints = [];
-        canvasWrapper.style.cursor = 'grab'; // Reset cursor
+        state.selection.selectionPixels = null; 
+        state.selection.selectionImage = null; 
+        canvasWrapper.style.cursor = 'grab'; 
+        selectionActionModal.style.display = 'none'; 
     }
 
+    // --- Funções do Mini Modal de Seleção (Copiar, Recortar, Apagar) ---
+    function showSelectionActionModal(x, y) {
+        selectionActionModal.style.left = `${x}px`;
+        selectionActionModal.style.top = `${y}px`;
+        selectionActionModal.style.display = 'flex';
+    }
+
+    function hideSelectionActionModal() {
+        selectionActionModal.style.display = 'none';
+    }
+
+    function copySelection() {
+        if (!state.selection.selectionImage) return;
+        
+        state.clipboardItems.push({ // Adiciona ao array
+            type: 'image',
+            image: state.selection.selectionImage, 
+            width: state.selection.selectionPixels.width,
+            height: state.selection.selectionPixels.height,
+            name: `Recorte ${state.clipboardItems.length + 1}` // Nome para exibição no painel
+        });
+        hideSelectionActionModal();
+        clearSelection(); 
+        updateClipboardPanel(); 
+    }
+
+    function cutSelection() {
+        if (!state.selection.selectionImage || !state.selection.selectionPixels) return;
+        
+        state.clipboardItems.push({ // Adiciona ao array
+            type: 'image',
+            image: state.selection.selectionImage, 
+            width: state.selection.selectionPixels.width,
+            height: state.selection.selectionPixels.height,
+            name: `Recorte ${state.clipboardItems.length + 1}` 
+        });
+
+        const estampa = state.layers[0];
+        if (!estampa.image) return;
+
+        saveState(); 
+
+        const { x, y, width, height } = state.selection.selectionPixels;
+        
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = estampa.originalWidth;
+        tempCanvas.height = estampa.originalHeight;
+        const tempCtx = tempCanvas.getContext('2d');
+
+        tempCtx.drawImage(estampa.image, 0, 0);
+        tempCtx.clearRect(x, y, width, height); 
+
+        const newImage = new Image();
+        newImage.onload = () => {
+            estampa.image = newImage;
+            render();
+        };
+        newImage.src = tempCanvas.toDataURL(); 
+        
+        hideSelectionActionModal();
+        clearSelection(); 
+        updateClipboardPanel(); 
+    }
+
+    function deleteSelection() {
+        if (!state.selection.selectionPixels) return;
+
+        const estampa = state.layers[0];
+        if (!estampa.image) return;
+
+        saveState(); 
+
+        const { x, y, width, height } = state.selection.selectionPixels;
+        
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = estampa.originalWidth;
+        tempCanvas.height = estampa.originalHeight;
+        const tempCtx = tempCanvas.getContext('2d');
+
+        tempCtx.drawImage(estampa.image, 0, 0);
+        tempCtx.clearRect(x, y, width, height); 
+
+        const newImage = new Image();
+        newImage.onload = () => {
+            estampa.image = newImage;
+            render();
+        };
+        newImage.src = tempCanvas.toDataURL(); 
+
+        hideSelectionActionModal();
+        clearSelection(); 
+    }
+
+    async function pasteItem(itemIndex) {
+        if (itemIndex === undefined || itemIndex < 0 || itemIndex >= state.clipboardItems.length) return;
+        
+        const itemToPaste = state.clipboardItems[itemIndex];
+        if (!itemToPaste || itemToPaste.type !== 'image' || !itemToPaste.image) return;
+
+        saveState(); 
+
+        const estampa = state.layers[0];
+        
+        const finalCanvas = document.createElement('canvas');
+        finalCanvas.width = estampa.originalWidth || itemToPaste.width; // Usa o tamanho do item se não houver estampa
+        finalCanvas.height = estampa.originalHeight || itemToPaste.height;
+        const finalCtx = finalCanvas.getContext('2d');
+
+        if (estampa.image) {
+            finalCtx.drawImage(estampa.image, 0, 0);
+        } else {
+            estampa.originalWidth = finalCanvas.width;
+            estampa.originalHeight = finalCanvas.height;
+        }
+
+        const pasteX = (finalCanvas.width - itemToPaste.image.naturalWidth) / 2;
+        const pasteY = (finalCanvas.height - itemToPaste.image.naturalHeight) / 2;
+        finalCtx.drawImage(itemToPaste.image, pasteX, pasteY);
+
+        const newImage = new Image();
+        newImage.onload = () => {
+            estampa.image = newImage;
+            if (!state.layers[1].visible) { 
+                const wrapperRect = canvasWrapper.getBoundingClientRect();
+                const imgRatio = newImage.naturalWidth / newImage.naturalHeight;
+                const wrapperRatio = wrapperRect.width / wrapperRect.height;
+                if (imgRatio > wrapperRatio) {
+                    estampa.scale = wrapperRect.width / newImage.naturalWidth;
+                } else {
+                    estampa.scale = wrapperRect.height / newImage.naturalHeight;
+                }
+            }
+            zoomSlider.value = estampa.scale * 100;
+            render();
+        };
+        newImage.src = finalCanvas.toDataURL();
+
+        hideSelectionActionModal();
+        clearSelection(); 
+    }
+
+    // Listeners para os botões do mini modal
+    copySelectionBtn.addEventListener('click', copySelection);
+    cutSelectionBtn.addEventListener('click', cutSelection);
+    deleteSelectionBtn.addEventListener('click', deleteSelection);
+    
     // --- Lógica das Ferramentas e Controles ---
     document.querySelectorAll('.tool-button').forEach(button => {
         button.addEventListener('click', (e) => {
             e.stopPropagation();
             const tool = button.dataset.tool;
 
-            // Limpa a seleção existente quando uma nova ferramenta é ativada
             if (state.selection.active && (tool !== 'rect-select' && tool !== 'lasso-select')) {
                 clearSelection();
             }
+            hideSelectionActionModal(); 
             
-            // Desativa o estado visual da ferramenta atual
             document.querySelectorAll('.tool-button').forEach(btn => {
-                if (btn.dataset.tool !== 'toggle-mockup') { // Mantém o estado do toggle-mockup independente
+                if (btn.dataset.tool !== 'toggle-mockup') { 
                     btn.classList.remove('active');
                 }
             });
 
-            // Lida com o popup específico da ferramenta e o estado ativo
             const currentPopup = document.querySelector('.tool-popup.show');
             const targetPopup = document.getElementById(`popup-${tool}`);
 
@@ -810,11 +1307,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 targetPopup.classList.toggle('show');
             }
 
-            // Define o novo estado da ferramenta ativa e o cursor
             state.activeTool = tool;
-            button.classList.add('active'); // Ativa o botão atual
+            button.classList.add('active'); 
 
-            // Lida com o cursor específico da ferramenta de seleção
             if (tool === 'rect-select' || tool === 'lasso-select') {
                 canvasWrapper.style.cursor = 'crosshair';
             } else {
@@ -827,12 +1322,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const estampa = state.layers[0];
         estampa.scale = parseFloat(e.target.value) / 100;
         render();
+        saveState(); 
     });
 
     rotationSlider.addEventListener('input', (e) => {
         const estampa = state.layers[0];
         estampa.rotation = parseFloat(e.target.value) * (Math.PI / 180);
         render();
+        saveState(); 
     });
 
     [rotateLeftBtn, rotateRightBtn].forEach(btn => {
@@ -844,22 +1341,25 @@ document.addEventListener('DOMContentLoaded', () => {
             estampa.rotation = newDeg * (Math.PI / 180);
             rotationSlider.value = newDeg % 360;
             render();
+            saveState(); 
         });
     });
 
-    // Joystick para pan (sempre afeta a camada da estampa)
     joystickHandle.addEventListener('mousedown', (e) => {
         state.isJoystickDragging = true;
         joystickHandle.style.cursor = 'grabbing';
-        e.stopPropagation(); // Evita o pan do canvasWrapper
+        e.stopPropagation(); 
     });
     document.addEventListener('mouseup', () => { 
-        state.isJoystickDragging = false; 
-        joystickHandle.style.cursor = 'grab';
-        joystickHandle.style.transition = 'all 0.2s ease';
-        joystickHandle.style.left = `calc(50% - 20px)`;
-        joystickHandle.style.top = `calc(50% - 20px)`;
-        setTimeout(() => joystickHandle.style.transition = '', 200);
+        if (state.isJoystickDragging) {
+            state.isJoystickDragging = false; 
+            joystickHandle.style.cursor = 'grab';
+            joystickHandle.style.transition = 'all 0.2s ease';
+            joystickHandle.style.left = `calc(50% - 20px)`;
+            joystickHandle.style.top = `calc(50% - 20px)`;
+            setTimeout(() => joystickHandle.style.transition = '', 200);
+            saveState(); 
+        }
     });
     document.addEventListener('mousemove', (e) => {
         if (!state.isJoystickDragging) return;
@@ -879,25 +1379,22 @@ document.addEventListener('DOMContentLoaded', () => {
         joystickHandle.style.left = `calc(50% - 20px + ${deltaX}px)`;
         joystickHandle.style.top = `calc(50% - 20px + ${deltaY}px)`;
         
-        // Ajusta pan ou posição da estampa dependendo do modo
         if (state.layers[1].visible) {
-            estampa.x += deltaX * 0.1; // Desloca estampa dentro do mockup
+            estampa.x += deltaX * 0.1; 
             estampa.y += deltaY * 0.1;
         } else {
-            state.pan.x += deltaX * 0.1; // Desloca o pan geral do canvas
+            state.pan.x += deltaX * 0.1; 
             state.pan.y += deltaY * 0.1;
         }
         render();
     });
 
-    // Pan & Zoom para canvasWrapper (apenas quando o mockup está oculto)
     canvasWrapper.addEventListener('mousedown', (e) => {
-        // Evita conflito com ferramentas de seleção ativas
         if (state.activeTool === 'rect-select' || state.activeTool === 'lasso-select') return;
-        // Permite pan apenas com o botão esquerdo do mouse
         if (e.button !== 0) return;
         
-        if (state.layers[1].visible) return; // Apenas pan do canvas se o mockup estiver oculto
+        if (state.layers[1].visible) return; 
+
         state.pan.isPanning = true;
         state.pan.lastX = e.clientX;
         state.pan.lastY = e.clientY;
@@ -906,7 +1403,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     canvasWrapper.addEventListener('mousemove', (e) => {
         if (!state.pan.isPanning) return;
-        if (state.layers[1].visible) return; // Apenas pan do canvas se o mockup estiver oculto
+        if (state.layers[1].visible) return; 
+
         state.pan.x += e.clientX - state.pan.lastX;
         state.pan.y += e.clientY - state.pan.lastY;
         state.pan.lastX = e.clientX;
@@ -915,87 +1413,92 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     canvasWrapper.addEventListener('mouseup', () => { 
-        state.pan.isPanning = false; 
-        if (!state.layers[1].visible) canvasWrapper.style.cursor = 'grab'; // Reseta o cursor
+        if (state.pan.isPanning) {
+            state.pan.isPanning = false; 
+            if (!state.layers[1].visible) canvasWrapper.style.cursor = 'grab'; 
+            saveState(); 
+        }
     });
     canvasWrapper.addEventListener('mouseleave', () => { 
-        state.pan.isPanning = false; 
-        if (!state.layers[1].visible) canvasWrapper.style.cursor = 'grab'; // Reseta o cursor
+        if (state.pan.isPanning) {
+            state.pan.isPanning = false; 
+            if (!state.layers[1].visible) canvasWrapper.style.cursor = 'grab'; 
+            saveState(); 
+        }
     });
     
     canvasWrapper.addEventListener('wheel', (e) => {
-        if (state.layers[1].visible || !state.layers[0].image) return; // Apenas zoom da camada da estampa se o mockup estiver oculto
+        if (state.layers[1].visible || !state.layers[0].image) return; 
         e.preventDefault();
         const estampa = state.layers[0];
-        const zoomFactor = 1.1; // Quanto o zoom muda por 'tick' da roda do mouse
+        const zoomFactor = 1.1; 
 
-        // Posição do mouse relativa ao canvas
         const mouseX = e.clientX - canvas.getBoundingClientRect().left; 
         const mouseY = e.clientY - canvas.getBoundingClientRect().top; 
 
         const oldScale = estampa.scale;
         
-        // Calcula a nova escala
         estampa.scale *= (e.deltaY < 0 ? zoomFactor : 1 / zoomFactor);
-        estampa.scale = Math.max(0.1, Math.min(4.0, estampa.scale)); // Limita o zoom (10% a 400%)
+        estampa.scale = Math.max(0.1, Math.min(4.0, estampa.scale)); 
 
         const scaleRatio = estampa.scale / oldScale;
         
-        // Ajusta a posição do pan para dar zoom em direção ao cursor do mouse
         state.pan.x = mouseX - (mouseX - state.pan.x) * scaleRatio;
         state.pan.y = mouseY - (mouseY - state.pan.y) * scaleRatio;
 
         zoomSlider.value = estampa.scale * 100;
         render();
+        saveState(); 
     });
     
     document.querySelector('[data-tool="toggle-mockup"]').addEventListener('click', (e) => {
         const mockupLayer = state.layers[1];
-        mockupLayer.visible = !mockupLayer.visible;
+        const estampa = state.layers[0];
+        
+        mockupLayer.visible = !mockupLayer.visible; 
         
         e.currentTarget.classList.toggle('active', !mockupLayer.visible);
 
-        // Reseta as transformações da estampa e o pan ao alternar a visibilidade do mockup
-        const estampa = state.layers[0];
-        estampa.x = 0; // Zera deslocamento da estampa no modo mockup visível
+        estampa.x = 0; 
         estampa.y = 0;
         estampa.rotation = 0;
-        state.pan.x = 0; // Zera o pan geral do canvas para o novo modo
+        state.pan.x = 0; 
         state.pan.y = 0;
         
-        // Ajusta a escala da estampa com base na visibilidade do mockup
-        if (mockupLayer.visible) {
-            // Recalcula a escala para caber dentro das dimensões do canvas do mockup
-            const hRatio = canvas.width / estampa.image.naturalWidth;
-            const vRatio = canvas.height / estampa.image.naturalHeight;
-            estampa.scale = Math.min(hRatio, vRatio);
-            canvasWrapper.style.cursor = 'grab'; // Cursor padrão para visualização do mockup
-        } else {
-            // Recalcula a escala para 'conter' dentro da área total do wrapper
-            const wrapperRect = canvasWrapper.getBoundingClientRect();
+        if (estampa.image) { 
+            const targetAreaWidth = mockupLayer.visible ? canvas.width : canvasWrapper.clientWidth;
+            const targetAreaHeight = mockupLayer.visible ? canvas.height : canvasWrapper.clientHeight;
+            
             const imgRatio = estampa.image.naturalWidth / estampa.image.naturalHeight;
-            const wrapperRatio = wrapperRect.width / wrapperRect.height;
+            const targetRatio = targetAreaWidth / targetAreaHeight;
 
-            if (imgRatio > wrapperRatio) {
-                estampa.scale = wrapperRect.width / estampa.image.naturalWidth;
+            if (imgRatio > targetRatio) {
+                estampa.scale = targetAreaWidth / estampa.image.naturalWidth;
             } else {
-                estampa.scale = wrapperRect.height / estampa.image.naturalHeight;
+                estampa.scale = targetAreaHeight / estampa.image.naturalHeight;
             }
-            canvasWrapper.style.cursor = 'grab'; // Cursor padrão de arrastar para pan/zoom livre
+
+            estampa.scale = Math.min(Math.max(estampa.scale, 0.2), 2.0); 
+        } else {
+            estampa.scale = 1.0; 
         }
 
+
+        canvasWrapper.style.cursor = 'grab'; 
+
         zoomSlider.value = estampa.scale * 100;
-        rotationSlider.value = estampa.rotation * (180 / Math.PI); // Atualiza o slider de rotação
+        rotationSlider.value = estampa.rotation * (180 / Math.PI); 
         
-        resizeCanvasAndRender(); // Recalcula o tamanho do canvas e renderiza
+        resizeCanvasAndRender();
+        saveState(); 
     });
 
     // --- Seleção Retangular e Laço ---
     canvasWrapper.addEventListener('mousedown', (e) => {
-        if (!state.layers[0].image) return; // Precisa de uma imagem para selecionar
-        if (e.button !== 0) return; // Apenas botão esquerdo do mouse
+        if (!state.layers[0].image) return; 
+        if (e.button !== 0) return; 
 
-        // Limpa qualquer seleção anterior
+        hideSelectionActionModal();
         clearSelection(); 
 
         const wrapperRect = canvasWrapper.getBoundingClientRect();
@@ -1005,8 +1508,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (state.activeTool === 'rect-select') {
             state.selection.active = true;
             state.selection.type = 'rect';
-            state.selection.startX = startMouseX; // Armazena startX relativo ao wrapper
-            state.selection.startY = startMouseY; // Armazena startY relativo ao wrapper
+            state.selection.startX = startMouseX; 
+            state.selection.startY = startMouseY; 
 
             const selectionRect = document.createElement('div');
             selectionRect.className = 'selection-rect';
@@ -1014,7 +1517,6 @@ document.addEventListener('DOMContentLoaded', () => {
             selectionOverlay.appendChild(selectionRect);
             state.selection.currentElement = selectionRect;
 
-            // Define posição e tamanho iniciais para consistência
             state.selection.currentElement.style.left = `${startMouseX}px`;
             state.selection.currentElement.style.top = `${startMouseY}px`;
             state.selection.currentElement.style.width = `0px`;
@@ -1036,14 +1538,12 @@ document.addEventListener('DOMContentLoaded', () => {
             svg.className = 'lasso-path';
             svg.setAttribute('width', '100%');
             svg.setAttribute('height', '100%');
-            // Remove qualquer atributo 'fill' ou 'background' diretamente do SVG aqui se houver
             
             const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-            // DEFINIR O ATRIBUTO FILL DIRETAMENTE NA POLYLINE
-            polyline.setAttribute('fill', 'rgba(185, 148, 112, 0.2)'); // Corrigido aqui
-            polyline.setAttribute('stroke', 'var(--cor-acento-primario)'); // Garante stroke
-            polyline.setAttribute('stroke-width', '2'); // Garante stroke-width
-            polyline.setAttribute('stroke-dasharray', '4 2'); // Garante dasharray
+            polyline.setAttribute('fill', 'rgba(185, 148, 112, 0.2)');
+            polyline.setAttribute('stroke', 'var(--cor-acento-primario)');
+            polyline.setAttribute('stroke-width', '2');
+            polyline.setAttribute('stroke-dasharray', '4 2');
             
             svg.appendChild(polyline);
             
@@ -1070,60 +1570,45 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!state.selection.active || state.selection.type !== 'rect') return;
 
         const wrapperRect = canvasWrapper.getBoundingClientRect();
-        // Coordenadas do mouse RELATIVAS ao canvasWrapper
         const mouseX = e.clientX - wrapperRect.left; 
         const mouseY = e.clientY - wrapperRect.top;
 
-        // startX e startY JÁ estão relativos ao canvasWrapper (definidos em mousedown)
         const startX = state.selection.startX; 
         const startY = state.selection.startY; 
 
-        // Calcula as coordenadas e dimensões da seleção
         const x = Math.min(mouseX, startX);
         const y = Math.min(mouseY, startY);
         const width = Math.abs(mouseX - startX);
         const height = Math.abs(mouseY - startY);
 
-        // Aplica as posições e dimensões ao elemento HTML da seleção
         state.selection.currentElement.style.left = `${x}px`;
         state.selection.currentElement.style.top = `${y}px`;
         state.selection.currentElement.style.width = `${width}px`;
         state.selection.currentElement.style.height = `${height}px`;
 
-        // Calcula as dimensões em pixels e CM na imagem original
         const estampa = state.layers[0];
         const dpi = estampa.dpi;
 
-        // Para obter as coordenadas em pixels da imagem, precisamos dos cantos da seleção
-        // convertidos de volta para as coordenadas do cliente (clientX/Y) para usar getMousePosOnImagePixels
-        const cornersClient = [
-            { clientX: x + wrapperRect.left, clientY: y + wrapperRect.top },
-            { clientX: x + width + wrapperRect.left, clientY: y + wrapperRect.top },
-            { clientX: x + wrapperRect.left, clientY: y + height + wrapperRect.top },
-            { clientX: x + width + wrapperRect.left, clientY: y + height + wrapperRect.top }
-        ];
+        const corner1Img = getMousePosOnImagePixels(x, y);
+        const corner2Img = getMousePosOnImagePixels(x + width, y + height);
+        
+        if (corner1Img && corner2Img) {
+            const pixelWidth = Math.abs(corner2Img.x - corner1Img.x);
+            const pixelHeight = Math.abs(corner2Img.y - corner1Img.y);
 
-        let minImgX = Infinity, maxImgX = -Infinity;
-        let minImgY = Infinity, maxImgY = -Infinity;
+            const cmWidth = pxToCm(pixelWidth, dpi).toFixed(2);
+            const cmHeight = pxToCm(pixelHeight, dpi).toFixed(2);
 
-        cornersClient.forEach(corner => {
-            const imgCoords = getMousePosOnImagePixels(corner);
-            if (imgCoords) {
-                minImgX = Math.min(minImgX, imgCoords.x);
-                maxImgX = Math.max(maxImgX, imgCoords.x);
-                minImgY = Math.min(minImgY, imgCoords.y);
-                maxImgY = Math.max(maxImgY, imgCoords.y);
-            }
-        });
+            state.selection.currentElement.querySelector('.dimensions').textContent = 
+                `${pixelWidth.toFixed(0)}px x ${pixelHeight.toFixed(0)}px (${cmWidth}cm x ${cmHeight}cm)`;
 
-        const pixelWidth = Math.abs(maxImgX - minImgX);
-        const pixelHeight = Math.abs(maxImgY - minImgY);
-
-        const cmWidth = pxToCm(pixelWidth, dpi).toFixed(2);
-        const cmHeight = pxToCm(pixelHeight, dpi).toFixed(2);
-
-        state.selection.currentElement.querySelector('.dimensions').textContent = 
-            `${pixelWidth.toFixed(0)}px x ${pixelHeight.toFixed(0)}px (${cmWidth}cm x ${cmHeight}cm)`;
+            state.selection.selectionPixels = {
+                x: Math.round(Math.min(corner1Img.x, corner2Img.x)),
+                y: Math.round(Math.min(corner1Img.y, corner2Img.y)),
+                width: Math.round(pixelWidth),
+                height: Math.round(pixelHeight)
+            };
+        }
     }
 
     function updateLassoSelection(e) {
@@ -1135,11 +1620,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         state.selection.lassoPoints.push(`${mouseX},${mouseY}`);
         
-        // Os pontos da Polyline são diretamente relativos ao wrapper/overlay
         const polyline = state.selection.currentElement.querySelector('polyline');
         polyline.setAttribute('points', state.selection.lassoPoints.join(' '));
 
-        // Para Lasso, calculamos o 'bounding box' para a exibição das dimensões
         let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
         state.selection.lassoPoints.forEach(pointStr => {
             const [x, y] = pointStr.split(',').map(Number);
@@ -1152,24 +1635,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const bboxWidth = maxX - minX;
         const bboxHeight = maxY - minY;
 
-        // Posiciona o span de dimensões dentro do wrapper do laço, baseado no bounding box
         const dimensionsSpan = state.selection.currentElement.querySelector('.dimensions');
-        dimensionsSpan.style.left = `${minX}px`; // Posição do texto de dimensão relativa ao wrapper
-        dimensionsSpan.style.top = `${maxY + 5}px`; // Abaixo do bounding box, ajustável
-        dimensionsSpan.style.transform = `translateX(-50%)`; // Centraliza o texto
+        dimensionsSpan.style.left = `${minX}px`;
+        dimensionsSpan.style.top = `${maxY + 5}px`;
+        dimensionsSpan.style.transform = `translateX(-50%)`;
         dimensionsSpan.style.left = `${minX + (bboxWidth / 2)}px`;
 
 
-        // Calcula as dimensões em pixels da imagem do bounding box
         const estampa = state.layers[0];
         const dpi = estampa.dpi;
 
-        // Para obter o bounding box em pixels da imagem, converte os cantos min/max
-        const corner1Client = { clientX: minX + wrapperRect.left, clientY: minY + wrapperRect.top };
-        const corner2Client = { clientX: maxX + wrapperRect.left, clientY: maxY + wrapperRect.top };
-        
-        const corner1Img = getMousePosOnImagePixels(corner1Client);
-        const corner2Img = getMousePosOnImagePixels(corner2Client);
+        const corner1Img = getMousePosOnImagePixels(minX, minY);
+        const corner2Img = getMousePosOnImagePixels(maxX, maxY);
         
         if (corner1Img && corner2Img) {
             const pixelWidth = Math.abs(corner2Img.x - corner1Img.x);
@@ -1180,6 +1657,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             dimensionsSpan.textContent = 
                 `${pixelWidth.toFixed(0)}px x ${pixelHeight.toFixed(0)}px (${cmWidth}cm x ${cmHeight}cm)`;
+
+            state.selection.selectionPixels = {
+                x: Math.round(Math.min(corner1Img.x, corner2Img.x)),
+                y: Math.round(Math.min(corner1Img.y, corner2Img.y)),
+                width: Math.round(pixelWidth),
+                height: Math.round(pixelHeight)
+            };
         }
     }
 
@@ -1188,8 +1672,86 @@ document.addEventListener('DOMContentLoaded', () => {
         canvasWrapper.removeEventListener('mousemove', updateRectSelection);
         canvasWrapper.removeEventListener('mousemove', updateLassoSelection);
         document.removeEventListener('mouseup', endSelection);
-        state.selection.active = false;
-        // Mantém a seleção visível até que outra ferramenta seja escolhida ou limpa manualmente
+        
+        if (state.selection.selectionPixels && state.selection.selectionPixels.width > 0 && state.selection.selectionPixels.height > 0) {
+            const estampa = state.layers[0];
+            if (!estampa.image) {
+                clearSelection();
+                return;
+            }
+
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = estampa.originalWidth;
+            tempCanvas.height = estampa.originalHeight;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            tempCtx.drawImage(estampa.image, 0, 0, estampa.originalWidth, estampa.originalHeight);
+
+            if (state.selection.type === 'lasso' && state.selection.lassoPoints.length > 2) {
+                tempCtx.globalCompositeOperation = 'destination-in'; 
+                tempCtx.beginPath();
+                
+                state.selection.lassoPoints.forEach((pointStr, index) => {
+                    const [wrapperX, wrapperY] = pointStr.split(',').map(Number);
+                    const imgCoords = getMousePosOnImagePixels(wrapperX, wrapperY); 
+                    if (imgCoords) { 
+                        if (index === 0) {
+                            tempCtx.moveTo(imgCoords.x, imgCoords.y);
+                        } else {
+                            tempCtx.lineTo(imgCoords.x, imgCoords.y);
+                        }
+                    }
+                });
+                tempCtx.closePath();
+                tempCtx.fill();
+                tempCtx.globalCompositeOperation = 'source-over'; 
+            }
+
+            const { x, y, width, height } = state.selection.selectionPixels;
+            try {
+                const clipCanvas = document.createElement('canvas');
+                clipCanvas.width = width;
+                clipCanvas.height = height;
+                const clipCtx = clipCanvas.getContext('2d');
+                
+                clipCtx.drawImage(tempCanvas, x, y, width, height, 0, 0, width, height);
+
+                state.selection.selectionImage = new Image();
+                state.selection.selectionImage.src = clipCanvas.toDataURL();
+                state.selection.selectionImage.onload = () => {
+                    console.log("Seleção extraída como imagem para clipboard.");
+                };
+                
+            } catch (error) {
+                console.error("Erro ao obter ImageData (verifique CORS se a imagem for externa):", error);
+                alert("Não foi possível processar a seleção. Verifique se a imagem está hospedada no mesmo domínio ou se possui cabeçalhos CORS adequados.");
+                clearSelection();
+                return;
+            }
+
+            const selectionRect = state.selection.currentElement.getBoundingClientRect();
+            const canvasWrapperRect = canvasWrapper.getBoundingClientRect();
+
+            let modalX = selectionRect.left - canvasWrapperRect.left + selectionRect.width / 2;
+            let modalY = selectionRect.top - canvasWrapperRect.top + selectionRect.height / 2;
+
+            const modalWidth = selectionActionModal.offsetWidth;
+            const modalHeight = selectionActionModal.offsetHeight;
+
+            if (modalX + modalWidth > canvasWrapperRect.width) {
+                modalX = selectionRect.left - canvasWrapperRect.left - modalWidth - 10; 
+            }
+            if (modalY + modalHeight > canvasWrapperRect.height) {
+                modalY = canvasWrapperRect.height - modalHeight - 10;
+            }
+            if (modalX < 0) modalX = 10;
+            if (modalY < 0) modalY = 10;
+
+            showSelectionActionModal(modalX, modalY);
+
+        } else {
+            clearSelection(); 
+        }
     }
 
 
@@ -1304,7 +1866,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupDropZone('dropEstampa', 'uploadEstampaInput', file => {
         const url = URL.createObjectURL(file);
-        // Tenta obter o DPI dos metadados da imagem, ou usa o padrão
         loadImageForLayer(0, url, file.name, { code: 'Custom', dpi: 96 }); 
         document.getElementById('uploadModal').classList.remove('show');
     });
@@ -1331,7 +1892,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const pxPerCmH = rulerH.offsetWidth / w;
         const pxPerCmV = rulerV.offsetHeight / h;
 
-        for (let i = 0; i <= Math.ceil(w); i++) { // Usa ceil para garantir que a marca final seja desenhada
+        for (let i = 0; i <= Math.ceil(w); i++) { 
             const tick = document.createElement('div');
             tick.className = 'tick';
             tick.style.left = `${i * pxPerCmH}px`;
@@ -1340,7 +1901,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else tick.classList.add('minor');
             rulerH.appendChild(tick);
         }
-         for (let i = 0; i <= Math.ceil(h); i++) { // Usa ceil para a régua vertical também
+         for (let i = 0; i <= Math.ceil(h); i++) { 
             const tick = document.createElement('div');
             tick.className = 'tick';
             tick.style.top = `${i * pxPerCmV}px`;
@@ -1356,10 +1917,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const { image, refCm, refNome, scale, dpi } = state.layers[0];
         if (!image) { refCmBox.style.display = 'none'; return; }
         
-        // Define o tamanho em pixels da referência com base no DPI original da estampa
         const refPxOriginal = refCm / 2.54 * dpi; 
         
-        // Calcula o tamanho em CM que a referência representa na escala atual da estampa
         const displayedCm = pxToCm(refPxOriginal * scale, dpi).toFixed(2);
         
         refCmBox.style.display = 'flex';
@@ -1382,7 +1941,6 @@ document.addEventListener('DOMContentLoaded', () => {
             codigo: estampa.code,
             zoom: `${(estampa.scale * 100).toFixed(0)}%`,
             rotacao: `${(estampa.rotation * 180 / Math.PI).toFixed(0)}°`,
-            // Para o export, usar a posição real (pan) quando mockup oculto
             posX: `${state.layers[1].visible ? estampa.x.toFixed(1) + 'px' : state.pan.x.toFixed(1) + 'px'}`,
             posY: `${state.layers[1].visible ? estampa.y.toFixed(1) + 'px' : state.pan.y.toFixed(1) + 'px'}`,
             tecido: state.tecidoState.name,
@@ -1431,17 +1989,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('downloadMockupBtn').addEventListener('click', () => {
-        // Cria um canvas temporário para desenhar a imagem composta final
         const exportCanvas = document.createElement('canvas');
         const exportCtx = exportCanvas.getContext('2d');
 
-        // Define as dimensões para caber na proporção da imagem original ou um tamanho padrão de exportação
-        // Para simplificar, vamos tentar exportar na resolução natural da maior imagem, mantendo a proporção
         const estampa = state.layers[0];
         const mockup = state.layers[1];
 
-        let exportWidth = 1920; // Largura de exportação padrão
-        let exportHeight = exportWidth / (7/8); // Corresponde à proporção do mockup
+        let exportWidth = 1920; 
+        let exportHeight = exportWidth / (7/8); 
 
         if (estampa.image && estampa.image.naturalWidth > exportWidth) {
             exportWidth = estampa.image.naturalWidth;
@@ -1457,28 +2012,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         exportCtx.clearRect(0, 0, exportCanvas.width, exportCanvas.height);
 
-        // Desenha a camada da estampa (escalada e posicionada como no canvas, mas adaptada para a resolução de exportação)
         if (estampa.image && estampa.visible) {
-            // Se o mockup estiver visível, a estampa é relativa ao mockup
-            // Se o mockup estiver oculto, a estampa é relativa ao centro do canvas de exportação + pan
             let drawX, drawY, drawScale;
 
             if (state.layers[1].visible) {
-                // Modo Mockup Visível: estampa.x/y são deslocamentos do centro do canvas de exibição.
-                // Ajustamos para o centro do canvas de exportação e aplicamos o mesmo fator de deslocamento relativo.
                 const relativeEstampaX = estampa.x / canvas.width;
                 const relativeEstampaY = estampa.y / canvas.height;
                 drawX = exportCanvas.width / 2 + (relativeEstampaX * exportCanvas.width);
                 drawY = exportCanvas.height / 2 + (relativeEstampaY * exportCanvas.height);
-                drawScale = estampa.scale * (exportCanvas.width / canvas.width); // Escala relativa à nova resolução
+                drawScale = estampa.scale * (exportCanvas.width / canvas.width); 
             } else {
-                // Modo Mockup Oculto: state.pan.x/y são deslocamentos do centro do canvas de exibição.
-                // Ajustamos para o centro do canvas de exportação e aplicamos o mesmo fator de deslocamento relativo.
                 const relativePanX = state.pan.x / canvas.width;
                 const relativePanY = state.pan.y / canvas.height;
                 drawX = exportCanvas.width / 2 + (relativePanX * exportCanvas.width);
                 drawY = exportCanvas.height / 2 + (relativePanY * exportCanvas.height);
-                drawScale = estampa.scale * (exportCanvas.width / estampa.originalWidth); // Escala da estampa relativa à sua original e ao tamanho de exportação
+                drawScale = estampa.scale * (exportCanvas.width / estampa.originalWidth); 
             }
 
             exportCtx.save();
@@ -1489,29 +2037,97 @@ document.addEventListener('DOMContentLoaded', () => {
             exportCtx.restore();
         }
 
-        // Desenha a camada do mockup (escalada para caber na resolução de exportação)
         if (mockup.image && mockup.visible) {
             exportCtx.drawImage(mockup.image, 0, 0, exportCanvas.width, exportCanvas.height);
         }
 
-        // Aciona o download
         const link = document.createElement('a');
         link.download = 'mockup-final.png';
         link.href = exportCanvas.toDataURL('image/png');
         link.click();
-        exportCanvas.remove(); // Limpeza
+        exportCanvas.remove(); 
     });
+
+    // --- Lógica do Painel da Área de Transferência ---
+    openClipboardPanelBtn.addEventListener('click', () => {
+        clipboardPanel.style.display = clipboardPanel.style.display === 'flex' ? 'none' : 'flex';
+        if (clipboardPanel.style.display === 'flex') {
+            updateClipboardPanel();
+        }
+    });
+
+    closeClipboardPanelBtn.addEventListener('click', () => {
+        clipboardPanel.style.display = 'none';
+    });
+
+    // Adiciona listener para fechar o painel do clipboard ao clicar fora dele
+    document.addEventListener('mousedown', (e) => {
+        if (clipboardPanel.style.display === 'flex' && 
+            !clipboardPanel.contains(e.target) && 
+            !openClipboardPanelBtn.contains(e.target)) {
+            clipboardPanel.style.display = 'none';
+        }
+    });
+
+    function updateClipboardPanel() {
+        clipboardPanelContent.innerHTML = ''; // Limpa o conteúdo atual
+
+        if (state.clipboardItems.length === 0) {
+            clipboardPanelContent.innerHTML = '<p style="text-align: center; font-size: 0.8em; color: var(--cor-texto-secundario);">Nenhum item na área de transferência.</p>';
+            return;
+        }
+
+        state.clipboardItems.forEach((item, index) => {
+            const clipboardItemDiv = document.createElement('div');
+            clipboardItemDiv.className = 'clipboard-item';
+            clipboardItemDiv.dataset.index = index; // Armazena o índice para colar/deletar
+
+            const imgElement = document.createElement('img');
+            imgElement.src = item.image.src; // Usa a Data URL da imagem
+            imgElement.alt = item.name || `Item ${index + 1}`;
+
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = item.name || `Item ${index + 1}`;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'clipboard-item-delete-btn';
+            deleteButton.innerHTML = '&times;'; // Ícone de fechar/deletar
+            deleteButton.title = 'Remover da lista';
+
+            clipboardItemDiv.appendChild(imgElement);
+            clipboardItemDiv.appendChild(nameSpan);
+            clipboardItemDiv.appendChild(deleteButton);
+
+            // Evento para colar o item
+            clipboardItemDiv.addEventListener('click', (e) => {
+                // Evita colar ao clicar no botão de remover
+                if (e.target.classList.contains('clipboard-item-delete-btn')) return;
+                pasteItem(parseInt(clipboardItemDiv.dataset.index));
+                clipboardPanel.style.display = 'none'; // Fecha o painel após colar
+            });
+
+            // Evento para remover o item da lista
+            deleteButton.addEventListener('click', (e) => {
+                e.stopPropagation(); // Evita que o clique no botão de remover também cole
+                state.clipboardItems.splice(parseInt(clipboardItemDiv.dataset.index), 1);
+                updateClipboardPanel(); // Atualiza a lista
+            });
+
+            clipboardPanelContent.appendChild(clipboardItemDiv);
+        });
+    }
+
 
     // --- Inicialização ---
     function init() {
         resizeCanvasAndRender();
         window.addEventListener('resize', resizeCanvasAndRender);
         fetchAssets();
-        // Carrega o mockup e depois a estampa, se desejar uma estampa padrão
         loadImageForLayer(1, state.layers[1].source, state.layers[1].name, {}, () => {
-            // Opcional: Carregar uma estampa padrão aqui, por exemplo, de assetsData.categorias[0].estampas[0]
-            // Por enquanto, começará sem estampa, o que está bom.
+            saveState(); 
+            updateUndoRedoButtons(); 
         }); 
+        updateClipboardPanel(); // Inicializa o painel da área de transferência
     }
 
     init();
