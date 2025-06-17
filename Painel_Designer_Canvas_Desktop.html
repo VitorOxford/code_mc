@@ -9,7 +9,7 @@
         :root {
             --cor-fundo-workspace: #2a2a2e;
             --cor-fundo-paineis: #1e1e1e;
-            --cor-fundo-elementos: #3c3c3e;
+            --cor-fundo-elements: #3c3c3e;
             --cor-borda-sutil: #4a4a4c;
             --cor-borda-forte: #6a6a6c;
             --cor-acento-primario: #B99470;
@@ -47,7 +47,7 @@
         .header-group { display: flex; align-items: center; gap: 16px; }
         .logo { font-weight: 700; font-size: 1.1rem; color: var(--cor-acento-primario); }
         .codigo-estampa {
-            font-size: 0.85rem; font-weight: 500; background-color: var(--cor-fundo-elementos);
+            font-size: 0.85rem; font-weight: 500; background-color: var(--cor-fundo-elements);
             color: var(--cor-texto-secundario); padding: 6px 12px;
             border-radius: var(--raio-borda); border: 1px solid var(--cor-borda-sutil);
         }
@@ -58,7 +58,7 @@
             cursor: pointer; border-radius: 8px; transition: all 0.2s ease;
             display: flex; align-items: center; gap: 8px;
         }
-        .header-button:hover { background-color: var(--cor-fundo-elementos); color: var(--cor-texto-principal); }
+        .header-button:hover { background-color: var(--cor-fundo-elements); color: var(--cor-texto-principal); }
         .header-button.primary { background-color: var(--cor-acento-primario); color: var(--cor-texto-inverso); }
         .header-button.primary:hover { background-color: var(--cor-acento-secundario); color: var(--cor-texto-principal); }
         .header-button.cta { background-color: var(--cor-verde-acao); color: var(--cor-texto-inverso); font-weight: 700; }
@@ -73,7 +73,7 @@
         }
 
         .undo-redo-btn {
-            background: var(--cor-fundo-elementos);
+            background: var(--cor-fundo-elements);
             border: 1px solid var(--cor-borda-sutil);
             color: var(--cor-texto-secundario);
             width: 32px; /* Tamanho ajustado para os ícones */
@@ -122,7 +122,7 @@
             color: var(--cor-texto-secundario);
             transition: all 0.2s ease; position: relative;
         }
-        .tool-button:hover { background-color: var(--cor-fundo-elementos); color: var(--cor-texto-principal); }
+        .tool-button:hover { background-color: var(--cor-fundo-elements); color: var(--cor-texto-principal); }
         .tool-button.active { background-color: var(--cor-acento-primario); color: var(--cor-texto-inverso); }
         .tool-button svg { width: 22px; height: 22px; }
         
@@ -141,7 +141,7 @@
         .popup-controls { display: flex; align-items: center; gap: 8px; }
         .popup-controls input[type="range"] { flex-grow: 1; accent-color: var(--cor-acento-primario); }
         .popup-controls .quick-btn {
-            background-color: var(--cor-fundo-elementos); border: 1px solid var(--cor-borda-sutil);
+            background-color: var(--cor-fundo-elements); border: 1px solid var(--cor-borda-sutil);
             color: var(--cor-texto-principal); width: 30px; height: 30px;
             border-radius: 50%; cursor: pointer; font-size: 1rem; font-weight: bold;
         }
@@ -265,7 +265,7 @@
         .search-bar {
             width: 100%; padding: 8px 12px; border-radius: 8px;
             border: 1px solid var(--cor-borda-sutil);
-            background-color: var(--cor-fundo-elementos);
+            background-color: var(--cor-fundo-elements);
             color: var(--cor-texto-principal); font-size: 0.9rem;
         }
         .search-bar:focus { outline: none; border-color: var(--cor-acento-primario); box-shadow: 0 0 0 2px var(--cor-acento-secundario); }
@@ -290,11 +290,11 @@
             width: 24px; height: 24px; border-radius: 50%; display: flex;
             align-items: center; justify-content: center; font-size: 1.2rem;
         }
-        .btn-expand-categoria:hover { background-color: var(--cor-fundo-elementos); }
+        .btn-expand-categoria:hover { background-color: var(--cor-fundo-elements); }
         .categoria-thumbnails { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 12px; }
         .thumbnail {
             aspect-ratio: 1 / 1; border-radius: var(--raio-borda);
-            background-color: var(--cor-fundo-elementos); background-size: cover; background-position: center;
+            background-color: var(--cor-fundo-elements); background-size: cover; background-position: center;
             cursor: pointer; border: 2px solid transparent; transition: all 0.2s ease; overflow: hidden;
         }
         .thumbnail:hover { transform: scale(1.05); border-color: var(--cor-acento-secundario); }
@@ -321,11 +321,11 @@
         .close-button { background:none; border:none; color: var(--cor-texto-secundario); font-size: 1.5rem; cursor: pointer;}
         .upload-dropzones { display: flex; flex-direction: column; gap: 16px; }
         .drop-zone { border: 2px dashed var(--cor-acento-primario); padding: 30px; text-align: center; border-radius: var(--raio-borda); cursor: pointer; }
-        .drop-zone.dragover { background-color: var(--cor-fundo-elementos); }
+        .drop-zone.dragover { background-color: var(--cor-fundo-elements); }
         .info-modal-large { max-width: 700px; }
         .info-flex-row { display: flex; gap: 16px; }
         .miniaturas-info { display: flex; flex-direction: column; gap: 16px; }
-        .miniatura-thumb { width: 100px; height: 100px; background-color: var(--cor-fundo-elementos); border-radius: var(--raio-borda); background-size: contain; background-position: center; background-repeat: no-repeat;}
+        .miniatura-thumb { width: 100px; height: 100px; background-color: var(--cor-fundo-elements); border-radius: var(--raio-borda); background-size: contain; background-position: center; background-repeat: no-repeat;}
         .config-table { flex-grow: 1; display: grid; grid-template-columns: auto 1fr; gap: 8px; align-content: start; }
         .config-key { font-weight: 600; color: var(--cor-texto-secundario); }
         .config-value { color: var(--cor-texto-principal); }
@@ -342,22 +342,22 @@
         }
         #iaDrawer.open { transform: translateY(0); }
         #iaDrawer .ia-drawer-chat { flex-grow: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-        #iaDrawer .ia-msg-bubble.ia { background-color: var(--cor-fundo-elementos); align-self: flex-start; padding: 10px 15px; border-radius: 18px; max-width: 85%; }
+        #iaDrawer .ia-msg-bubble.ia { background-color: var(--cor-fundo-elements); align-self: flex-start; padding: 10px 15px; border-radius: 18px; max-width: 85%; }
         #iaDrawer #iaDrawerForm { display: flex; gap: 10px; padding: 16px; border-top: 1px solid var(--cor-borda-sutil); }
-        #iaDrawer #iaDrawerForm input { flex-grow: 1; border-radius: var(--raio-borda); border: 1px solid var(--cor-borda-sutil); background-color: var(--cor-fundo-elementos); color: var(--cor-texto-principal); padding: 10px 14px; font-size: 0.9rem; }
+        #iaDrawer #iaDrawerForm input { flex-grow: 1; border-radius: var(--raio-borda); border: 1px solid var(--cor-borda-sutil); background-color: var(--cor-fundo-elements); color: var(--cor-texto-principal); padding: 10px 14px; font-size: 0.9rem; }
         #iaDrawer #iaDrawerForm input:focus { outline: none; border-color: var(--cor-acento-primario); }
 
-        .lasso-path-wrapper { /* Novo wrapper para os elementos de seleção do laço */
+        .lasso-path-wrapper { 
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            overflow: visible; /* Permite que o SVG renderize fora de seu wrapper inicial, se a polyline sair do bbox inicial */
+            overflow: visible; 
         }
-        .lasso-path-wrapper .lasso-path { /* O próprio SVG */
-            position: absolute; /* Relativo ao seu wrapper */
+        .lasso-path-wrapper .lasso-path { 
+            position: absolute; 
             top: 0;
             left: 0;
             width: 100%;
@@ -365,15 +365,14 @@
             pointer-events: none;
             overflow: visible;
         }
-        .lasso-path-wrapper .dimensions { /* Posicionamento do span de dimensões para o laço */
+        .lasso-path-wrapper .dimensions { 
             position: absolute;
-            /* As propriedades left/top/transform para posicionamento serão definidas via JS em updateLassoSelection */
             background-color: var(--cor-acento-primario);
             color: var(--cor-texto-inverso);
             padding: 2px 6px;
             font-size: 0.75rem;
             border-radius: 4px;
-            margin: 0; /* Sobrescreve margem anterior */
+            margin: 0; 
             white-space: nowrap;
         }
 
@@ -386,8 +385,8 @@
             border: 1px solid var(--cor-vidro-borda);
             border-radius: var(--raio-borda);
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            z-index: 105; /* Acima da overlay de seleção */
-            display: none; /* Controlado por JS */
+            z-index: 105; 
+            display: none; 
             flex-direction: column;
             padding: 8px;
             gap: 4px;
@@ -410,7 +409,7 @@
         }
 
         .selection-action-modal-btn:hover {
-            background-color: var(--cor-fundo-elementos);
+            background-color: var(--cor-fundo-elements);
             color: var(--cor-acento-primario);
         }
 
@@ -427,18 +426,18 @@
         /* --- Novo CSS para o Painel da Área de Transferência --- */
         #clipboard-panel {
             position: absolute;
-            top: 10px; /* Posição inicial, pode ser ajustada via JS */
-            right: 10px; /* Posição inicial, pode ser ajustada via JS */
-            width: 200px; /* Largura do painel */
-            max-height: 80%; /* Altura máxima */
+            top: 10px; 
+            right: 10px; 
+            width: 200px; 
+            max-height: 80%; 
             background-color: var(--cor-vidro);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--cor-vidro-borda);
             border-radius: var(--raio-borda);
             box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            z-index: 110; /* Acima de outros elementos do canvas */
-            display: none; /* Controlado por JS */
+            z-index: 110; 
+            display: none; 
             flex-direction: column;
             overflow: hidden;
             animation: fadeIn 0.2s ease-out;
@@ -450,7 +449,7 @@
             align-items: center;
             padding: 8px 12px;
             border-bottom: 1px solid var(--cor-borda-sutil);
-            background-color: rgba(0,0,0,0.1); /* Fundo leve para o cabeçalho */
+            background-color: rgba(0,0,0,0.1); 
         }
 
         #clipboard-panel-header h4 {
@@ -479,11 +478,11 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            overflow-y: auto; /* Scroll para muitos itens */
+            overflow-y: auto; 
         }
 
         .clipboard-item {
-            background-color: var(--cor-fundo-elements); /* Usar a cor de fundo de elementos para o item */
+            background-color: var(--cor-fundo-elements); 
             border: 1px solid var(--cor-borda-sutil);
             border-radius: 8px;
             padding: 6px;
@@ -500,11 +499,11 @@
         }
 
         .clipboard-item img {
-            width: 50px; /* Tamanho da thumbnail */
+            width: 50px; 
             height: 50px;
             object-fit: contain;
             border-radius: 4px;
-            background-color: #000; /* Fundo para a thumbnail */
+            background-color: #000; 
             flex-shrink: 0;
         }
 
@@ -539,7 +538,7 @@
     <div class="workspace-wrapper">
         <header class="workspace-header">
             <div class="header-group">
-                 <img class="logo" src="https://cdn.shopify.com/s/files/1/0661/4574/6991/files/ChatGPT_Image_17_de_jun._de_2025__16_24_13-removebg-preview.png?v=1750188295" style="height:50px;margin-right:32px;filter:drop-shadow(0 4px 10px #e5be5e88);">
+                <span class="logo">MockupCreator</span>
                 <div id="codigoEstampa" class="codigo-estampa">Nenhuma estampa</div>
             </div>
             <div class="header-group">
@@ -754,14 +753,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const rulerH = document.getElementById('ruler-horizontal');
     const rulerV = document.getElementById('ruler-vertical');
     const selectionOverlay = document.querySelector('.selection-overlay');
-    const selectionActionModal = document.getElementById('selection-action-modal'); // Mini modal de seleção
+    const selectionActionModal = document.getElementById('selection-action-modal'); 
     const copySelectionBtn = document.getElementById('copySelectionBtn');
     const cutSelectionBtn = document.getElementById('cutSelectionBtn');
     const deleteSelectionBtn = document.getElementById('deleteSelectionBtn');
-    const undoBtn = document.getElementById('undoBtn'); // Botão Desfazer
-    const redoBtn = document.getElementById('redoBtn'); // Botão Refazer
-    const openClipboardPanelBtn = document.getElementById('openClipboardPanelBtn'); // Botão para abrir o painel de clipboard
-    const clipboardPanel = document.getElementById('clipboard-panel'); // Painel da área de transferência
+    const undoBtn = document.getElementById('undoBtn'); 
+    const redoBtn = document.getElementById('redoBtn'); 
+    const openClipboardPanelBtn = document.getElementById('openClipboardPanelBtn'); 
+    const clipboardPanel = document.getElementById('clipboard-panel'); 
     const closeClipboardPanelBtn = document.getElementById('closeClipboardPanelBtn');
     const clipboardPanelContent = document.getElementById('clipboard-panel-content');
 
@@ -805,7 +804,7 @@ document.addEventListener('DOMContentLoaded', () => {
             selectionPixels: null, 
             selectionImage: null 
         },
-        clipboardItems: [], // Agora um array para múltiplos itens
+        clipboardItems: [], 
         history: [], 
         historyPointer: -1 
     };
@@ -916,7 +915,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (e.key === 'v') {
                 if (state.clipboardItems.length > 0) {
                     e.preventDefault();
-                    pasteItem(state.clipboardItems.length - 1); // Cola o último item por padrão
+                    pasteItem(state.clipboardItems.length - 1); 
                 }
             }
         }
@@ -1144,14 +1143,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function copySelection() {
-        if (!state.selection.selectionImage) return;
+        if (!state.selection.selectionPixels || !state.selection.selectionPixels.imageData) return; 
         
-        state.clipboardItems.push({ // Adiciona ao array
+        state.clipboardItems.push({ 
             type: 'image',
-            image: state.selection.selectionImage, 
+            imageData: state.selection.selectionPixels.imageData, 
             width: state.selection.selectionPixels.width,
             height: state.selection.selectionPixels.height,
-            name: `Recorte ${state.clipboardItems.length + 1}` // Nome para exibição no painel
+            name: `Recorte ${state.clipboardItems.length + 1}` 
         });
         hideSelectionActionModal();
         clearSelection(); 
@@ -1159,15 +1158,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function cutSelection() {
-        if (!state.selection.selectionImage || !state.selection.selectionPixels) return;
+        if (!state.selection.selectionPixels || !state.selection.selectionPixels.imageData) return;
         
-        state.clipboardItems.push({ // Adiciona ao array
-            type: 'image',
-            image: state.selection.selectionImage, 
-            width: state.selection.selectionPixels.width,
-            height: state.selection.selectionPixels.height,
-            name: `Recorte ${state.clipboardItems.length + 1}` 
-        });
+        copySelection(); 
 
         const estampa = state.layers[0];
         if (!estampa.image) return;
@@ -1193,11 +1186,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         hideSelectionActionModal();
         clearSelection(); 
-        updateClipboardPanel(); 
     }
 
     function deleteSelection() {
-        if (!state.selection.selectionPixels) return;
+        if (!state.selection.selectionPixels || !state.layers[0].image) return;
 
         const estampa = state.layers[0];
         if (!estampa.image) return;
@@ -1229,14 +1221,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (itemIndex === undefined || itemIndex < 0 || itemIndex >= state.clipboardItems.length) return;
         
         const itemToPaste = state.clipboardItems[itemIndex];
-        if (!itemToPaste || itemToPaste.type !== 'image' || !itemToPaste.image) return;
-
+        if (!itemToPaste || itemToPaste.type !== 'image' || !itemToPaste.imageData) return; 
+        
         saveState(); 
 
         const estampa = state.layers[0];
         
         const finalCanvas = document.createElement('canvas');
-        finalCanvas.width = estampa.originalWidth || itemToPaste.width; // Usa o tamanho do item se não houver estampa
+        finalCanvas.width = estampa.originalWidth || itemToPaste.width; 
         finalCanvas.height = estampa.originalHeight || itemToPaste.height;
         const finalCtx = finalCanvas.getContext('2d');
 
@@ -1247,9 +1239,9 @@ document.addEventListener('DOMContentLoaded', () => {
             estampa.originalHeight = finalCanvas.height;
         }
 
-        const pasteX = (finalCanvas.width - itemToPaste.image.naturalWidth) / 2;
-        const pasteY = (finalCanvas.height - itemToPaste.image.naturalHeight) / 2;
-        finalCtx.drawImage(itemToPaste.image, pasteX, pasteY);
+        const pasteX = (finalCanvas.width - itemToPaste.width) / 2; 
+        const pasteY = (finalCanvas.height - itemToPaste.height) / 2; 
+        finalCtx.putImageData(itemToPaste.imageData, pasteX, pasteY); 
 
         const newImage = new Image();
         newImage.onload = () => {
@@ -1709,15 +1701,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const { x, y, width, height } = state.selection.selectionPixels;
             try {
-                const clipCanvas = document.createElement('canvas');
-                clipCanvas.width = width;
-                clipCanvas.height = height;
-                const clipCtx = clipCanvas.getContext('2d');
+                // CAPTURA O IMAGEDATA DIRETAMENTE AQUI E ARMAZENA EM state.selection.selectionPixels.imageData
+                state.selection.selectionPixels.imageData = tempCtx.getImageData(x, y, width, height); 
                 
-                clipCtx.drawImage(tempCanvas, x, y, width, height, 0, 0, width, height);
-
+                // Opcional: Para ter uma "thumbnail" ou visualização, você ainda pode criar um Image object
+                const clipCanvasForImage = document.createElement('canvas');
+                clipCanvasForImage.width = width;
+                clipCanvasForImage.height = height;
+                const clipCtxForImage = clipCanvasForImage.getContext('2d');
+                clipCtxForImage.putImageData(state.selection.selectionPixels.imageData, 0, 0);
+                
                 state.selection.selectionImage = new Image();
-                state.selection.selectionImage.src = clipCanvas.toDataURL();
+                state.selection.selectionImage.src = clipCanvasForImage.toDataURL();
                 state.selection.selectionImage.onload = () => {
                     console.log("Seleção extraída como imagem para clipboard.");
                 };
@@ -2060,7 +2055,6 @@ document.addEventListener('DOMContentLoaded', () => {
         clipboardPanel.style.display = 'none';
     });
 
-    // Adiciona listener para fechar o painel do clipboard ao clicar fora dele
     document.addEventListener('mousedown', (e) => {
         if (clipboardPanel.style.display === 'flex' && 
             !clipboardPanel.contains(e.target) && 
@@ -2070,7 +2064,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function updateClipboardPanel() {
-        clipboardPanelContent.innerHTML = ''; // Limpa o conteúdo atual
+        clipboardPanelContent.innerHTML = ''; 
 
         if (state.clipboardItems.length === 0) {
             clipboardPanelContent.innerHTML = '<p style="text-align: center; font-size: 0.8em; color: var(--cor-texto-secundario);">Nenhum item na área de transferência.</p>';
@@ -2080,10 +2074,40 @@ document.addEventListener('DOMContentLoaded', () => {
         state.clipboardItems.forEach((item, index) => {
             const clipboardItemDiv = document.createElement('div');
             clipboardItemDiv.className = 'clipboard-item';
-            clipboardItemDiv.dataset.index = index; // Armazena o índice para colar/deletar
+            clipboardItemDiv.dataset.index = index; 
+
+            // Crie um canvas temporário para desenhar o ImageData e obter uma Data URL para a thumbnail
+            const thumbCanvas = document.createElement('canvas');
+            const thumbSize = 50; 
+            thumbCanvas.width = thumbSize;
+            thumbCanvas.height = thumbSize;
+            const thumbCtx = thumbCanvas.getContext('2d');
+            
+            // Desenhe o ImageData no canvas de thumbnail, escalando para caber
+            // Calcula a proporção para caber dentro de thumbSize x thumbSize
+            const aspectRatio = item.width / item.height;
+            let drawWidth = thumbSize;
+            let drawHeight = thumbSize;
+            if (aspectRatio > 1) { 
+                drawHeight = thumbSize / aspectRatio;
+            } else { 
+                drawWidth = thumbSize * aspectRatio;
+            }
+            const drawX = (thumbSize - drawWidth) / 2;
+            const drawY = (thumbSize - drawHeight) / 2;
+
+            // Cria um canvas temporário para desenhar o item completo (ImageData) e depois escalá-lo
+            const tempItemCanvas = document.createElement('canvas');
+            tempItemCanvas.width = item.width;
+            tempItemCanvas.height = item.height;
+            const tempItemCtx = tempItemCanvas.getContext('2d');
+            tempItemCtx.putImageData(item.imageData, 0, 0); // Desenha o ImageData completo
+
+            // Agora, desenha o tempItemCanvas no thumbCanvas, com o escalamento para thumbnail
+            thumbCtx.drawImage(tempItemCanvas, 0, 0, item.width, item.height, drawX, drawY, drawWidth, drawHeight);
 
             const imgElement = document.createElement('img');
-            imgElement.src = item.image.src; // Usa a Data URL da imagem
+            imgElement.src = thumbCanvas.toDataURL(); 
             imgElement.alt = item.name || `Item ${index + 1}`;
 
             const nameSpan = document.createElement('span');
@@ -2091,26 +2115,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const deleteButton = document.createElement('button');
             deleteButton.className = 'clipboard-item-delete-btn';
-            deleteButton.innerHTML = '&times;'; // Ícone de fechar/deletar
+            deleteButton.innerHTML = '&times;'; 
             deleteButton.title = 'Remover da lista';
 
             clipboardItemDiv.appendChild(imgElement);
             clipboardItemDiv.appendChild(nameSpan);
             clipboardItemDiv.appendChild(deleteButton);
 
-            // Evento para colar o item
             clipboardItemDiv.addEventListener('click', (e) => {
-                // Evita colar ao clicar no botão de remover
                 if (e.target.classList.contains('clipboard-item-delete-btn')) return;
                 pasteItem(parseInt(clipboardItemDiv.dataset.index));
-                clipboardPanel.style.display = 'none'; // Fecha o painel após colar
+                clipboardPanel.style.display = 'none'; 
             });
 
-            // Evento para remover o item da lista
             deleteButton.addEventListener('click', (e) => {
-                e.stopPropagation(); // Evita que o clique no botão de remover também cole
+                e.stopPropagation(); 
                 state.clipboardItems.splice(parseInt(clipboardItemDiv.dataset.index), 1);
-                updateClipboardPanel(); // Atualiza a lista
+                updateClipboardPanel(); 
             });
 
             clipboardPanelContent.appendChild(clipboardItemDiv);
@@ -2127,7 +2148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             saveState(); 
             updateUndoRedoButtons(); 
         }); 
-        updateClipboardPanel(); // Inicializa o painel da área de transferência
+        updateClipboardPanel(); 
     }
 
     init();
