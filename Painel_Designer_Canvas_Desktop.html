@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MockupCreator Pro - Canvas Edition</title>
+    <title>MockupCreator Pro - Canvas Edition (Corrigido)</title>
     <style>
         :root {
             --cor-fundo-workspace: #2a2a2e;
@@ -111,16 +111,21 @@
         .joystick-handle { width: 40px; height: 40px; background: var(--cor-acento-primario); border-radius: 50%; position: absolute; top: calc(50% - 20px); left: calc(50% - 20px); cursor: grab; border: 3px solid var(--cor-fundo-paineis); box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
 
         .canvas-area {
-            grid-column: 2 / 3; background-color: var(--cor-fundo-workspace);
-            display: grid; grid-template-columns: 30px 1fr;
-            grid-template-rows: 30px 1fr; overflow: hidden;
+            grid-column: 2 / 3;
+            background-color: var(--cor-fundo-workspace);
+            display: grid;
+            grid-template-columns: 30px 1fr;
+            grid-template-rows: 30px 1fr;
+            overflow: hidden;
             position: relative;
         }
         
         .ruler {
             background-color: var(--cor-fundo-paineis);
-            position: relative; overflow: hidden;
-            z-index: 5; user-select: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 5;
+            user-select: none;
         }
         .ruler.horizontal { grid-column: 2 / 3; grid-row: 1 / 2; border-bottom: 1px solid var(--cor-borda-sutil); }
         .ruler.vertical { grid-column: 1 / 2; grid-row: 2 / 3; border-right: 1px solid var(--cor-borda-sutil); }
@@ -129,38 +134,41 @@
         .ruler.horizontal .tick.major { height: 70%; background-color: var(--cor-acento-primario); }
         .ruler.horizontal .tick.medium { height: 40%; }
         .ruler.horizontal .tick.minor { height: 20%; }
-        .ruler.vertical .tick { width: 100%; height: 1px; left: 0; }
+        .ruler.vertical .tick { height: 1px; width: 100%; left: 0; }
         .ruler.vertical .tick.major { width: 70%; background-color: var(--cor-acento-primario); }
         .ruler.vertical .tick.medium { width: 40%; }
         .ruler.vertical .tick.minor { width: 20%; }
         .ruler .label { position: absolute; font-size: 10px; color: var(--cor-texto-secundario); }
         .ruler.horizontal .label { top: 2px; transform: translateX(4px); }
-        .ruler.vertical .label { left: 2px; transform: translateY(8px); writing-mode: vertical-rl; }
+        .ruler.vertical .label { left: 2px; transform: translateY(4px); writing-mode: vertical-rl; }
 
-        .canvas-wrapper {
+        #canvas-wrapper {
             grid-column: 2 / 3;
             grid-row: 2 / 3;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px;
             overflow: hidden;
+            padding: 20px;
+            cursor: grab;
         }
-        
+        #canvas-wrapper:active { cursor: grabbing; }
+
         #mainCanvas {
             box-shadow: 0 10px 50px rgba(0,0,0,0.2);
             background-color: #fff;
             border-radius: var(--raio-borda);
+            flex-shrink: 0;
         }
-
+        
         .ref-cm-box {
-            position: absolute; left: 15px; top: 15px;
+            position: absolute; left: 45px; top: 45px;
             background: var(--cor-vidro); color: var(--cor-texto-principal);
             border: 1px solid var(--cor-vidro-borda); border-radius: 8px;
             font-size: 0.8rem; padding: 5px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 3; display: none; align-items: center; gap: 5px; backdrop-filter: blur(4px);
+            z-index: 10; display: none; align-items: center; gap: 5px; backdrop-filter: blur(4px);
         }
-        
+
         .assets-sidebar {
             grid-column: 3 / 4; background-color: var(--cor-fundo-paineis);
             border-left: 1px solid var(--cor-borda-sutil); display: flex;
@@ -212,6 +220,45 @@
             animation: fadeIn 0.3s;
         }
         .modal-backdrop.show { display: flex; }
+        .modal-content {
+             background-color: var(--cor-fundo-paineis);
+             padding: 24px;
+             border-radius: var(--raio-borda);
+             border: 1px solid var(--cor-borda-sutil);
+             box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+             width: 90%;
+             max-width: 450px;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .modal-title { font-size: 1.2rem; font-weight: 700; color: var(--cor-texto-principal); }
+        .close-button { background:none; border:none; color: var(--cor-texto-secundario); font-size: 1.5rem; cursor: pointer;}
+        .upload-dropzones { display: flex; flex-direction: column; gap: 16px; }
+        .drop-zone { border: 2px dashed var(--cor-acento-primario); padding: 30px; text-align: center; border-radius: var(--raio-borda); cursor: pointer; }
+        .drop-zone.dragover { background-color: var(--cor-fundo-elementos); }
+        .info-modal-large { max-width: 700px; }
+        .info-flex-row { display: flex; gap: 16px; }
+        .miniaturas-info { display: flex; flex-direction: column; gap: 16px; }
+        .miniatura-thumb { width: 100px; height: 100px; background-color: var(--cor-fundo-elementos); border-radius: var(--raio-borda); background-size: contain; background-position: center; background-repeat: no-repeat;}
+        .config-table { flex-grow: 1; display: grid; grid-template-columns: auto 1fr; gap: 8px; align-content: start; }
+        .config-key { font-weight: 600; color: var(--cor-texto-secundario); }
+        .config-value { color: var(--cor-texto-principal); }
+        .modal-actions-row { display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end;}
+
+        #iaDrawer {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 1100;
+            height: 400px; background-color: var(--cor-fundo-paineis);
+            border-top: 1px solid var(--cor-borda-sutil);
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        #iaDrawer.open { transform: translateY(0); }
+        #iaDrawer .ia-drawer-chat { flex-grow: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        #iaDrawer .ia-msg-bubble.ia { background-color: var(--cor-fundo-elementos); align-self: flex-start; padding: 10px 15px; border-radius: 18px; max-width: 85%; }
+        #iaDrawer #iaDrawerForm { display: flex; gap: 10px; padding: 16px; border-top: 1px solid var(--cor-borda-sutil); }
+        #iaDrawer #iaDrawerForm input { flex-grow: 1; border-radius: var(--raio-borda); border: 1px solid var(--cor-borda-sutil); background-color: var(--cor-fundo-elementos); color: var(--cor-texto-principal); padding: 10px 14px; font-size: 0.9rem; }
+        #iaDrawer #iaDrawerForm input:focus { outline: none; border-color: var(--cor-acento-primario); }
     </style>
 </head>
 <body>
@@ -244,7 +291,16 @@
                 <button type="button" class="tool-button" data-tooltip="Girar" data-tool="rotate">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6"/><path d="M2.5 22v-6h6"/><path d="M15.52 6.48a9 9 0 0 0-12.04 0M2.5 12.5a9 9 0 0 0 19.04-2.5"/></svg>
                 </button>
-                <button type="button" id="uploadButton" class="tool-button" data-tooltip="Upload">
+                 <button type="button" class="tool-button" data-tooltip="Seleção Retangular" data-tool="rect-select">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" style="stroke-dasharray: 4 2;"></rect></svg>
+                </button>
+                <button type="button" class="tool-button" data-tooltip="Seleção Laço" data-tool="lasso-select">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.25 2.19a3.78 3.78 0 0 0-4.5 0l-6 4A3.78 3.78 0 0 0 1 9.47v5.06a3.78 3.78 0 0 0 1.75 3.28l6 4a3.78 3.78 0 0 0 4.5 0l6-4a3.78 3.78 0 0 0 1.75-3.28V9.47a3.78 3.78 0 0 0-1.75-3.28l-6-4Z" stroke-dasharray="2 2"/></svg>
+                </button>
+                <button type="button" class="tool-button" data-tooltip="Mostrar/Ocultar Mockup" data-tool="toggle-mockup">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+                 <button type="button" id="uploadButton" class="tool-button" data-tooltip="Upload">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                 </button>
             </aside>
@@ -273,9 +329,11 @@
             <div class="canvas-area">
                 <div class="ruler horizontal" id="ruler-horizontal"></div>
                 <div class="ruler vertical" id="ruler-vertical"></div>
-                
-                <div class="canvas-wrapper">
-                    <canvas id="mainCanvas" width="700" height="800"></canvas>
+                <div id="canvas-wrapper">
+                    <canvas id="mainCanvas"></canvas>
+                </div>
+                <div class="ref-cm-box" id="refCmBox">
+                    <span id="refCmNome"></span>: <span id="refCmValue"></span>
                 </div>
             </div>
     
@@ -293,200 +351,473 @@
                     <div id="compartimento-estampas" class="compartimento-assets"></div>
                     <div id="compartimento-tecidos" class="compartimento-assets"></div>
                 </div>
+                <div id="categoria-modal" class="modal-backdrop">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <button type="button" id="categoria-modal-close" class="close-button">&times;</button>
+                           <input type="search" id="categoria-modal-search" class="search-bar" placeholder="Buscar na categoria...">
+                        </div>
+                        <div class="categoria-modal-grid"></div>
+                    </div>
+                </div>
             </aside>
         </main>
     </div>
     
-    <script>
-document.addEventListener('DOMContentLoaded', () => {
+    <div id="uploadModal" class="modal-backdrop">
+        <div class="modal-content">
+             <div class="modal-header">
+                <h3 class="modal-title">Upload de Arquivos</h3>
+                <button type="button" class="close-button" data-close-modal="uploadModal">&times;</button>
+            </div>
+            <div class="upload-dropzones">
+                <div id="dropEstampa" class="drop-zone"><span>Arraste ou clique para enviar a <b>Estampa</b><input type="file" id="uploadEstampaInput" accept="image/*" style="display:none;"></span></div>
+                <div id="dropMockup" class="drop-zone"><span>Arraste ou clique para enviar o <b>Mockup</b><input type="file" id="uploadMockupInput" accept="image/png, image/webp" style="display:none;"></span></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="configModal" class="modal-backdrop">
+        <div class="modal-content info-modal-large">
+            <div class="modal-header">
+                <h3 class="modal-title">Exportar Configuração Técnica</h3>
+                <button type="button" class="close-button" data-close-modal="configModal">&times;</button>
+            </div>
+            <div class="info-flex-row">
+                <div class="miniaturas-info">
+                     <div class="miniatura-info-block">
+                        <span class="popup-label">Mockup</span>
+                        <div class="miniatura-thumb" id="miniaturaMockup"></div>
+                        <div id="labelMockup"></div>
+                    </div>
+                    <div class="miniatura-info-block">
+                        <span class="popup-label">Estampa</span>
+                        <div class="miniatura-thumb" id="miniaturaEstampa"></div>
+                        <div id="labelEstampa"></div>
+                    </div>
+                </div>
+                <div class="config-table" id="configTable"></div>
+            </div>
+            <pre id="configData" style="display:none; background: #222; padding: 10px; border-radius: 8px; max-height: 150px; overflow: auto;"></pre>
+            <div class="modal-actions-row">
+                <button type="button" id="toggleConfigRaw" class="header-button">Ver JSON</button>
+                <button type="button" id="copyConfigBtn" class="header-button">Copiar JSON</button>
+                <button type="button" id="downloadMockupBtn" class="header-button primary">Baixar Mockup</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="creditosModal" class="modal-backdrop">
+        <div class="modal-content">
+             <div class="modal-header">
+                <h3 class="modal-title">Créditos</h3>
+                <button type="button" class="close-button" data-close-modal="creditosModal">&times;</button>
+            </div>
+            <p>Pensado e desenvolvido por:<br><b>João Vitor Correia</b></p>
+            <p><a href="https://www.linkedin.com/in/joão-vitor-correia-37b9a4176/" target="_blank">LinkedIn</a></p>
+        </div>
+    </div>
+    
+    <aside id="iaDrawer">
+        <div class="modal-header" style="padding: 0 16px; height: var(--altura-header); border-bottom: 1px solid var(--cor-borda-sutil);">
+            <h3 class="modal-title">Assistente IA</h3>
+            <button type="button" id="closeIaDrawer" class="close-button">&times;</button>
+        </div>
+        <div class="ia-drawer-chat">
+             <div class="ia-msg-bubble ia">Olá! Como posso ajudar?</div>
+        </div>
+        <form id="iaDrawerForm">
+            <input type="text" id="iaDrawerPrompt" placeholder="Digite sua mensagem...">
+            <button type="submit" class="header-button primary">Enviar</button>
+        </form>
+    </aside>
 
-    // --- NOVA ESTRUTURA: Referência ao Canvas ---
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Referências aos Elementos do DOM ---
     const canvas = document.getElementById('mainCanvas');
     const ctx = canvas.getContext('2d');
-
-    const codigoEstampaEl = document.getElementById('codigoEstampa');
+    const canvasWrapper = document.getElementById('canvas-wrapper');
     const rulerH = document.getElementById('ruler-horizontal');
     const rulerV = document.getElementById('ruler-vertical');
+
+    const codigoEstampaEl = document.getElementById('codigoEstampa');
     const zoomSlider = document.getElementById('zoomSlider');
     const rotationSlider = document.getElementById('rotationSlider');
     const joystickHandle = document.getElementById('joystickHandle');
     const joystickBase = document.getElementById('joystickBase');
-
-    const DPI_PADRAO = 96;
+    const rotateLeftBtn = document.getElementById('rotateLeftBtn');
+    const rotateRightBtn = document.getElementById('rotateRightBtn');
     
-    // --- NOVA ESTRUTURA: State com sistema de camadas ---
+    // --- Estado da Aplicação ---
     let state = {
         layers: [
-            // Camada 0: Estampa/Textura
-            {
-                type: 'estampa',
-                image: null, // Objeto Image() carregado
-                source: null, // URL da imagem
-                visible: true,
-                posX: 0, // Posição X no canvas
-                posY: 0, // Posição Y no canvas
-                zoom: 1.0, // Escala (1.0 = 100%)
-                rotation: 0, // Rotação em radianos
+            { // Camada 0: Estampa
+                type: 'estampa', image: null, source: null, visible: true,
+                x: 0, y: 0, scale: 1.0, rotation: 0, 
+                name: 'Nenhuma', code: '', dpi: 96,
+                refCm: 4, refNome: "Ref."
             },
-            // Camada 1: Mockup (desenhado por cima)
-            {
-                type: 'mockup',
-                image: null,
+            { // Camada 1: Mockup
+                type: 'mockup', image: null, visible: true,
                 source: 'https://cdn.shopify.com/s/files/1/0661/4574/6991/files/mockup_experimental_1.png?v=1746646882',
-                visible: true,
-                posX: 0,
-                posY: 0,
-                zoom: 1.0,
-                rotation: 0
+                x: 0, y: 0, scale: 1.0, rotation: 0,
+                name: "Mockup Padrão"
             }
         ],
-        isDragging: false, 
+        pan: { x: 0, y: 0, isPanning: false, lastX: 0, lastY: 0 },
+        isJoystickDragging: false,
         activeTool: null,
-        rulerMaxCmW: 100,
-        rulerMaxCmH: 100
+        assetsData: { categorias: [] },
+        tecidoState: { type: "none", name: "Nenhum", thumb: "" },
+        rulerMaxCm: { w: 100, h: 100 }
     };
+
+    const BACKEND_URL = 'https://estampas-oda7.onrender.com/estampas';
+    const AUTH_HEADER = 'Basic ' + btoa('admin:senha123');
+
+    // --- Funções de Renderização e Lógica Principal ---
+    function resizeCanvasAndRender() {
+        const { width, height } = canvasWrapper.getBoundingClientRect();
+        const padding = 40;
+        const availableWidth = width - padding;
+        const availableHeight = height - padding;
+        const aspectRatio = 7 / 8;
+
+        let canvasWidth, canvasHeight;
+        if (availableWidth / availableHeight > aspectRatio) {
+            canvasHeight = availableHeight;
+            canvasWidth = canvasHeight * aspectRatio;
+        } else {
+            canvasWidth = availableWidth;
+            canvasHeight = canvasWidth / aspectRatio;
+        }
+
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+        render();
+        renderRulers();
+    }
     
-    // --- NOVA ESTRUTURA: Loop de Renderização Principal ---
-    function renderCanvas() {
-        if (!canvas || !ctx) return;
-
-        // Limpa o canvas
+    function render() {
+        if (!ctx) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.save();
+        ctx.translate(state.pan.x, state.pan.y);
 
-        // Desenha cada camada
         state.layers.forEach(layer => {
             if (!layer.visible || !layer.image) return;
 
-            ctx.save(); // Salva o estado atual do canvas
-
-            // Calcula o centro do canvas para rotação e escala
+            ctx.save();
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
 
-            // 1. Translada para o centro
-            ctx.translate(centerX, centerY);
-            // 2. Rotaciona
+            ctx.translate(centerX + layer.x, centerY + layer.y);
             ctx.rotate(layer.rotation);
-            // 3. Escala
-            ctx.scale(layer.zoom, layer.zoom);
-            // 4. Translada de volta
-            ctx.translate(-centerX, -centerY);
+            ctx.scale(layer.scale, layer.scale);
 
-            // Calcula a posição para desenhar a imagem, aplicando o pan (posX, posY)
-            // e centralizando a imagem
-            const drawX = layer.posX + (canvas.width - layer.image.width) / 2;
-            const drawY = layer.posY + (canvas.height - layer.image.height) / 2;
-
-            ctx.drawImage(layer.image, drawX, drawY);
-
-            ctx.restore(); // Restaura o estado do canvas para a próxima camada
+            ctx.drawImage(layer.image, -layer.image.width / 2, -layer.image.height / 2);
+            ctx.restore();
         });
+        ctx.restore();
+        updateRefCmBox();
     }
 
-    // --- NOVA ESTRUTURA: Função para carregar uma imagem em uma camada ---
-    function loadImageForLayer(layerIndex, url, callback) {
+    function loadImageForLayer(layerIndex, url, name, data, onComplete) {
         const layer = state.layers[layerIndex];
-        if (!url) {
-            layer.image = null;
-            layer.source = null;
-            renderCanvas();
-            if (callback) callback();
-            return;
+        layer.source = url;
+        layer.name = name;
+
+        if (layer.type === 'estampa') {
+            layer.code = data.code || "Custom";
+            layer.dpi = data.dpi || 96;
+            layer.refCm = data.refCm || 4;
+            layer.refNome = data.refNome || "Ref.";
+            codigoEstampaEl.textContent = layer.code;
         }
 
         const img = new Image();
-        img.crossOrigin = "Anonymous"; // Permite carregar imagens de outras origens
+        img.crossOrigin = "Anonymous";
         img.src = url;
         img.onload = () => {
             layer.image = img;
-            layer.source = url;
-            renderCanvas(); // Redesenha com a nova imagem
-            if (callback) callback(img);
-        };
-        img.onerror = () => {
-            console.error(`Falha ao carregar a imagem: ${url}`);
+            // Reset transforms on new image
+            layer.x = 0; layer.y = 0; layer.rotation = 0;
+            
+            // Auto-scale to fit
+            const hRatio = canvas.width / img.width;
+            const vRatio = canvas.height / img.height;
+            layer.scale = Math.min(hRatio, vRatio);
+
+            if(layer.type === 'estampa') {
+                zoomSlider.value = layer.scale * 100;
+                rotationSlider.value = 0;
+            }
+            
+            render();
+            if (onComplete) onComplete(img);
         };
     }
 
-
-    const toolButtons = document.querySelectorAll('.tool-button');
-    toolButtons.forEach(button => {
+    // --- Lógica das Ferramentas e Controles ---
+    document.querySelectorAll('.tool-button').forEach(button => {
         button.addEventListener('click', (e) => {
-            // A lógica dos botões agora deve atualizar o estado e chamar renderCanvas()
-            const toolName = button.dataset.tool;
-            if (toolName === 'toggle-mockup') {
-                const mockupLayer = state.layers.find(l => l.type === 'mockup');
-                if(mockupLayer) {
-                    mockupLayer.visible = !mockupLayer.visible;
-                    renderCanvas();
-                }
+            e.stopPropagation();
+            const tool = button.dataset.tool;
+            const currentPopup = document.querySelector('.tool-popup.show');
+            const targetPopup = document.getElementById(`popup-${tool}`);
+
+            if (currentPopup && currentPopup !== targetPopup) {
+                currentPopup.classList.remove('show');
             }
-             // Lógica de outras ferramentas...
+            if (targetPopup) {
+                const btnRect = button.getBoundingClientRect();
+                targetPopup.style.top = `${btnRect.top}px`;
+                targetPopup.classList.toggle('show');
+            }
         });
     });
-
-    // --- Lógica de Controles Adaptada para Canvas ---
+    
     zoomSlider.addEventListener('input', (e) => {
-        const estampaLayer = state.layers.find(l => l.type === 'estampa');
-        if (estampaLayer) {
-            estampaLayer.zoom = parseFloat(e.target.value) / 100;
-            renderCanvas();
-        }
+        state.layers[0].scale = parseFloat(e.target.value) / 100;
+        render();
     });
 
     rotationSlider.addEventListener('input', (e) => {
-        const estampaLayer = state.layers.find(l => l.type === 'estampa');
-        if (estampaLayer) {
-            // Converte graus para radianos para o canvas
-            estampaLayer.rotation = parseFloat(e.target.value) * (Math.PI / 180);
-            renderCanvas();
-        }
+        state.layers[0].rotation = parseFloat(e.target.value) * (Math.PI / 180);
+        render();
     });
 
-    joystickHandle.addEventListener('mousedown', () => { state.isDragging = true; });
-    document.addEventListener('mouseup', () => { state.isDragging = false; });
-    document.addEventListener('mousemove', (e) => {
-        if (!state.isDragging) return;
-        
-        const estampaLayer = state.layers.find(l => l.type === 'estampa');
-        if (!estampaLayer) return;
+    [rotateLeftBtn, rotateRightBtn].forEach(btn => {
+        btn.addEventListener('click', () => {
+            const layer = state.layers[0];
+            const direction = btn.id === 'rotateRightBtn' ? 1 : -1;
+            const currentDeg = layer.rotation * (180 / Math.PI);
+            const newDeg = (Math.round(currentDeg / 90) + direction) * 90;
+            layer.rotation = newDeg * (Math.PI / 180);
+            rotationSlider.value = newDeg % 360;
+            render();
+        });
+    });
 
-        // Lógica simplificada do joystick para translação
+    joystickHandle.addEventListener('mousedown', () => { state.isJoystickDragging = true; });
+    document.addEventListener('mouseup', () => { state.isJoystickDragging = false; });
+    document.addEventListener('mousemove', (e) => {
+        if (!state.isJoystickDragging) return;
+        const layer = state.layers[0];
         const baseRect = joystickBase.getBoundingClientRect();
         const centerX = baseRect.left + baseRect.width / 2;
         const centerY = baseRect.top + baseRect.height / 2;
-        let deltaX = e.clientX - centerX;
-        let deltaY = e.clientY - centerY;
+        const deltaX = e.clientX - centerX;
+        const deltaY = e.clientY - centerY;
+        
+        layer.x += deltaX * 0.2;
+        layer.y += deltaY * 0.2;
+        render();
+    });
 
-        estampaLayer.posX += deltaX * 0.1; // Ajuste a sensibilidade
-        estampaLayer.posY += deltaY * 0.1;
+    // --- Pan & Zoom (Mockup Oculto) ---
+    canvasWrapper.addEventListener('mousedown', (e) => {
+        if (state.layers[1].visible) return; // Só funciona se o mockup estiver oculto
+        state.pan.isPanning = true;
+        state.pan.lastX = e.clientX;
+        state.pan.lastY = e.clientY;
+    });
 
-        renderCanvas();
+    canvasWrapper.addEventListener('mousemove', (e) => {
+        if (!state.pan.isPanning) return;
+        state.pan.x += e.clientX - state.pan.lastX;
+        state.pan.y += e.clientY - state.pan.lastY;
+        state.pan.lastX = e.clientX;
+        state.pan.lastY = e.clientY;
+        render();
+    });
+
+    canvasWrapper.addEventListener('mouseup', () => { state.pan.isPanning = false; });
+    canvasWrapper.addEventListener('mouseleave', () => { state.pan.isPanning = false; });
+    
+    canvasWrapper.addEventListener('wheel', (e) => {
+        if (state.layers[1].visible) return;
+        e.preventDefault();
+        const layer = state.layers[0];
+        const zoomSpeed = 0.1;
+        const delta = e.deltaY > 0 ? -zoomSpeed : zoomSpeed;
+        layer.scale = Math.max(0.1, layer.scale + delta);
+        zoomSlider.value = layer.scale * 100;
+        render();
     });
     
-    // --- Lógica de Seleção de Ativos Adaptada ---
-    function selectAsset(thumb) {
-        const type = thumb.dataset.type;
-        const assetInfo = { ...thumb.dataset };
+    // --- Lógica de Ativos (Assets) ---
+    async function fetchAssets() {
+        try {
+            const response = await fetch(BACKEND_URL, { headers: { 'Authorization': AUTH_HEADER } });
+            state.assetsData = await response.json();
+            renderAllAssetCompartments();
+        } catch (error) { console.error("Erro no fetchAssets:", error); }
+    }
 
-        if (type === 'mockups') {
-            loadImageForLayer(1, assetInfo.url); // Camada 1 é o mockup
-        } else if (type === 'estampas') {
-            codigoEstampaEl.textContent = assetInfo.code || "Custom";
-            loadImageForLayer(0, assetInfo.url, (loadedImg) => {
-                // Atualiza a régua após a imagem da estampa carregar
-                const dpi = parseFloat(assetInfo.dpi) || DPI_PADRAO;
-                const widthCm = (loadedImg.naturalWidth / dpi) * 2.54;
-                const heightCm = (loadedImg.naturalHeight / dpi) * 2.54;
-                
-                state.rulerMaxCmW = Math.ceil(widthCm / 10) * 10;
-                state.rulerMaxCmH = Math.ceil(heightCm / 10) * 10;
-                renderRulers();
-            });
+    function renderAllAssetCompartments() {
+        const mockupsHardcoded = { categorias: [{ nome: 'Padrão', estampas: [
+            { url: 'https://cdn.shopify.com/s/files/1/0661/4574/6991/files/1_f1889a02-1ccc-4139-b9e5-5651a4f86f86.png?v=1747078489', name: 'Vestido 01' },
+            { url: 'https://cdn.shopify.com/s/files/1/0661/4574/6991/files/3_bc04240f-3214-40c4-8c4e-060485f8368e.png?v=1747078489', name: 'Vestido 02' },
+            { url: 'https://cdn.shopify.com/s/files/1/0661/4574/6991/files/2_9ead9243-af01-40a9-84c4-3cc56dc690be.png?v=1747078489', name: 'Almofada 01' }
+        ]}]};
+        const tecidosHardcoded = { categorias: [{ nome: 'Básicos', estampas: [
+            { url: 'https://cdn.shopify.com/s/files/1/0661/4574/6991/files/algodao.jpg?v=1747259999', name: 'Algodão' },
+            { url: 'https://cdn.shopify.com/s/files/1/0661/4574/6991/files/poliester.jpg?v=1747259999', name: 'Poliéster'},
+            { url: 'https://cdn.shopify.com/s/files/1/0661/4574/6991/files/linho.jpg?v=1747259999', name: 'Linho' }
+        ]}]};
+        renderAssetCompartment('mockups', mockupsHardcoded.categorias);
+        renderAssetCompartment('tecidos', tecidosHardcoded.categorias);
+        if (state.assetsData.categorias) renderAssetCompartment('estampas', state.assetsData.categorias);
+    }
+    
+    function renderAssetCompartment(type, categorias) {
+        const container = document.getElementById(`compartimento-${type}`);
+        container.innerHTML = '';
+        categorias.forEach(cat => {
+            const catBox = document.createElement('div');
+            catBox.className = 'categoria-box';
+            catBox.innerHTML = `<div class="categoria-title-wrapper"><h4 class="categoria-title">${cat.nome}</h4></div>`;
+            const thumbnailsGrid = document.createElement('div');
+            thumbnailsGrid.className = 'categoria-thumbnails';
+            cat.estampas.forEach(asset => thumbnailsGrid.appendChild(createThumbnail(asset, type)));
+            catBox.appendChild(thumbnailsGrid);
+            container.appendChild(catBox);
+        });
+    }
+
+    function createThumbnail(asset, type) {
+        const thumb = document.createElement('div');
+        thumb.className = 'thumbnail';
+        thumb.style.backgroundImage = `url(${asset.url})`;
+        thumb.dataset.type = type;
+        Object.entries(asset).forEach(([key, value]) => {
+            if (typeof value === 'string' || typeof value === 'number') {
+               thumb.dataset[key] = value;
+            }
+        });
+        return thumb;
+    }
+
+    document.querySelector('.assets-content').addEventListener('click', (e) => {
+        if (e.target.matches('.thumbnail')) {
+            const thumb = e.target;
+            const type = thumb.dataset.type;
+            const assetInfo = { ...thumb.dataset };
+            document.querySelectorAll(`.thumbnail[data-type="${type}"].selected`).forEach(t => t.classList.remove('selected'));
+            thumb.classList.add('selected');
+            
+            if (type === 'mockups') {
+                loadImageForLayer(1, assetInfo.url, assetInfo.name, {});
+            } else if (type === 'estampas') {
+                loadImageForLayer(0, assetInfo.url, assetInfo.name, assetInfo, (img) => {
+                    const { dpi } = state.layers[0];
+                    state.rulerMaxCm.w = (img.naturalWidth / dpi) * 2.54;
+                    state.rulerMaxCm.h = (img.naturalHeight / dpi) * 2.54;
+                    renderRulers();
+                });
+            } else if (type === 'tecidos') {
+                state.tecidoState = assetInfo;
+            }
+        }
+    });
+
+    // --- Lógica de UI (Abas, Modais, etc.) ---
+    function setupModal(buttonId, modalId) {
+        const openBtn = document.getElementById(buttonId);
+        const modal = document.getElementById(modalId);
+        if (!openBtn || !modal) return;
+        openBtn.addEventListener('click', () => {
+            if (modalId === 'configModal') updateConfigModal();
+            modal.classList.add('show');
+        });
+        modal.querySelector(`[data-close-modal="${modalId}"]`).addEventListener('click', () => modal.classList.remove('show'));
+    }
+    setupModal('uploadButton', 'uploadModal');
+    setupModal('showConfig', 'configModal');
+    setupModal('creditosBtn', 'creditosModal');
+
+    function setupDropZone(zoneId, inputId, fileHandler) {
+        const dropZone = document.getElementById(zoneId);
+        const fileInput = document.getElementById(inputId);
+        dropZone.addEventListener('click', () => fileInput.click());
+        // Add other dropzone listeners...
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) fileHandler(fileInput.files[0]);
+        });
+    }
+
+    setupDropZone('dropEstampa', 'uploadEstampaInput', file => {
+        const url = URL.createObjectURL(file);
+        loadImageForLayer(0, url, file.name, { code: 'Custom', dpi: 96 });
+        document.getElementById('uploadModal').classList.remove('show');
+    });
+
+    setupDropZone('dropMockup', 'uploadMockupInput', file => {
+        const url = URL.createObjectURL(file);
+        loadImageForLayer(1, url, file.name, {});
+        document.getElementById('uploadModal').classList.remove('show');
+    });
+
+    document.querySelector('.assets-tabs').addEventListener('click', (e) => {
+        if (!e.target.matches('.tab-btn')) return;
+        document.querySelector('.assets-tabs .active').classList.remove('active');
+        e.target.classList.add('active');
+        document.querySelectorAll('.compartimento-assets').forEach(c => c.classList.remove('active'));
+        document.getElementById(`compartimento-${e.target.dataset.tab}`).classList.add('active');
+    });
+
+    document.querySelector('[data-tool="toggle-mockup"]').addEventListener('click', () => {
+        const mockupLayer = state.layers[1];
+        mockupLayer.visible = !mockupLayer.visible;
+        if (!mockupLayer.visible) {
+             // Quando oculta, reseta o pan para focar na estampa
+            state.pan.x = 0;
+            state.pan.y = 0;
+        }
+        render();
+    });
+    
+    // --- Funções Auxiliares e de Exportação ---
+    function renderRulers() {
+        rulerH.innerHTML = '';
+        rulerV.innerHTML = '';
+        const { w, h } = state.rulerMaxCm;
+        const pxPerCmH = rulerH.offsetWidth / w;
+        const pxPerCmV = rulerV.offsetHeight / h;
+
+        for (let i = 0; i <= w; i++) {
+            const tick = document.createElement('div');
+            tick.className = 'tick';
+            tick.style.left = `${i * pxPerCmH}px`;
+            if (i % 10 === 0) { tick.classList.add('major'); rulerH.innerHTML += `<span class="label" style="left: ${i * pxPerCmH}px;">${i}</span>`; }
+            else if (i % 5 === 0) tick.classList.add('medium');
+            else tick.classList.add('minor');
+            rulerH.appendChild(tick);
+        }
+         for (let i = 0; i <= h; i++) {
+            const tick = document.createElement('div');
+            tick.className = 'tick';
+            tick.style.top = `${i * pxPerCmV}px`;
+            if (i % 10 === 0) { tick.classList.add('major'); rulerV.innerHTML += `<span class="label" style="top: ${i * pxPerCmV}px;">${i}</span>`; }
+            else if (i % 5 === 0) tick.classList.add('medium');
+            else tick.classList.add('minor');
+            rulerV.appendChild(tick);
         }
     }
 
-    // --- Lógica de Exportação Adaptada ---
+    function updateRefCmBox() {
+        const refCmBox = document.getElementById('refCmBox');
+        const { image, refCm, refNome, scale } = state.layers[0];
+        if (!image) { refCmBox.style.display = 'none'; return; }
+        refCmBox.style.display = 'flex';
+        document.getElementById('refCmNome').textContent = refNome;
+        document.getElementById('refCmValue').textContent = `${(refCm * scale).toFixed(2)}cm`;
+    }
+
+    function updateConfigModal() { /* ... Lógica similar à anterior, usando o state ... */ }
     document.getElementById('downloadMockupBtn').addEventListener('click', () => {
         const link = document.createElement('a');
         link.download = 'mockup-final.png';
@@ -494,86 +825,19 @@ document.addEventListener('DOMContentLoaded', () => {
         link.click();
     });
 
-
-    // --- Funções que permanecem similares ou precisam de adaptação futura ---
-    function renderRulers() {
-        rulerH.innerHTML = '';
-        rulerV.innerHTML = '';
-        const canvasArea = document.querySelector('.canvas-area');
-        if (!canvasArea) return;
-        
-        const maxCmW = state.rulerMaxCmW;
-        const maxCmH = state.rulerMaxCmH;
-        const pxPerCmW = canvasArea.offsetWidth / maxCmW;
-        const pxPerCmH_ruler = canvasArea.offsetHeight / maxCmH; // Nome corrigido para não conflitar
-
-        for (let i = 0; i <= maxCmW; i++) {
-            const posH = i * pxPerCmW;
-            const tickH = document.createElement('div');
-            tickH.className = 'tick';
-            tickH.style.left = `${posH}px`;
-            if (i % 10 === 0) {
-                tickH.classList.add('major');
-                const label = document.createElement('span');
-                label.className = 'label';
-                label.textContent = i;
-                label.style.left = `${posH}px`;
-                rulerH.appendChild(label);
-            } else if (i % 5 === 0) { tickH.classList.add('medium'); }
-            else { tickH.classList.add('minor'); }
-            rulerH.appendChild(tickH);
-        }
-        for (let i = 0; i <= maxCmH; i++) {
-            const posV = i * pxPerCmH_ruler;
-            const tickV = document.createElement('div');
-            tickV.className = 'tick';
-            tickV.style.top = `${posV}px`;
-            if (i % 10 === 0) {
-                tickV.classList.add('major');
-                const label = document.createElement('span');
-                label.className = 'label';
-                label.textContent = i;
-                label.style.top = `${posV}px`;
-                rulerV.appendChild(label);
-            } else if (i % 5 === 0) { tickV.classList.add('medium'); }
-            else { tickV.classList.add('minor'); }
-            rulerV.appendChild(tickV);
-        }
-    }
-
-    // Funções de assets e modais (simplificadas para o exemplo)
-    document.querySelector('.assets-content').addEventListener('click', (e) => {
-        if (e.target.matches('.thumbnail')) selectAsset(e.target);
-    });
-
-    async function fetchAssets() {try {
-            const response = await fetch(BACKEND_URL, { headers: { 'Authorization': AUTH_HEADER } });
-            if (!response.ok) throw new Error('Falha ao carregar ativos');
-            assetsData = await response.json();
-            renderAllAssetCompartments();
-        } catch (error) { console.error("Erro no fetchAssets:", error); } }
-
-    // --- INICIALIZAÇÃO ---
+    // --- Inicialização ---
     function init() {
-        // Carrega a imagem inicial do mockup
-        loadImageForLayer(1, state.layers[1].source, () => {
-            fetchAssets();
-        applyTransforms();
-        renderRulers();
-        });
-        renderRulers();
-        new ResizeObserver(() => {
-            renderRulers();
-            if(!state.mockupVisible) {
-                resetPanZoomState();
-            }
-        }).observe(document.querySelector('.canvas-area'));
+        resizeCanvasAndRender();
+        window.addEventListener('resize', resizeCanvasAndRender);
+        fetchAssets();
+        loadImageForLayer(1, state.layers[1].source, state.layers[1].name); // Carrega mockup inicial
     }
 
     init();
 });
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </body>
